@@ -15,8 +15,6 @@ public class Mens extends Player {
         int x = scanner.nextInt();
         int y = scanner.nextInt();
 
-        // make shot
-        opponentBoard.takeShot(x, y);
     }
 }
 

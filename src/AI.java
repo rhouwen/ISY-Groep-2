@@ -16,7 +16,6 @@ public class AI extends Player {
 
         System.out.println(getName() + " schiet op (" + x + ", " + y + ")");
 
-        // Take shot
-        opponentBoard.takeShot(x, y);
+
     }
 }
