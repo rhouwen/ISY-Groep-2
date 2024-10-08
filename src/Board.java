@@ -19,7 +19,7 @@ public class Board extends JPanel {
                 // Voeg een actie toe aan elke knop
                 buttons[i][j].addActionListener(new ButtonClickListener(i, j));
 
-                // Stijl van de knoppen aanpassen (optioneel)
+                //  Stijl van de knoppen aanpassen (optioneel)
                 buttons[i][j].setPreferredSize(new Dimension(50, 50));
 
                 // Voeg de knop toe aan het paneel

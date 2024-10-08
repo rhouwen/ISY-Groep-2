@@ -15,10 +15,6 @@ public class Mens extends Player {
         int x = scanner.nextInt();
         int y = scanner.nextInt();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> a19d6856747dfbbd4f9413b75acc969eb2cb44e5
     }
 }
 
