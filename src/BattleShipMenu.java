@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
-public class MainMenu extends JFrame {
+public class BattleShipMenu extends JFrame {
 
     private BufferedImage backgroundImage;
     private JLabel animatedTitle;
@@ -16,16 +16,16 @@ public class MainMenu extends JFrame {
     private Timer flickerTimer;
     private boolean isFlickerOn = true;
 
-    public MainMenu() {
+    public BattleShipMenu() {
         // Laad de achtergrondafbeelding
         try {
-            backgroundImage = ImageIO.read(new File("src/Resources/faith-spark-background1.jpg"));
+            backgroundImage = ImageIO.read(new File("src/Resources/battleship.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Stel het frame in
-        setTitle("Main Menu");
+        setTitle("BattleShip Menu");
         setSize(600, 500); // Groter frame voor grotere tekst
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -35,40 +35,48 @@ public class MainMenu extends JFrame {
         backgroundPanel.setLayout(new GridBagLayout());
 
         // Maak een geanimeerde 3D-titel
-        animatedTitle = new JLabel("Main Menu", SwingConstants.CENTER);
+        animatedTitle = new JLabel("BattleShip Game", SwingConstants.CENTER);
         animatedTitle.setFont(new Font("Arial", Font.BOLD, 60));
         animatedTitle.setForeground(Color.YELLOW); // Heldere gele kleur voor het knippereffect
 
         // Maak een schaduw-effect voor 3D-font simulatie
-        shadowTitle = new JLabel("Main Menu", SwingConstants.CENTER);
+        shadowTitle = new JLabel("BattleShip Game", SwingConstants.CENTER);
         shadowTitle.setFont(new Font("Arial", Font.BOLD, 60));
         shadowTitle.setForeground(Color.DARK_GRAY); // Donkergrijze schaduw
 
-        // Ondertitel "Kies een optie"
-        subtitleLabel = new JLabel("Choose option:", SwingConstants.CENTER);
+        // Ondertitel
+        subtitleLabel = new JLabel("Choose Game Mode:", SwingConstants.CENTER);
         subtitleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         subtitleLabel.setForeground(Color.WHITE); // Witte kleur voor contrast
 
-        // Maak twee nieuwe knoppen voor Battleship en TicTacToe
-        JButton battleshipButton = new JButton("Battleship");
-        battleshipButton.setPreferredSize(new Dimension(200, 50));
-        battleshipButton.setFont(new Font("Arial", Font.BOLD, 16));
-        battleshipButton.setBackground(Color.LIGHT_GRAY);
-        battleshipButton.setFocusPainted(false);
-        battleshipButton.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        // Maak knoppen voor PVP, PVE en CPUvCPU
+        JButton spelerVsSpeler = new JButton("PVP");
+        spelerVsSpeler.setPreferredSize(new Dimension(200, 50));
+        spelerVsSpeler.setFont(new Font("Arial", Font.BOLD, 16));
+        spelerVsSpeler.setBackground(Color.LIGHT_GRAY);
+        spelerVsSpeler.setFocusPainted(false);
+        spelerVsSpeler.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
 
-        JButton ticTacToeButton = new JButton("TicTacToe");
-        ticTacToeButton.setPreferredSize(new Dimension(200, 50));
-        ticTacToeButton.setFont(new Font("Arial", Font.BOLD, 16));
-        ticTacToeButton.setBackground(Color.LIGHT_GRAY);
-        ticTacToeButton.setFocusPainted(false);
-        ticTacToeButton.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        JButton spelerVsAi = new JButton("PVE");
+        spelerVsAi.setPreferredSize(new Dimension(200, 50));
+        spelerVsAi.setFont(new Font("Arial", Font.BOLD, 16));
+        spelerVsAi.setBackground(Color.LIGHT_GRAY);
+        spelerVsAi.setFocusPainted(false);
+        spelerVsAi.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+
+        JButton aiVsAi = new JButton("CPUvCPU");
+        aiVsAi.setPreferredSize(new Dimension(200, 50));
+        aiVsAi.setFont(new Font("Arial", Font.BOLD, 16));
+        aiVsAi.setBackground(Color.LIGHT_GRAY);
+        aiVsAi.setFocusPainted(false);
+        aiVsAi.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
 
         // Voeg hover-effect toe aan de knoppen
-        addHoverEffect(battleshipButton);
-        addHoverEffect(ticTacToeButton);
+        addHoverEffect(spelerVsSpeler);
+        addHoverEffect(spelerVsAi);
+        addHoverEffect(aiVsAi);
 
-        // Maak GridBagConstraints voor layout
+        // Layout configureren
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -89,13 +97,15 @@ public class MainMenu extends JFrame {
         gbc.insets = new Insets(10, 0, 20, 0);
         backgroundPanel.add(subtitleLabel, gbc);
 
-        // Plaats de Battleship-knop onder de ondertitel
+        // Plaats de knoppen
         gbc.gridy = 2;
-        backgroundPanel.add(battleshipButton, gbc);
+        backgroundPanel.add(spelerVsSpeler, gbc);
 
-        // Plaats de TicTacToe-knop onder de Battleship-knop
         gbc.gridy = 3;
-        backgroundPanel.add(ticTacToeButton, gbc);
+        backgroundPanel.add(spelerVsAi, gbc);
+
+        gbc.gridy = 4;
+        backgroundPanel.add(aiVsAi, gbc);
 
         // Voeg het achtergrondpaneel toe aan het frame
         setContentPane(backgroundPanel);
@@ -104,20 +114,28 @@ public class MainMenu extends JFrame {
         // Start het knippereffect voor de titel
         flickerEffect();
 
-        // Voeg actie toe aan de Battleship-knop om BattleShipMenu te openen
-        battleshipButton.addActionListener(new ActionListener() {
+        // Voeg actie toe aan de knoppen
+        spelerVsSpeler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BattleShipMenu(); // Open BattleShipMenu
-                dispose(); // Sluit het huidige venster (MainMenu)
+                System.out.println("PVP start");
+                // Voeg de bestemming voor PVP hier toe
             }
         });
 
-        // Voeg actie toe aan de TicTacToe-knop (geen logica vereist)
-        ticTacToeButton.addActionListener(new ActionListener() {
+        spelerVsAi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("TicTacToe start");
+                System.out.println("PVE start");
+                // Voeg de bestemming voor PVE hier toe
+            }
+        });
+
+        aiVsAi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("CPUvCPU start");
+                // Voeg de bestemming voor CPU hier toe
             }
         });
     }
@@ -164,6 +182,6 @@ public class MainMenu extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainMenu());
+        SwingUtilities.invokeLater(() -> new BattleShipMenu());
     }
 }
