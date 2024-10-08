@@ -16,5 +16,9 @@ public class AI extends Player {
 
         System.out.println(getName() + " schiet op (" + x + ", " + y + ")");
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a19d6856747dfbbd4f9413b75acc969eb2cb44e5
     }
 }

@@ -14,7 +14,7 @@ public class MainMenu extends JFrame {
     public MainMenu() {
         // Load the background image
         try {
-            backgroundImage = ImageIO.read(new File("C:\\Hanze\\ISY-Groep-2\\src\\Resources\\faith-spark-background1.jpg"));
+            backgroundImage = ImageIO.read(new File("src/Resources/faith-spark-background1.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,13 +29,55 @@ public class MainMenu extends JFrame {
         BackgroundPanel backgroundPanel = new BackgroundPanel();
         backgroundPanel.setLayout(new GridBagLayout());
 
-        // Create buttons
+        // Create buttons with improved styling
         JButton spelerVsSpeler = new JButton("PVP");
         spelerVsSpeler.setPreferredSize(new Dimension(200, 50));
+        spelerVsSpeler.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font
+        spelerVsSpeler.setBackground(Color.LIGHT_GRAY); // Background color
+        spelerVsSpeler.setFocusPainted(false);
+        spelerVsSpeler.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2)); // Border
+
         JButton spelerVsAi = new JButton("PVE");
         spelerVsAi.setPreferredSize(new Dimension(200, 50));
+        spelerVsAi.setFont(new Font("Arial", Font.BOLD, 16));
+        spelerVsAi.setBackground(Color.LIGHT_GRAY);
+        spelerVsAi.setFocusPainted(false);
+        spelerVsAi.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+
         JButton aiVsAi = new JButton("CPUvCPU");
         aiVsAi.setPreferredSize(new Dimension(200, 50));
+        aiVsAi.setFont(new Font("Arial", Font.BOLD, 16));
+        aiVsAi.setBackground(Color.LIGHT_GRAY);
+        aiVsAi.setFocusPainted(false);
+        aiVsAi.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+
+        // Add hover effect
+        spelerVsSpeler.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                spelerVsSpeler.setBackground(Color.GRAY);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                spelerVsSpeler.setBackground(Color.LIGHT_GRAY);
+            }
+        });
+
+        spelerVsAi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                spelerVsAi.setBackground(Color.GRAY);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                spelerVsAi.setBackground(Color.LIGHT_GRAY);
+            }
+        });
+
+        aiVsAi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                aiVsAi.setBackground(Color.GRAY);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                aiVsAi.setBackground(Color.LIGHT_GRAY);
+            }
+        });
 
         // Create GridBagConstraints for button placement
         GridBagConstraints gbc = new GridBagConstraints();
