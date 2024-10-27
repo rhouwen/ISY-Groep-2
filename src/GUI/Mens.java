@@ -1,3 +1,5 @@
+package GUI;
+
 public class Mens extends Player {
     public Mens(Board board) {
         super(board);

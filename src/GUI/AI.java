@@ -1,3 +1,5 @@
+package GUI;
+
 import java.util.Random;
 
 public class AI {
@@ -27,7 +29,7 @@ public class AI {
     }
 
     public int[] makeMove() {
-        // Hier kan de AI implementatie van zetten komen. Voor nu retourneren we een random schot.
+        // Hier kan de GUI.AI implementatie van zetten komen. Voor nu retourneren we een random schot.
         Random random = new Random();
         int x = random.nextInt(8);
         int y = random.nextInt(8);

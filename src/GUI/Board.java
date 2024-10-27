@@ -1,3 +1,5 @@
+package GUI;
+
 public class Board {
     private Cell[][] cells; // 8x8 grid of cells
 

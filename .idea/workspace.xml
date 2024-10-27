@@ -5,19 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="Alles doet het weer">
-      <change afterPath="$PROJECT_DIR$/src/GameGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Scoreboard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Menus/Home.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Menus/HomeButtons.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Menus/Menu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Menus/MenuButtons.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Menus/Options.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/fonts/battleshipmenu.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/battleshipbackground.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/homebackground.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/homebutton.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BattleShipMenu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Battleships.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Battleships.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GameGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainMenu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Mens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mens.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Mens.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Resources/Soundvolume.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Resources/battleship.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Resources/faith-spark-background1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Scoreboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Ship.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +44,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -43,7 +60,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/rhouwen/ISY-Groep-2.git&quot;,
-    &quot;accountId&quot;: &quot;9d3cb204-ad9d-4414-8ccc-0295440133c0&quot;
+    &quot;accountId&quot;: &quot;09e9ee30-2db9-4007-8b11-e525f14a3097&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -55,26 +72,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BattleShipMenu.executor": "Run",
-    "Application.GameGui.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MainMenu.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "total",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BattleShipMenu.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Board.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GameGui.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainMenu.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Menu&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
+      <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\images" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Board" />
+      <option name="MAIN_CLASS_NAME" value="GUI.Board" />
+      <module name="Battleships" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Battleships" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -89,6 +124,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainMenu" />
         <item itemvalue="Application.Board" />
       </list>
@@ -97,8 +133,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -121,6 +157,16 @@
       <workItem from="1728393663734" duration="290000" />
       <workItem from="1728394590932" duration="2634000" />
       <workItem from="1728983605672" duration="5331000" />
+      <workItem from="1730029127286" duration="61000" />
+      <workItem from="1730029193505" duration="4000" />
+      <workItem from="1730029207376" duration="54000" />
+      <workItem from="1730029269427" duration="22000" />
+      <workItem from="1730029296392" duration="22000" />
+      <workItem from="1730029325631" duration="6000" />
+      <workItem from="1730029335134" duration="137000" />
+      <workItem from="1730029478395" duration="1264000" />
+      <workItem from="1730030762299" duration="5496000" />
+      <workItem from="1730036309579" duration="4207000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />

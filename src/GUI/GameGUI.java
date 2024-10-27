@@ -1,9 +1,11 @@
+package GUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameGUI extends JFrame {
+public class GameGUI extends JPanel {
     private Board playerBoard;
     private Board aiBoard;
     private Mens player;
@@ -12,7 +14,7 @@ public class GameGUI extends JFrame {
     private JButton[][] aiButtons;
     private boolean placingShips = true;
     private int shipsPlaced = 0;  // Tellen van het aantal geplaatste schepen
-    private Scoreboard scoreboard; // Scoreboard object
+    private Scoreboard scoreboard; // GUI.Scoreboard object
     private JLabel scoreLabel; // Label voor de score
 
     public GameGUI() {
@@ -22,9 +24,9 @@ public class GameGUI extends JFrame {
         ai = new AI(aiBoard);
         scoreboard = new Scoreboard(); // Initialiseer het scoreboard
 
-        setTitle("Zeeslag");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Removed JFrame-specific methods like setTitle, setSize, and setDefaultCloseOperation
+
+        // Set JPanel's layout
         setLayout(new GridLayout(1, 2));
 
         // Score label
@@ -36,11 +38,10 @@ public class GameGUI extends JFrame {
         JPanel playerPanel = createPlayerPanel();
         add(playerPanel);
 
-        // Panel voor de AI
+        // Panel voor de GUI.AI
         JPanel aiPanel = createAiPanel();
         add(aiPanel);
 
-        setVisible(true);
     }
 
     private JPanel createPlayerPanel() {
@@ -109,7 +110,7 @@ public class GameGUI extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (!placingShips) {
-                            // Hier schiet de speler op het bord van de AI
+                            // Hier schiet de speler op het bord van de GUI.AI
                             if (aiBoard.hitCell(x, y)) {
                                 button.setBackground(Color.RED); // Hit
                                 scoreboard.incrementPlayerScore(); // Verhoog de score van de speler
@@ -120,7 +121,7 @@ public class GameGUI extends JFrame {
                             scoreLabel.setText(scoreboard.toString()); // Update score label
                             checkGameOver(); // Controleer of het spel is afgelopen
 
-                            // AI beurt na de speler
+                            // GUI.AI beurt na de speler
                             aiTurn();
                         }
                     }
@@ -132,23 +133,22 @@ public class GameGUI extends JFrame {
         return panel;
     }
 
-
     private void startGame() {
         placingShips = false; // Start het spel
-        ai.placeShips(); // Plaats de schepen voor de AI
+        ai.placeShips(); // Plaats de schepen voor de GUI.AI
         JOptionPane.showMessageDialog(this, "Alle schepen zijn geplaatst! Het spel begint nu!");
     }
 
     private void aiTurn() {
-        // AI maakt zijn zet
+        // GUI.AI maakt zijn zet
         int[] aiMove = ai.makeMove();
-        JButton aiButton = playerButtons[aiMove[0]][aiMove[1]]; // AI schiet op de speler
+        JButton aiButton = playerButtons[aiMove[0]][aiMove[1]]; // GUI.AI schiet op de speler
 
         if (playerBoard.hitCell(aiMove[0], aiMove[1])) {
-            aiButton.setBackground(Color.RED); // Hit AI
-            scoreboard.incrementAIScore(); // Verhoog de score van de AI
+            aiButton.setBackground(Color.RED); // Hit GUI.AI
+            scoreboard.incrementAIScore(); // Verhoog de score van de GUI.AI
         } else {
-            aiButton.setBackground(Color.BLUE); // Miss AI (verander groen naar blauw)
+            aiButton.setBackground(Color.BLUE); // Miss GUI.AI (verander groen naar blauw)
         }
 
         aiButton.setEnabled(false); // De knop wordt uitgeschakeld om herhaalde schoten te voorkomen
@@ -156,14 +156,13 @@ public class GameGUI extends JFrame {
         checkGameOver(); // Controleer of het spel is afgelopen
     }
 
-
     private void checkGameOver() {
         if (!aiBoard.hasShips()) {
             JOptionPane.showMessageDialog(this, "Gefeliciteerd! Je hebt gewonnen!");
             System.exit(0);
         }
         if (!playerBoard.hasShips()) {
-            JOptionPane.showMessageDialog(this, "Helaas! De AI heeft gewonnen!");
+            JOptionPane.showMessageDialog(this, "Helaas! De GUI.AI heeft gewonnen!");
             System.exit(0);
         }
     }

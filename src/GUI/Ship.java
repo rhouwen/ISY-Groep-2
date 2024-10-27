@@ -1,3 +1,5 @@
+package GUI;
+
 public class Ship {
     private final int length;
     private int hitCount;  // Aantal hits dat het schip heeft opgelopen

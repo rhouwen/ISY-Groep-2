@@ -1,3 +1,5 @@
+package GUI;
+
 public class Scoreboard {
     private int playerScore;
     private int aiScore;

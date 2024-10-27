@@ -1,3 +1,5 @@
+package GUI;
+
 public class Cell {
     private boolean occupied; // Is er een schip aanwezig?
     private boolean hit;      // Is het vakje geraakt?
