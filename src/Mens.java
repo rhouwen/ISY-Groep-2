@@ -1,20 +1,17 @@
-import java.util.Scanner;
-
 public class Mens extends Player {
-
-    public Mens(String name, Board board) {
-        super(name, board);
+    public Mens(Board board) {
+        super(board);
     }
 
-    // Human shot
     @Override
-    public void makeMove(Board opponentBoard) {
-        // Console input, later we need to make this working with GUI
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(getName() + ", voer de coördinaten in om te schieten (bijv. 2 3): ");
-        int x = scanner.nextInt();
-        int y = scanner.nextInt();
+    public void placeShips() {
+        // Geen implementatie nodig, de plaatsing gebeurt via de GUI
+    }
 
+    @Override
+    public int[] makeMove() {
+        // Hier zou je kunnen logica toevoegen voor de menselijke zet,
+        // maar de zetten worden nu gedaan via de GUI.
+        return null;
     }
 }
-

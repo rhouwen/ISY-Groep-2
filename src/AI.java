@@ -1,20 +1,36 @@
 import java.util.Random;
 
-public class AI extends Player {
-    private Random random = new Random();
+public class AI {
+    private Board board;
 
-    public AI(String name, Board board) {
-        super(name, board);
+    public AI(Board board) {
+        this.board = board;
     }
 
-    // AI move without intelligence just random
-    @Override
-    public void makeMove(Board opponentBoard) {
-        // random coordinates
-        int x = random.nextInt(8); //
+    public void placeShips() {
+        Random random = new Random();
+        int[] shipLengths = {6, 4, 3, 2}; // De lengtes van de schepen
+
+        for (int length : shipLengths) {
+            boolean placed = false;
+            while (!placed) {
+                int x = random.nextInt(8); // Willekeurige x-coördinaat
+                int y = random.nextInt(8); // Willekeurige y-coördinaat
+                boolean horizontal = random.nextBoolean(); // Willekeurig horizontaal of verticaal
+
+                Ship ship = new Ship(length);
+                if (board.placeShip(ship, x, y, horizontal)) {
+                    placed = true; // Schip is succesvol geplaatst
+                }
+            }
+        }
+    }
+
+    public int[] makeMove() {
+        // Hier kan de AI implementatie van zetten komen. Voor nu retourneren we een random schot.
+        Random random = new Random();
+        int x = random.nextInt(8);
         int y = random.nextInt(8);
-
-        System.out.println(getName() + " schiet op (" + x + ", " + y + ")");
-
+        return new int[]{x, y}; // Retourneer een random zet
     }
 }

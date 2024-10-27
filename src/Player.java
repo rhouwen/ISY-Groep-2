@@ -1,22 +1,19 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Player {
-    protected String name;  // Name of player
-    protected Board board;  // Board from player
+    protected List<Ship> ships = new ArrayList<>();
+    protected Board board;
 
-    public Player(String name, Board board) {
-        this.name = name;
+    public Player(Board board) {
         this.board = board;
+        // Voeg schepen toe: 1 van 6, 1 van 4, 1 van 3, 1 van 2
+        ships.add(new Ship(6));
+        ships.add(new Ship(4));
+        ships.add(new Ship(3));
+        ships.add(new Ship(2));
     }
 
-    // Method for making a move
-    public abstract void makeMove(Board opponentBoard);
-
-    // Get board from player
-    public Board getBoard() {
-        return board;
-    }
-
-    // Get name from player
-    public String getName() {
-        return name;
-    }
+    public abstract void placeShips();
+    public abstract int[] makeMove();
 }

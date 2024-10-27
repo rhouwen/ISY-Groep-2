@@ -1,63 +1,58 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class Board extends JPanel {
-    private int size = 8; // Grote van het bord (8x8)
-    private JButton[][] buttons; // GUI weergave van het bord
+public class Board {
+    private Cell[][] cells; // 8x8 grid of cells
 
     public Board() {
-        this.buttons = new JButton[size][size];
-        setLayout(new GridLayout(size, size)); // GridLayout voor het 8x8 bord
-
-        // Initialiseer elke knop
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                buttons[i][j] = new JButton();
-
-                // Voeg een actie toe aan elke knop
-                buttons[i][j].addActionListener(new ButtonClickListener(i, j));
-
-                //  Stijl van de knoppen aanpassen (optioneel)
-                buttons[i][j].setPreferredSize(new Dimension(50, 50));
-
-                // Voeg de knop toe aan het paneel
-                add(buttons[i][j]);
+        cells = new Cell[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                cells[i][j] = new Cell();
             }
         }
     }
 
-    // Interne klasse voor het verwerken van knoppenklikken
-    private class ButtonClickListener implements ActionListener {
-        private int x, y;
-
-        public ButtonClickListener(int x, int y) {
-            this.x = x;
-            this.y = y;
+    public boolean placeShip(Ship ship, int x, int y, boolean horizontal) {
+        // Controleer of het schip kan worden geplaatst
+        if (horizontal) {
+            if (y + ship.getLength() > 8) return false; // Buiten het bord
+            for (int i = 0; i < ship.getLength(); i++) {
+                if (cells[x][y + i].isOccupied()) return false; // Al bezet
+            }
+            // Plaats het schip
+            for (int i = 0; i < ship.getLength(); i++) {
+                cells[x][y + i].setOccupied(true);
+                cells[x][y + i].setShip(ship);
+            }
+        } else {
+            if (x + ship.getLength() > 8) return false; // Buiten het bord
+            for (int i = 0; i < ship.getLength(); i++) {
+                if (cells[x + i][y].isOccupied()) return false; // Al bezet
+            }
+            // Plaats het schip
+            for (int i = 0; i < ship.getLength(); i++) {
+                cells[x + i][y].setOccupied(true);
+                cells[x + i][y].setShip(ship);
+            }
         }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            buttons[x][y].setBackground(Color.BLUE); // Verander kleur naar blauw bij klikken
-            buttons[x][y].setText("X"); // Markeer het als geraakt
-        }
+        return true; // Succesvol geplaatst
     }
 
-    // Start een eenvoudige GUI met een 8x8 bord
-    public static void main(String[] args) {
-        // Maak het hoofdvenster (JFrame)
-        JFrame frame = new JFrame("Zeeslagje ISY - TEAM 2");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public boolean hitCell(int x, int y) {
+        if (cells[x][y].isOccupied()) {
+            // Als het vakje bezet is, markeer het als geraakt
+            cells[x][y].setHit(true);
+            return true; // Hit
+        }
+        return false; // Miss
+    }
 
-        // Maak het bord en voeg het toe aan het frame
-        Board board = new Board();
-        frame.add(board);
-
-        // Pas de grootte van het venster aan op basis van de inhoud
-        frame.pack();
-
-        // Maak het venster zichtbaar
-        frame.setVisible(true);
+    public boolean hasShips() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (cells[i][j].isOccupied()) {
+                    return true; // Er zijn nog schepen
+                }
+            }
+        }
+        return false; // Geen schepen meer
     }
 }
