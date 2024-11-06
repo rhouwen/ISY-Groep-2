@@ -1,37 +1,34 @@
 package GUI;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class Client implements Runnable {
     private String hostName = "127.0.0.1";
-
-
-
     private int portNumber = 7789;
 
     private Socket client;
     private BufferedReader in;
     private PrintWriter out;
     private boolean done = false;
+
     private boolean placed = false;
+    private boolean needToPlaceShips = true;
 
     private Set<Integer> attemptedMoves;
-    private Set<Integer> forbiddenMoves; // Set om verboden moves bij te houden rondom gezonken schepen
+    private Set<Integer> forbiddenMoves; // Set to keep track of forbidden moves around sunk ships
     private List<Integer> targetQueue;
-    private Stack<Integer> hitStack; // Stack om de laatste BOEM hits bij te houden voor gericht zoeken
+    private Stack<Integer> hitStack; // Stack to keep track of the last BOEM hits for targeted searching
     private Random random;
+
+    private int[] board; // Board representation
 
     @Override
     public void run() {
-        attemptedMoves = new HashSet<>();
-        forbiddenMoves = new HashSet<>();
-        targetQueue = new ArrayList<>();
-        hitStack = new Stack<>();
         random = new Random();
 
         try {
@@ -39,20 +36,35 @@ public class Client implements Runnable {
             out = new PrintWriter(client.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-            InputHandler inputHandler = new InputHandler();
-            Thread thread = new Thread(inputHandler);
-            thread.start();
-
-            // Login en abonneer op het spel
-            out.println("login " + "ISY GROEP 2 BABY");
-            out.println("subscribe battleship");
+            // Login to the server
+            out.println("login ISY GROEP 2 BABY");
 
             String inputMessage;
-            while ((inputMessage = in.readLine()) != null) {
+            while ((inputMessage = in.readLine()) != null && !done) {
                 System.out.println(inputMessage);
 
+                if (inputMessage.startsWith("SVR GAMELIST")) {
+                    // Handle game list if necessary
+                }
+
+                if (inputMessage.startsWith("SVR PLAYERLIST")) {
+                    // Handle player list if necessary
+                }
+
+                if (inputMessage.startsWith("SVR GAME MATCH")) {
+                    // Match assigned, reset game state
+                    resetGameState();
+                    // Optionally, subscribe to the game here if required
+                }
+
+                if (inputMessage.startsWith("SVR GAME CHALLENGE")) {
+                    // Handle incoming challenge
+                    String challengeNumber = parseChallengeNumber(inputMessage);
+                    out.println("challenge accept " + challengeNumber);
+                }
+
                 if (inputMessage.contains("YOURTURN")) {
-                    if (!placed) {
+                    if (needToPlaceShips) {
                         placeShips();
                     } else {
                         makeMove();
@@ -66,18 +78,140 @@ public class Client implements Runnable {
                 if (inputMessage.startsWith("SVR GAME SINK")) {
                     handleSinkResult();
                 }
+
+                if (inputMessage.startsWith("SVR GAME WIN")) {
+                    System.out.println("We have won the game!");
+                    // Reset game state for a new game
+                    resetGameState();
+                    // Wait for next match assignment or challenge
+                }
+
+                if (inputMessage.startsWith("SVR GAME LOSS")) {
+                    System.out.println("We have lost the game.");
+                    // Reset game state for a new game
+                    resetGameState();
+                    // Wait for next match assignment or challenge
+                }
+
+                if (inputMessage.startsWith("SVR GAME DRAW")) {
+                    System.out.println("The game ended in a draw.");
+                    // Reset game state for a new game
+                    resetGameState();
+                    // Wait for next match assignment or challenge
+                }
+
+                if (inputMessage.startsWith("SVR HELP")) {
+                    // Handle help message
+                }
+
+                if (inputMessage.startsWith("ERR")) {
+                    System.err.println("Error from server: " + inputMessage);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
+            shutdown();
         }
     }
 
+    private void resetGameState() {
+        placed = false;
+        needToPlaceShips = true;
+        attemptedMoves = new HashSet<>();
+        forbiddenMoves = new HashSet<>();
+        targetQueue = new ArrayList<>();
+        hitStack = new Stack<>();
+        board = new int[64]; // Reset the board
+    }
+
     private void placeShips() {
-        out.println("place 1 6");   // Lengte 6
-        out.println("place 16 19"); // Lengte 4
-        out.println("place 32 34"); // Lengte 3
-        out.println("place 60 61"); // Lengte 2
+        int[] shipLengths = {6, 4, 3, 2};
+
+        for (int length : shipLengths) {
+            boolean placedShip = false;
+            int attempts = 0;
+            while (!placedShip && attempts < 1000) { // Increased attempts for robustness
+                int startCell = random.nextInt(64);
+                boolean isHorizontal = random.nextBoolean();
+                if (canPlaceShip(startCell, length, isHorizontal)) {
+                    placeShip(startCell, length, isHorizontal);
+                    placedShip = true;
+                }
+                attempts++;
+            }
+            if (!placedShip) {
+                System.err.println("Failed to place ship of length " + length);
+            }
+        }
         placed = true;
+        needToPlaceShips = false;
+        // After placing ships, do not make a move immediately.
+        // Wait for the next SVR GAME YOURTURN message.
+    }
+
+    private boolean canPlaceShip(int startCell, int length, boolean isHorizontal) {
+        int row = startCell / 8;
+        int col = startCell % 8;
+
+        // Check if the ship fits within the board
+        if (isHorizontal) {
+            if (col + length > 8) {
+                return false; // Ship goes off the board to the right
+            }
+        } else {
+            if (row + length > 8) {
+                return false; // Ship goes off the board to the bottom
+            }
+        }
+
+        // Check for overlap or adjacent ships
+        for (int i = -1; i <= length; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int currentRow, currentCol;
+                if (isHorizontal) {
+                    currentRow = row + j;
+                    currentCol = col + i;
+                } else {
+                    currentRow = row + i;
+                    currentCol = col + j;
+                }
+                if (currentRow >= 0 && currentRow < 8 && currentCol >= 0 && currentCol < 8) {
+                    int index = currentRow * 8 + currentCol;
+                    if (board[index] == 1) {
+                        return false; // Overlaps or touches another ship
+                    }
+                }
+            }
+        }
+        return true; // Ship can be placed
+    }
+
+    private void placeShip(int startCell, int length, boolean isHorizontal) {
+        int row = startCell / 8;
+        int col = startCell % 8;
+        int endCell;
+
+        if (isHorizontal) {
+            endCell = startCell + length - 1;
+        } else {
+            endCell = startCell + (length - 1) * 8;
+        }
+
+        // Mark the ship's cells as occupied
+        for (int i = 0; i < length; i++) {
+            int currentRow = row;
+            int currentCol = col;
+            if (isHorizontal) {
+                currentCol = col + i;
+            } else {
+                currentRow = row + i;
+            }
+            int index = currentRow * 8 + currentCol;
+            board[index] = 1;
+        }
+
+        // Send the "place" command to the server
+        out.println("place " + startCell + " " + endCell);
     }
 
     private void makeMove() {
@@ -99,20 +233,17 @@ public class Client implements Runnable {
         int lastMove = parseMove(inputMessage);
 
         if ("BOEM".equals(result)) {
-            hitStack.push(lastMove); // Voeg de hit toe aan de stack
+            hitStack.push(lastMove); // Add the hit to the stack
             addAdjacentTargets(lastMove);
         } else if ("PLONS".equals(result)) {
-            if (!hitStack.isEmpty()) {
-                int lastHit = hitStack.peek(); // Haal de laatste BOEM op zonder te verwijderen
-                addAdjacentTargets(lastHit);
-            }
+            // Do nothing specific for a miss
         }
     }
 
     private void handleSinkResult() {
         while (!hitStack.isEmpty()) {
             int sunkMove = hitStack.pop();
-            markForbiddenAround(sunkMove); // Markeer de omliggende cellen als verboden
+            markForbiddenAround(sunkMove); // Mark the surrounding cells as forbidden
         }
         targetQueue.clear();
     }
@@ -124,9 +255,9 @@ public class Client implements Runnable {
         int[] possibleMoves = {move - 1, move + 1, move - 8, move + 8};
 
         for (int target : possibleMoves) {
-            if (isValidMove(target, row, col) && !attemptedMoves.contains(target) && !forbiddenMoves.contains(target)) {
+            if (isValidMove(target, row, col) && !attemptedMoves.contains(target) && !forbiddenMoves.contains(target) && !targetQueue.contains(target)) {
                 targetQueue.add(target);
-                attemptedMoves.add(target);
+                // Do not add to attemptedMoves here; only add after making the move
             }
         }
     }
@@ -135,14 +266,14 @@ public class Client implements Runnable {
         int row = move / 8;
         int col = move % 8;
 
-        int[] forbiddenCells = {
-                move - 1, move + 1, move - 8, move + 8,
-                move - 9, move - 7, move + 7, move + 9
-        };
-
-        for (int cell : forbiddenCells) {
-            if (isValidForbidden(cell, row, col)) {
-                forbiddenMoves.add(cell);
+        for (int dr = -1; dr <= 1; dr++) {
+            for (int dc = -1; dc <= 1; dc++) {
+                int newRow = row + dr;
+                int newCol = col + dc;
+                int cell = newRow * 8 + newCol;
+                if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                    forbiddenMoves.add(cell);
+                }
             }
         }
     }
@@ -153,68 +284,40 @@ public class Client implements Runnable {
         int targetRow = target / 8;
         int targetCol = target % 8;
 
-        return Math.abs(row - targetRow) <= 1 && Math.abs(col - targetCol) <= 1
-                && !(Math.abs(row - targetRow) == 1 && Math.abs(col - targetCol) == 1);
-    }
-
-    private boolean isValidForbidden(int target, int row, int col) {
-        if (target < 0 || target >= 64) return false;
-
-        int targetRow = target / 8;
-        int targetCol = target % 8;
-
-        return Math.abs(row - targetRow) <= 1 && Math.abs(col - targetCol) <= 1;
+        // Ensure that the move is adjacent horizontally or vertically
+        return (Math.abs(row - targetRow) + Math.abs(col - targetCol)) == 1;
     }
 
     private int parseMove(String inputMessage) {
         String[] parts = inputMessage.split("MOVE: \"");
+        if (parts.length < 2) return -1;
         String movePart = parts[1].split("\"")[0];
         return Integer.parseInt(movePart);
     }
 
     private String parseResult(String inputMessage) {
         String[] parts = inputMessage.split("RESULT: \"");
+        if (parts.length < 2) return "";
         return parts[1].split("\"")[0];
+    }
+
+    private String parseChallengeNumber(String inputMessage) {
+        String[] parts = inputMessage.split("CHALLENGENUMBER: ");
+        if (parts.length < 2) return "";
+        String challengePart = parts[1].split(",")[0];
+        return challengePart.trim();
     }
 
     public void shutdown() {
         done = true;
         try {
-            in.close();
-            out.close();
-            if (!client.isClosed()) {
+            if (in != null) in.close();
+            if (out != null) out.close();
+            if (client != null && !client.isClosed()) {
                 client.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    class InputHandler implements Runnable {
-        @Override
-        public void run() {
-            try {
-                BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
-                while (!done) {
-                    String message = inputReader.readLine();
-                    if (message.equalsIgnoreCase("/quit")) {
-                        inputReader.close();
-                        shutdown();
-                    } else if (message.startsWith("/login")) {
-                        String[] i = message.split(" ", 2);
-                        String name = i[1];
-                        login(name);
-                    } else {
-                        out.println(message);
-                    }
-                }
-            } catch (IOException e) {
-                shutdown();
-            }
-        }
-
-        private void login(String name) {
-            out.println("login " + name);
         }
     }
 
