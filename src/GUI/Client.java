@@ -10,6 +10,11 @@ import java.util.*;
 public class Client implements Runnable {
     private String hostName = "127.0.0.1";
     private int portNumber = 7789;
+    private String username;
+
+    public Client(String username) {
+        this.username = username;
+    }
 
     private Socket client;
     private BufferedReader in;
@@ -37,7 +42,7 @@ public class Client implements Runnable {
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
             // Login to the server
-            out.println("login ISY GROEP 2 BABY");
+            out.println("login " + username);
 
             String inputMessage;
             while ((inputMessage = in.readLine()) != null && !done) {
@@ -322,7 +327,9 @@ public class Client implements Runnable {
     }
 
     public static void main(String[] args) {
-        Client client = new Client();
+        // Vraag de gebruiker om een naam wanneer je de main-methode runt
+        String username = args.length > 0 ? args[0] : "DefaultName";
+        Client client = new Client(username);
         client.run();
     }
 }
