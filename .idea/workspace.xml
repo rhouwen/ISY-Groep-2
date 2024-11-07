@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="Alles doet het weer">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
+      <change afterPath="$PROJECT_DIR$/src/TicTacToe/TicTacToeAI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/TicTacToe/TicTacToeClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menus/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Home.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menus/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Menu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +43,9 @@
     &quot;accountId&quot;: &quot;09e9ee30-2db9-4007-8b11-e525f14a3097&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -59,6 +63,9 @@
     "Application.GameGui.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.MainMenu.executor": "Run",
+    "Application.TicTacToeClient.executor": "Run",
+    "Application.TicTacToeGame.executor": "Run",
+    "Application.TicTacToeServer.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
@@ -80,7 +87,7 @@
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\images" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.Board" />
       <module name="Battleships" />
@@ -102,8 +109,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TicTacToeServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TicTacToe.TicTacToeServer" />
+      <module name="Battleships" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="TicTacToe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TicTacToeServer" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainMenu" />
         <item itemvalue="Application.Board" />
@@ -149,7 +170,15 @@
       <workItem from="1730036309579" duration="4207000" />
       <workItem from="1730909092794" duration="3003000" />
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
+      <option name="closed" value="true" />
+      <created>1730997384067</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730997384067</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +197,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Alles doet het weer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Alles doet het weer" />
+    <MESSAGE value="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt" />
+    <option name="LAST_COMMIT_MESSAGE" value="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt" />
   </component>
 </project>

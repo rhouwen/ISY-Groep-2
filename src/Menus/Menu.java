@@ -59,24 +59,6 @@ public class Menu extends JPanel {
         });
         buttonPanel.add(startButton, buttonGbc);
 
-        // Add the AIvsAI button
-        buttonGbc.gridy++;
-        MenuButtons AIvsAI = new MenuButtons("AIvsAI");
-        AIvsAI.addActionListener(e -> {
-            // Vraag om een naam met een invoerdialoog
-            String username = JOptionPane.showInputDialog(this, "Choose a name:");
-
-            // Controleer of de gebruiker een naam heeft ingevoerd
-            if (username != null && !username.trim().isEmpty()) {
-                // Start de Client voor AI vs AI gameplay met de opgegeven naam in een nieuwe thread
-                Thread clientThread = new Thread(new GUI.Client(username));
-                clientThread.start();
-            } else {
-                JOptionPane.showMessageDialog(this, "Please enter a valid name.");
-            }
-        });
-        buttonPanel.add(AIvsAI, buttonGbc);
-
         // Options button
         buttonGbc.gridy++;
         MenuButtons optionsButton = new MenuButtons("Options");

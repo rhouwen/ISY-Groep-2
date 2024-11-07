@@ -62,7 +62,21 @@ public class Home extends JPanel {
         buttonGbc.gridy++;
         HomeButtons ticTacToeButton = new HomeButtons("TicTacToe");
         ticTacToeButton.setPreferredSize(new Dimension(300, 80)); // Adjust dimensions
+        ticTacToeButton.addActionListener(e -> {
+            // Vraag om een naam met een invoerdialoog
+            String username = JOptionPane.showInputDialog(this, "Choose a name:");
+
+            // Controleer of de gebruiker een naam heeft ingevoerd
+            if (username != null && !username.trim().isEmpty()) {
+                // Start de TicTacToeClient met de opgegeven naam
+                TicTacToe.TicTacToeClient client = new TicTacToe.TicTacToeClient(username);
+                client.startGame("127.0.0.1", 7789);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter a valid name.");
+            }
+        });
         buttonPanel.add(ticTacToeButton, buttonGbc);
+
 
         // Add the Options button
         buttonGbc.gridy++;
