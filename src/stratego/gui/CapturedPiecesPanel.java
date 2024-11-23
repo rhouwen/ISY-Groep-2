@@ -1,7 +1,18 @@
 package stratego.gui;
 
-public class CapturedPiecesPanel {
+import javax.swing.*;
+import java.awt.*;
 
-    //Laat zien welke stukken er al geslagen zijn.
+public class CapturedPiecesPanel extends JPanel {
 
+    //Laat zien welke stukken er geslagen zijn
+
+    public CapturedPiecesPanel(String title) {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createTitledBorder(title)); // Titel voor het paneel
+
+        JLabel placeholderLabel = new JLabel("Nog geen stukken geslagen", SwingConstants.CENTER);
+        placeholderLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        add(placeholderLabel, BorderLayout.CENTER);
+    }
 }
