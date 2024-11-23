@@ -5,30 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)">
-      <change afterPath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/ai/BoardAI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/ai/MoveAI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/ServerConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/StrategoGame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/StrategoMP.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/StrategoSP.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/CapturedPiecesPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/ScorePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/utils/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/utils/Position.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stratego/utils/Resourceloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Menus/StrategoButtons.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/strategobackground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/strategobutton.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Communicator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menus/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Home.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,8 +86,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\images" />
+      <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -191,7 +175,7 @@
       <workItem from="1730999959293" duration="269000" />
       <workItem from="1731000239505" duration="5082000" />
       <workItem from="1732288224944" duration="637000" />
-      <workItem from="1732361912324" duration="2791000" />
+      <workItem from="1732361912324" duration="5438000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />

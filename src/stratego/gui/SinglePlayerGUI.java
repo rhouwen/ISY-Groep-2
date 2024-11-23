@@ -1,7 +1,10 @@
 package stratego.gui;
 
-public class SinglePlayerGUI extends StrategoGUI{
+import javax.swing.*;
 
-    //GUI voor speler vs AI
-
+public class SinglePlayerGUI extends JPanel {
+    public SinglePlayerGUI() {
+        JLabel label = new JLabel("Singleplayer GUI (Placeholder)");
+        add(label);
+    }
 }

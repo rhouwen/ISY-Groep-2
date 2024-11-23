@@ -1,7 +1,10 @@
 package stratego.gui;
 
-public class MultiplayerGUI extends StrategoGUI{
+import javax.swing.*;
 
-    //GUI voor AI vs AI
-
+public class MultiplayerGUI extends JPanel {
+    public MultiplayerGUI() {
+        JLabel label = new JLabel("Multiplayer GUI (Placeholder)");
+        add(label);
+    }
 }
