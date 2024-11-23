@@ -327,7 +327,6 @@ public class Client implements Runnable {
     }
 
     public static void main(String[] args) {
-        // Vraag de gebruiker om een naam wanneer je de main-methode runt
         String username = args.length > 0 ? args[0] : "DefaultName";
         Client client = new Client(username);
         client.run();

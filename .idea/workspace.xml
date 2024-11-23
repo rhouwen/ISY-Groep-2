@@ -4,12 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
-      <change afterPath="$PROJECT_DIR$/src/TicTacToe/TicTacToeAI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TicTacToe/TicTacToeClient.java" afterDir="false" />
+    <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)">
+      <change afterPath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/ai/BoardAI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/ai/MoveAI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/ServerConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/StrategoGame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/StrategoMP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/StrategoSP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/gui/CapturedPiecesPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/gui/ScorePanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/utils/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/utils/Position.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/utils/Resourceloader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menus/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Home.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menus/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Communicator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Client.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,39 +74,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BattleShipMenu.executor": "Run",
-    "Application.Board.executor": "Run",
-    "Application.Client.executor": "Run",
-    "Application.GameGui.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MainMenu.executor": "Run",
-    "Application.TicTacToeClient.executor": "Run",
-    "Application.TicTacToeGame.executor": "Run",
-    "Application.TicTacToeServer.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BattleShipMenu.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Board.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GameGui.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainMenu.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TicTacToeClient.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TicTacToeGame.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TicTacToeServer.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\images" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.Board" />
       <module name="Battleships" />
@@ -124,8 +143,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TicTacToeServer" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.TicTacToeServer" />
         <item itemvalue="Application.MainMenu" />
         <item itemvalue="Application.Board" />
       </list>
@@ -169,6 +188,10 @@
       <workItem from="1730030762299" duration="5496000" />
       <workItem from="1730036309579" duration="4207000" />
       <workItem from="1730909092794" duration="3003000" />
+      <workItem from="1730999959293" duration="269000" />
+      <workItem from="1731000239505" duration="5082000" />
+      <workItem from="1732288224944" duration="637000" />
+      <workItem from="1732361912324" duration="2791000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />
@@ -178,7 +201,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730997384067</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Tic Tac Toe toegevoegd aan de knop op home&#10;Tic Tac Toe gekopieerd van de master branch&#10;Optie toegevoegd om een naam te kiezen voor TicTacToe zoals bij zeeslag">
+      <option name="closed" value="true" />
+      <created>1730999938872</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730999938872</updated>
+    </task>
+    <task id="LOCAL-00004" summary="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)">
+      <option name="closed" value="true" />
+      <created>1731000216368</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731000216368</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +237,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Alles doet het weer" />
     <MESSAGE value="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt" />
-    <option name="LAST_COMMIT_MESSAGE" value="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt" />
+    <MESSAGE value="Tic Tac Toe toegevoegd aan de knop op home&#10;Tic Tac Toe gekopieerd van de master branch&#10;Optie toegevoegd om een naam te kiezen voor TicTacToe zoals bij zeeslag" />
+    <MESSAGE value="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)" />
+    <option name="LAST_COMMIT_MESSAGE" value="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)" />
   </component>
 </project>
