@@ -11,11 +11,12 @@ public class StrategoGUI extends JPanel {
         setLayout(new BorderLayout());
         add(new BoardPanel(), BorderLayout.CENTER);
 
-        JPanel leftpanel = new JPanel(new BorderLayout());
-        leftpanel.add(new CapturedPiecesPanel("Geslagen stukken van rood"), BorderLayout.NORTH);
-        leftpanel.add(new ScorePanel("Score"), BorderLayout.CENTER);
-        leftpanel.add(new CapturedPiecesPanel("Geslagen stukken van blauw"), BorderLayout.SOUTH);
+        JPanel leftpanel = new JPanel(new GridLayout(3, 1)); // 3 rijen, 1 kolom
+        leftpanel.add(new CapturedPiecesPanel("Geslagen stukken van rood"));
+        leftpanel.add(new ScorePanel("Score"));
+        leftpanel.add(new CapturedPiecesPanel("Geslagen stukken van blauw"));
         add(leftpanel, BorderLayout.WEST);
+
 
         //Water instellen
         BoardPanel.updateCell(4, 2, "", Color.BLUE);
