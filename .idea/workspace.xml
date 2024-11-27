@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menus/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Home.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/BoardPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/CapturedPiecesPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/CapturedPiecesPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/ScorePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/ScorePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/Static.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/utils/Position.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,9 +71,10 @@
     "Application.TicTacToeClient.executor": "Run",
     "Application.TicTacToeGame.executor": "Run",
     "Application.TicTacToeServer.executor": "Run",
+    "Application.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Pieces",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
