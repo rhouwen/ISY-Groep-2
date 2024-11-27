@@ -3,13 +3,13 @@ package stratego.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardPanel extends JPanel{
+public class GUI extends JPanel{
 
     private final int rows = 10;
     private final int cols = 10;
     private static JButton[][] cells;
 
-    public BoardPanel() {
+    public GUI() {
 
         setLayout(new GridLayout(rows, cols));
         cells = new JButton[rows][cols];

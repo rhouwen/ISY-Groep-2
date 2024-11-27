@@ -88,20 +88,6 @@ public class Home extends JPanel {
         });
         buttonPanel.add(strategoButton, buttonGbc);
 
-        // Add the Options button
-        buttonGbc.gridy++;
-        HomeButtons optionsButton = new HomeButtons("Options");
-        optionsButton.setPreferredSize(new Dimension(300, 80)); // Adjust dimensions
-        optionsButton.addActionListener(e -> {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            if (frame != null) {
-                frame.getContentPane().removeAll(); // Remove existing content
-                frame.setContentPane(new Options("Home")); // Switch to Options with "Home" return setting
-                frame.revalidate(); // Refresh the frame layout
-                frame.repaint(); // Repaint to ensure everything is refreshed
-            }
-        });
-        buttonPanel.add(optionsButton, buttonGbc);
 
         // Add the Exit button
         buttonGbc.gridy++;
