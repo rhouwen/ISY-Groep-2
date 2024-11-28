@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +89,7 @@
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Board">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.Board" />
       <module name="Battleships" />
@@ -185,6 +180,7 @@
       <workItem from="1732618546024" duration="1987000" />
       <workItem from="1732692568152" duration="2099000" />
       <workItem from="1732707993226" duration="2061000" />
+      <workItem from="1732779114714" duration="288000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />

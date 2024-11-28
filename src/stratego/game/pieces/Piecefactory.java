@@ -25,8 +25,11 @@ public class Piecefactory {
         addMultiplePieces(pieces, "Luitenant", 5, 4, team);
         addMultiplePieces(pieces, "Sergeant", 4, 4, team);
         pieces.add(new Spion(team));
+
+        //Tijdelijk, moet nog vervangen worden voor de klasses voor speciale logica.
         addMultiplePieces(pieces, "Mineur", 3, 5, team);
         addMultiplePieces(pieces, "Bom", 0, 6, team);
+        addMultiplePieces(pieces, "Verkenner", 2, 8, team);
 
         return pieces;
 
