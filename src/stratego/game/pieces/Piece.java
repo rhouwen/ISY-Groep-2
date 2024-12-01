@@ -12,7 +12,7 @@ public abstract class Piece {
 
         this.name = name;
         this.rank = rank;
-        this.team = (team != null) ? team : "Geen team";
+        this.team = (team != null) ? team: "Geen team";
         this.canMove = canMove;
 
     }
