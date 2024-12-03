@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Verkenner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/StrategoSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/StrategoSP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +69,7 @@
     "Application.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Pieces",
+    "git-widget-placeholder": "PlaatsenStukken",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -94,7 +89,7 @@
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.Board" />
       <module name="Battleships" />
@@ -116,6 +111,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StrategoGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="stratego.gui.StrategoGUI" />
+      <module name="Battleships" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="stratego.gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TicTacToeServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TicTacToe.TicTacToeServer" />
       <module name="Battleships" />
@@ -132,6 +140,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.StrategoGUI" />
         <item itemvalue="Application.TicTacToeServer" />
         <item itemvalue="Application.MainMenu" />
         <item itemvalue="Application.Board" />
@@ -185,6 +194,7 @@
       <workItem from="1732618546024" duration="1987000" />
       <workItem from="1732692568152" duration="2099000" />
       <workItem from="1732707993226" duration="2061000" />
+      <workItem from="1733239771068" duration="3197000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />
