@@ -12,6 +12,8 @@ public class StrategoGUI extends JPanel {
     public StrategoGUI() {
 
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+
         add(new GUI(), BorderLayout.CENTER);
 
         JPanel leftpanel = new JPanel(new GridLayout(3, 1)); // 3 rijen, 1 kolom

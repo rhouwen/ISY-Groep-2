@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
+      <change afterPath="$PROJECT_DIR$/src/Resources/images/strategoback.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/StrategoSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/StrategoSP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/utils/Resourceloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/ResourceLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +68,7 @@
     "Application.GameGui.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.MainMenu.executor": "Run",
+    "Application.SinglePlayerGUI.executor": "Run",
     "Application.StrategoGUI.executor": "Run",
     "Application.TicTacToeClient.executor": "Run",
     "Application.TicTacToeGame.executor": "Run",
@@ -71,6 +78,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "PlaatsenStukken",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Hanze/ISY-Groep-2/src/Resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -84,12 +92,16 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Hanze\ISY-Groep-2\src\Resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Hanze\ISY-Groep-2\src\Resources\images" />
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\images" />
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.Board" />
       <module name="Battleships" />
@@ -195,6 +207,7 @@
       <workItem from="1732692568152" duration="2099000" />
       <workItem from="1732707993226" duration="2061000" />
       <workItem from="1733239771068" duration="3197000" />
+      <workItem from="1733246833050" duration="7444000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />

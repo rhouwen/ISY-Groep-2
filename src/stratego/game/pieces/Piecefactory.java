@@ -31,9 +31,5 @@ public class Piecefactory {
         return pieces;
 
     }
-
-    List<Piece> roodTeam = createTeamPieces("Rood");
-    List<Piece> blauwTeam = createTeamPieces("Blauw");
-
 }
 
