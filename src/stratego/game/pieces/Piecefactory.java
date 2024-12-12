@@ -7,7 +7,7 @@ public class Piecefactory {
 
     private static void addMultiplePieces(List<Piece> pieces, String name, int rank, int count, String team){
         for(int i = 0; i < count; i++){
-            pieces.add(new Generic(name, rank, team));
+            pieces.add(new Generic(name, rank,count, team));
         }
     }
 
@@ -17,8 +17,8 @@ public class Piecefactory {
 
         List<Piece> pieces = new ArrayList<>();
 
-        pieces.add(new Generic("Maarschalk", 10, team));
-        pieces.add(new Generic("Generaal", 9, team));
+        pieces.add(new Generic("Maarschalk", 10,1, team));
+        pieces.add(new Generic("Generaal", 9,1, team));
         addMultiplePieces(pieces, "Kolonel", 8, 2, team);
         addMultiplePieces(pieces, "Majoor", 7, 3, team);
         addMultiplePieces(pieces, "Kapitein", 6, 4, team);

@@ -8,12 +8,13 @@ public abstract class Piece {
     private String team;
     private boolean canMove;
 
-    public Piece(String name, int rank, String team, boolean canMove) {
+    public Piece(String name, int rank, String team,int count, boolean canMove) {
 
         this.name = name;
         this.rank = rank;
         this.team = (team != null) ? team: "Geen team";
         this.canMove = canMove;
+        this.count = count;
 
     }
 
