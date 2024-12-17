@@ -1,7 +1,6 @@
 package stratego.ai;
+import stratego.game.Board;
 
 public class MoveAI {
-
-    //Regelt de AI zijn zetten.
-
+    // Regelt de moves die de "ai" doet.
 }

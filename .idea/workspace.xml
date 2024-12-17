@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menus/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/Home.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/BoardPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/CapturedPiecesPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/CapturedPiecesPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/ScorePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/ScorePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/Static.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/utils/Position.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/ai/MoveAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/ai/MoveAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,13 +62,15 @@
     "Application.GameGui.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.MainMenu.executor": "Run",
+    "Application.StrategoBoard.executor": "Run",
     "Application.StrategoGUI.executor": "Run",
     "Application.TicTacToeClient.executor": "Run",
     "Application.TicTacToeGame.executor": "Run",
     "Application.TicTacToeServer.executor": "Run",
+    "Application.stratego.game.Board.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Aanvalalgoritme",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -93,14 +90,7 @@
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.Board" />
-      <module name="Battleships" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.stratego.game.Board">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Battleships" />
@@ -111,6 +101,19 @@
     <configuration name="MainMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainMenu" />
       <module name="Battleships" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StrategoBoard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="stratego.game.StrategoBoard" />
+      <module name="Battleships" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="stratego.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -128,20 +131,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="stratego.game.Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="stratego.game.Board" />
+      <module name="Battleships" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="stratego.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.stratego.game.Board" />
+        <item itemvalue="Application.StrategoBoard" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.TicTacToeServer" />
         <item itemvalue="Application.MainMenu" />
-        <item itemvalue="Application.Board" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
       </set>
     </attachedChunks>
   </component>
@@ -184,6 +201,8 @@
       <workItem from="1732618546024" duration="1987000" />
       <workItem from="1732692568152" duration="2099000" />
       <workItem from="1732707993226" duration="2061000" />
+      <workItem from="1734077692559" duration="261000" />
+      <workItem from="1734286028138" duration="3164000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />
