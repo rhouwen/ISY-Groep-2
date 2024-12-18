@@ -25,11 +25,17 @@ public class Piecefactory {
         addMultiplePieces(pieces, "Luitenant", 5, 4, team);
         addMultiplePieces(pieces, "Sergeant", 4, 4, team);
         pieces.add(new Spion(team));
-        addMultiplePieces(pieces, "Mineur", 3, 5, team);
-        addMultiplePieces(pieces, "Bom", 0, 6, team);
+        pieces.add(new Flag(team));
+        addMultiplePieces(pieces, new Bom(team), 1, 6);
+        addMultiplePieces(pieces, new Mineur(team), 3, 5);
+        addMultiplePieces(pieces, new Verkenner(team), 2, 8);
+
+
+
 
         return pieces;
 
     }
+
 }
 

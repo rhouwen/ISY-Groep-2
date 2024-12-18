@@ -1,8 +1,8 @@
 package stratego.game.pieces;
 
-public class Bom extends Piece {
-    public Bom(String team) {
-        super("Bom", 0, team, false);
+public class Flag extends Piece {
+    public Flag(String team) {
+        super("Flag", 0, team, false);
     }
 
     @Override

@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/plaatsStuk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +55,7 @@
   "keyToString": {
     "Application.BattleShipMenu.executor": "Run",
     "Application.Board.executor": "Run",
+    "Application.BoardTest.executor": "Run",
     "Application.Client.executor": "Run",
     "Application.GameGui.executor": "Run",
     "Application.Main.executor": "Run",
@@ -68,7 +68,7 @@
     "Application.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "PlaatsenStukken",
+
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Hanze/ISY-Groep-2/src/Resources",
     "node.js.detected.package.eslint": "true",
@@ -198,12 +198,7 @@
       <workItem from="1732618546024" duration="1987000" />
       <workItem from="1732692568152" duration="2099000" />
       <workItem from="1732707993226" duration="2061000" />
-      <workItem from="1733239771068" duration="3197000" />
-      <workItem from="1733246833050" duration="7444000" />
-      <workItem from="1734518484696" duration="581000" />
-      <workItem from="1734519076868" duration="215000" />
-      <workItem from="1734519441396" duration="96000" />
-      <workItem from="1734519569302" duration="2387000" />
+
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />
