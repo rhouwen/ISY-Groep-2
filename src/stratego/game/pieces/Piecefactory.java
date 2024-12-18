@@ -26,18 +26,28 @@ public class Piecefactory {
         addMultiplePieces(pieces, "Sergeant", 4, 4, team);
         pieces.add(new Spion(team));
         pieces.add(new Flag(team));
+        addMultiplePieces(pieces, new Bom(team), 1, 6);
+        addMultiplePieces(pieces, new Mineur(team), 3, 5);
+        addMultiplePieces(pieces, new Verkenner(team), 2, 8);
 
-        //Tijdelijk, moet nog vervangen worden voor de klasses voor speciale logica.
-        addMultiplePieces(pieces, "Mineur", 3, 5, team);
-        addMultiplePieces(pieces, "Bom", 0, 6, team);
-        addMultiplePieces(pieces, "Verkenner", 2, 8, team);
+
+
 
         return pieces;
 
     }
 
-    List<Piece> roodTeam = createTeamPieces("Rood");
-    List<Piece> blauwTeam = createTeamPieces("Blauw");
+    private static void addMultiplePieces(List<Piece> pieces, Verkenner verkenner, int rank, int count) {
+    }
+
+    private static void addMultiplePieces(List<Piece> pieces, Mineur mineur, int rank, int count) {
+    }
+
+    private static void addMultiplePieces(List<Piece> pieces, Bom bom, int rank, int count) {
+
+    }
+
+    ;
 
 }
 
