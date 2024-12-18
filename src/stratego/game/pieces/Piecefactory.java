@@ -37,5 +37,15 @@ public class Piecefactory {
 
     }
 
+    private static void addMultiplePieces(List<Piece> pieces, Mineur mineur, int rank, int count) {
+    }
+
+    private static void addMultiplePieces(List<Piece> pieces, Verkenner verkenner, int rank, int count) {
+    }
+
+    private static void addMultiplePieces(List<Piece> pieces, Bom bom, int rank, int count) {
+
+    }
+
 }
 
