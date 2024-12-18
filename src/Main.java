@@ -7,7 +7,7 @@ public class Main {
             JFrame frame = new JFrame("Game Menu");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1024, 768);
-            frame.setContentPane(new Menus.Home()); // Start with the Home menu
+            frame.setContentPane(new Menus.Home());
             frame.setVisible(true);
         });
     }

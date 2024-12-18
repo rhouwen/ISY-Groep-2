@@ -13,28 +13,23 @@ public class StrategoMenu extends JPanel {
     private Image backgroundImage;
 
     public StrategoMenu() {
-        // Laad de achtergrondafbeelding
-        backgroundImage = new ImageIcon(getClass().getClassLoader().getResource("images/strategobackground.png")).getImage();
-
-        // Laad het aangepaste lettertype
         Font customFont = null;
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream("fonts/battleshipmenu.ttf");
-            customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(110f);  // Lettergrootte aanpassen
+            customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(110f);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
 
-        // Layout instellen
+        //layout
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 0, 10, 0); // Ruimte tussen componenten
 
-        // Titel toevoegen
         JLabel titleLabel = new JLabel("STRATEGO");
-        titleLabel.setFont(customFont);  // Pas aangepast lettertype toe
-        titleLabel.setForeground(Color.WHITE);  // Witte tekstkleur
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centreer de tekst
+        titleLabel.setFont(customFont);
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER; // Titel centreren
@@ -68,12 +63,12 @@ public class StrategoMenu extends JPanel {
     private void startSinglePlayer() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
-            frame.getContentPane().removeAll();
-            frame.setContentPane(new SinglePlayerGUI()); // Placeholder voor de singleplayer GUI
-            frame.revalidate();
-            frame.repaint();
+            frame.dispose();
         }
+        SinglePlayerGUI singlePlayerGUI = new SinglePlayerGUI();
+        singlePlayerGUI.setVisible(true);
     }
+
 
     private void startMultiplayer() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
