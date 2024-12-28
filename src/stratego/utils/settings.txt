@@ -1,0 +1,4 @@
+Username: hallo
+IP Address: hallo
+Port: test
+Speltype: 8x8
