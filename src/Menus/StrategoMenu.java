@@ -2,6 +2,7 @@ package Menus;
 
 import stratego.gui.MultiplayerGUI;
 import stratego.gui.SinglePlayerGUI;
+import stratego.gui.strategoSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +51,7 @@ public class StrategoMenu extends JPanel {
         buttonPanel.add(new StrategoButtons("Multiplayer", "images/strategobutton.png", e -> startMultiplayer()), buttonGbc);
 
         buttonGbc.gridy++;
-        buttonPanel.add(new StrategoButtons("Options", "images/strategobutton.png", e -> goToOptions()), buttonGbc);
+        buttonPanel.add(new StrategoButtons("Options", "images/strategobutton.png", e -> goToStrategoOptions()), buttonGbc);
 
         buttonGbc.gridy++;
         buttonPanel.add(new StrategoButtons("Back to Home", "images/strategobutton.png", e -> goToHome()), buttonGbc);
@@ -85,6 +86,15 @@ public class StrategoMenu extends JPanel {
         if (frame != null) {
             frame.getContentPane().removeAll();
             frame.setContentPane(new Options("StrategoMenu")); // Terugknop toevoegen aan Opties
+            frame.revalidate();
+            frame.repaint();
+        }
+    }
+    private void goToStrategoOptions() {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            frame.getContentPane().removeAll();
+            frame.setContentPane(new strategoSettings(frame)); //
             frame.revalidate();
             frame.repaint();
         }
