@@ -1,4 +1,4 @@
-Username: hallo
-IP Address: hallo
-Port: test
-Speltype: 8x8
+Username: rickhouwen
+IP Address: 192.128.234.12
+Port: 4535
+Speltype: 10x10

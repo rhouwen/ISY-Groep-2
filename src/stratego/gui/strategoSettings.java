@@ -2,8 +2,12 @@ package stratego.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
 
 public class strategoSettings extends JPanel {
@@ -17,10 +21,12 @@ public class strategoSettings extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
+        Map<String, String> settingsload = loadSettings("src/stratego/utils/settings.txt");
+
         // Username
         add(new JLabel("Username:"), gbc);
         gbc.gridx = 1;
-        JTextField usernameVeld = new JTextField(15);
+        JTextField usernameVeld = new JTextField(settingsload.getOrDefault("Username", ""), 15);;
         add(usernameVeld, gbc);
 
         // IP-Adress
@@ -28,7 +34,7 @@ public class strategoSettings extends JPanel {
         gbc.gridy++;
         add(new JLabel("IP Address:"), gbc);
         gbc.gridx = 1;
-        JTextField ipVeld = new JTextField(15);
+        JTextField ipVeld = new JTextField(settingsload.getOrDefault("IP Address", ""), 15);
         add(ipVeld, gbc);
 
         // Port
@@ -36,7 +42,7 @@ public class strategoSettings extends JPanel {
         gbc.gridy++;
         add(new JLabel("Port:"), gbc);
         gbc.gridx = 1;
-        JTextField portVeld = new JTextField(15);
+        JTextField portVeld = new JTextField(settingsload.getOrDefault("Port", ""), 15);;
         add(portVeld, gbc);
 
         // 8x8
@@ -60,8 +66,12 @@ public class strategoSettings extends JPanel {
         boardGrootte.add(achtVeld);
         boardGrootte.add(tienVeld);
 
-        // Standaard is normaal stratego
-        tienVeld.setSelected(true);
+        String speltype = settingsload.getOrDefault("Speltype", "10x10");
+        if (speltype.equals("8x8")) {
+            achtVeld.setSelected(true);
+        } else {
+            tienVeld.setSelected(true); // Standaard 10x10 want dat is normale stratego
+        }
 
         // De save knop
         gbc.gridx = 0;
@@ -99,7 +109,6 @@ public class strategoSettings extends JPanel {
 
 
 
-
         });
 
         // Terugknop
@@ -117,6 +126,26 @@ public class strategoSettings extends JPanel {
             frame.repaint();
         });
 
+
+
+    }
+
+    // Deze klasse helpt met het inlezen van de settings.txt file
+    private Map<String, String> loadSettings(String filePath) {
+        Map<String, String> settingsmap = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(": ", 2);
+                if (parts.length == 2) {
+                    settingsmap.put(parts[0], parts[1]);
+                }
+            }
+        } catch (IOException e) {
+            // Als het bestand niet gevonden wordt of een fout optreedt, leeg laten
+            System.err.println("Error: " + e.getMessage());
+        }
+        return settingsmap;
     }
 
 }

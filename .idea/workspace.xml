@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/strategoSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/StrategoMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/utils/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/settings.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/strategoSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/strategoSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/utils/settings.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/settings.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +72,7 @@
     "Application.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "optiemenu",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Hanze/ISY-Groep-2/src/Resources",
     "node.js.detected.package.eslint": "true",
@@ -204,6 +204,7 @@
       <workItem from="1732707993226" duration="2061000" />
       <workItem from="1735386604882" duration="1252000" />
       <workItem from="1735391926519" duration="3493000" />
+      <workItem from="1735466759951" duration="1255000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />

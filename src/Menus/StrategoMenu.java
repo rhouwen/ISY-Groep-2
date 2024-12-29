@@ -94,7 +94,7 @@ public class StrategoMenu extends JPanel {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
             frame.getContentPane().removeAll();
-            frame.setContentPane(new strategoSettings(frame)); //
+            frame.setContentPane(new strategoSettings(frame)); 
             frame.revalidate();
             frame.repaint();
         }
@@ -115,4 +115,5 @@ public class StrategoMenu extends JPanel {
         super.paintComponent(g);  // Zorg voor correcte schildering
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this); // Achtergrondafbeelding tekenen
     }
+
 }
