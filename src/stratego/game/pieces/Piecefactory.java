@@ -26,26 +26,33 @@ public class Piecefactory {
         addMultiplePieces(pieces, "Sergeant", 4, 4, team);
         pieces.add(new Spion(team));
         pieces.add(new Flag(team));
-        addMultiplePieces(pieces, new Bom(team), 1, 6);
-        addMultiplePieces(pieces, new Mineur(team), 3, 5);
-        addMultiplePieces(pieces, new Verkenner(team), 2, 8);
-
-
+        addMultiplePieces(pieces, new Bom(team), 6, team);
+        addMultiplePieces(pieces, new Mineur(team), 5, team);
+        addMultiplePieces(pieces, new Verkenner(team), 8, team);
 
 
         return pieces;
 
     }
 
-    private static void addMultiplePieces(List<Piece> pieces, Mineur mineur, int rank, int count) {
+    private static void addMultiplePieces(List<Piece> pieces, Mineur mineur, int count, String team) {
+        for (int i = 0; i < count; i++) {
+            pieces.add(new Mineur(team));
+        }
     }
 
-    private static void addMultiplePieces(List<Piece> pieces, Verkenner verkenner, int rank, int count) {
+    private static void addMultiplePieces(List<Piece> pieces, Verkenner verkenner, int count, String team) {
+        for (int i = 0; i < count; i++) {
+            pieces.add(new Verkenner(team));
+        }
     }
 
-    private static void addMultiplePieces(List<Piece> pieces, Bom bom, int rank, int count) {
-
+    private static void addMultiplePieces(List<Piece> pieces, Bom bom, int count, String team) {
+        for (int i = 0; i < count; i++) {
+            pieces.add(new Bom(team));
+        }
     }
+
 
 }
 
