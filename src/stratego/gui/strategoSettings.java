@@ -131,7 +131,7 @@ public class strategoSettings extends JPanel {
     }
 
     // Deze klasse helpt met het inlezen van de settings.txt file
-    private Map<String, String> loadSettings(String filePath) {
+    public static Map<String, String> loadSettings(String filePath) {
         Map<String, String> settingsmap = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
