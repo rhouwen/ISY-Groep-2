@@ -22,7 +22,7 @@ public class StrategoMenu extends JPanel {
             e.printStackTrace();
         }
 
-        //layout
+        // Layout instellen
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 0, 10, 0); // Ruimte tussen componenten
@@ -54,6 +54,9 @@ public class StrategoMenu extends JPanel {
         buttonPanel.add(new StrategoButtons("Options", "images/strategobutton.png", e -> goToStrategoOptions()), buttonGbc);
 
         buttonGbc.gridy++;
+        buttonPanel.add(new StrategoButtons("Game Rules", "images/strategobutton.png", e -> goToGameRules()), buttonGbc); // Nieuw: knop voor spelregels
+
+        buttonGbc.gridy++;
         buttonPanel.add(new StrategoButtons("Back to Home", "images/strategobutton.png", e -> goToHome()), buttonGbc);
 
         // Voeg het knoppenpaneel toe aan het hoofdvenster
@@ -69,7 +72,6 @@ public class StrategoMenu extends JPanel {
         SinglePlayerGUI singlePlayerGUI = new SinglePlayerGUI();
         singlePlayerGUI.setVisible(true);
     }
-
 
     private void startMultiplayer() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -90,11 +92,22 @@ public class StrategoMenu extends JPanel {
             frame.repaint();
         }
     }
+
     private void goToStrategoOptions() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
             frame.getContentPane().removeAll();
             frame.setContentPane(new strategoSettings(frame)); 
+            frame.revalidate();
+            frame.repaint();
+        }
+    }
+
+    private void goToGameRules() { // Nieuw: Methode om naar spelregelsmenu te gaan
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            frame.getContentPane().removeAll();
+            frame.setContentPane(new StrategoMenuRules()); // Ga naar spelregelsmenu
             frame.revalidate();
             frame.repaint();
         }
@@ -115,5 +128,4 @@ public class StrategoMenu extends JPanel {
         super.paintComponent(g);  // Zorg voor correcte schildering
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this); // Achtergrondafbeelding tekenen
     }
-
 }
