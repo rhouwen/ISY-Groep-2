@@ -34,22 +34,37 @@ public class StrategoMenuRules extends JPanel {
         add(titleLabel, gbc);
 
         // Spelregels toevoegen
-        JTextArea rulesTextArea = new JTextArea();
-        rulesTextArea.setText("""
-                Stratego Singleplayer Spelregels:
-                1. Het doel is om de vlag van de tegenstander te vinden.
-                2. Verplaats je stukken over het bord volgens hun bewegingsregels.
-                3. Aanvallen en veroveren van vijandelijke stukken.
-                4. Verlies niet je eigen vlag!
-                """);
-        rulesTextArea.setFont(customFont != null ? customFont.deriveFont(15f) : new Font("Arial", Font.PLAIN, 15));
-        rulesTextArea.setForeground(Color.BLACK);
-        rulesTextArea.setEditable(false);
-        rulesTextArea.setLineWrap(true);
-        rulesTextArea.setWrapStyleWord(true);
-        rulesTextArea.setOpaque(false);
+        JPanel rulesPanel = new JPanel();
+        rulesPanel.setLayout(new BoxLayout(rulesPanel, BoxLayout.Y_AXIS));
+        rulesPanel.setOpaque(false); // Transparante achtergrond
+
+
+
+        // Ruimte toevoegen
+        rulesPanel.add(Box.createVerticalStrut(20));
+
+        // Spelregels als opsomming volgens HTML code
+        JTextPane rulesTextPane = new JTextPane();
+        rulesTextPane.setContentType("text/html"); // HTML opmaak inschakelen
+        rulesTextPane.setText("""
+    <html>
+        <body style="font-family: Arial, sans-serif; font-size: 14px; color: black;">
+            <ol>
+                <li><strong>Doel:</strong> Vind de vlag van de tegenstander.</li>
+                <li><strong>Beweging:</strong> Verplaats je stukken volgens hun bewegingsregels.</li>
+                <li><strong>Aanvallen:</strong> Verover vijandelijke stukken.</li>
+                <li><strong>Verdediging:</strong> Bescherm je eigen vlag!</li>
+            </ol>
+        </body>
+    </html>
+""");
+        rulesTextPane.setEditable(false);
+        rulesTextPane.setOpaque(false);
+        rulesPanel.add(rulesTextPane);
+
+        // Voeg alles toe aan de hoofdlayout
         gbc.gridy = 1;
-        add(rulesTextArea, gbc);
+        add(rulesPanel, gbc);
 
         // Knoppenpaneel
         JPanel buttonPanel = new JPanel(new GridBagLayout());
