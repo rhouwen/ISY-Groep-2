@@ -36,7 +36,7 @@ public class Board {
 
         //Shuffeled de pieces random moet vervangen worden uiteindelijk door boardAI
         Collections.shuffle(redPieces);
-        Collections.shuffle(bluePieces);
+
 
         // plaats rode pieces random vervangen voor handmatig kunnen plaatsen
         int index = 0;
@@ -48,15 +48,9 @@ public class Board {
             }
         }
 
-        // blauwe pieces random moet vervangen worden door boardAI
+        // blauwe pieces random moet vervangen worden daar plaatsStuk.
         index = 0;
-        for (int i = rows - 4; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (index < bluePieces.size()) {
-                    board[i][j] = bluePieces.get(index++);
-                }
-            }
-        }
+
     }
 
     private void initializeWaterTiles() {

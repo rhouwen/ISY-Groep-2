@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menus/StrategoMenuRules" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menus/StrategoMenuRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,6 +207,8 @@
       <workItem from="1735919147843" duration="74000" />
       <workItem from="1735919232519" duration="904000" />
       <workItem from="1735984130390" duration="604000" />
+      <workItem from="1735984807211" duration="23000" />
+      <workItem from="1735985357646" duration="463000" />
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />
