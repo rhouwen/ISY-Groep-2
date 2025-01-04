@@ -1,5 +1,7 @@
 package stratego.gui;
 
+import stratego.game.Board;
+import stratego.game.pieces.Piecefactory;
 import stratego.gui.panels.PieceSelectionPanel;
 import stratego.utils.ResourceLoader;
 
@@ -49,6 +51,10 @@ public class SinglePlayerGUI extends JFrame {
         boardPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Interne marges
         boardPanel.add(gameBoard, BorderLayout.CENTER);
         mainPanel.add(boardPanel, BorderLayout.CENTER);
+
+        Board board = new Board(10, 10);
+        board.initializeBoard(new Piecefactory()); // Voeg stukken toe aan het bord
+        gameBoard.updateBoard(board);
 
         //rightpanel
         pieceSelectionPanel = new PieceSelectionPanel("Rood");
