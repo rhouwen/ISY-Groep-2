@@ -9,12 +9,15 @@ public class Board {
     private final Piece[][] board; // 2D grid for pieces
     private final int rows;
     private final int cols;
+    private final boolean [][] waterTiles;
 
     // constructor grid
     public Board(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         this.board = new Piece[rows][cols];
+        this.waterTiles = new boolean[rows][cols];
+        initializeWaterTiles();
         resetBoard();
     }
 
@@ -54,6 +57,27 @@ public class Board {
                 }
             }
         }
+    }
+
+    private void initializeWaterTiles() {
+        setWaterTile(4, 2);
+        setWaterTile(4, 3);
+        setWaterTile(5, 3);
+        setWaterTile(5, 2);
+        setWaterTile(4, 6);
+        setWaterTile(4, 7);
+        setWaterTile(5, 7);
+        setWaterTile(5, 6);
+    }
+
+    private void setWaterTile(int row, int col) {
+        if (isWithinBounds(row, col)) {
+            waterTiles[row][col] = true;
+        }
+    }
+
+    public boolean isWaterTile(int row, int col) {
+        return isWithinBounds(row,col) && waterTiles[row][col];
     }
 
     public boolean movePiece(int sourceRow, int sourceCol, int targetRow, int targetCol) {
@@ -143,6 +167,22 @@ public class Board {
     private boolean isWithinBounds(int row, int col) {
         return row >= 0 && col >= 0 && row < rows && col < cols;
     }
+
+
+    //getters
+    public int getRows() {
+        return rows;
+    }
+    public int getCols() {
+        return cols;
+    }
+    public Piece getPieceAt(int row, int col) {
+        if (isWithinBounds(row, col)) {
+            return board[row][col];
+        }
+        return null;
+    }
+
 
     // print het board (voor debuggen)
     public void printBoard() {
