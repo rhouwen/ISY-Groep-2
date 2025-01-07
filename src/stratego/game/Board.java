@@ -1,5 +1,6 @@
 package stratego.game;
 
+import stratego.ai.BoardAI;
 import stratego.game.pieces.Piece;
 import stratego.game.pieces.Piecefactory;
 import java.util.Collections;
@@ -34,24 +35,10 @@ public class Board {
         List<Piece> redPieces = Piecefactory.createTeamPieces("Red");
         List<Piece> bluePieces = Piecefactory.createTeamPieces("Blue");
 
-        //Shuffeled de pieces random moet vervangen worden uiteindelijk door boardAI
-        Collections.shuffle(redPieces);
-
-
-        // plaats rode pieces random vervangen voor handmatig kunnen plaatsen
-        int index = 0;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (index < redPieces.size()) {
-                    board[i][j] = redPieces.get(index++);
-                }
-            }
-        }
-
-        // blauwe pieces random moet vervangen worden daar plaatsStuk.
-        index = 0;
-
+        //gebruikt board ai om de pieces te plaatsen voor het rode team.
+        BoardAI.setupBoard(this, redPieces, "Red");
     }
+
 
     private void initializeWaterTiles() {
         setWaterTile(4, 2);
@@ -177,6 +164,26 @@ public class Board {
         return null;
     }
 
+    public boolean placePiece(Piece piece, int row, int col) {
+        // Controleer of de positie binnen de grenzen ligt
+        if (!isWithinBounds(row, col)) {
+            return false;
+        }
+
+        // Controleer of de positie geen waterveld is
+        if (isWaterTile(row, col)) {
+            return false;
+        }
+
+        // Controleer of de positie al bezet is
+        if (board[row][col] != null) {
+            return false;
+        }
+
+        // Plaats het stuk op de positie
+        board[row][col] = piece;
+        return true;
+    }
 
     // print het board (voor debuggen)
     public void printBoard() {
