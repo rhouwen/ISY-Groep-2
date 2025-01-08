@@ -14,6 +14,7 @@ public class PieceSelectionPanel extends JPanel {
 
     private JLabel selectedPieceLabel;
     private Map<String, PieceInfo> pieceInfoMap;
+    private String selectedPieceName; // Huidig geselecteerd stuk
 
     public PieceSelectionPanel(String teamColor) {
         setLayout(new BorderLayout());
@@ -41,7 +42,6 @@ public class PieceSelectionPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        //stukkenlist
         JPanel pieceListPanel = new JPanel();
         pieceListPanel.setLayout(new BoxLayout(pieceListPanel, BoxLayout.Y_AXIS));
         pieceListPanel.setOpaque(false);
@@ -55,7 +55,6 @@ public class PieceSelectionPanel extends JPanel {
             PieceInfo info = pieceInfoMap.get(pieceName);
             pieceListPanel.add(createPieceButton(pieceName, info));
 
-            //maakt de spacing tussen de stukken transparant
             Component spacer = Box.createVerticalStrut(10);
             spacer.setBackground(null);
             spacer.isOpaque();
@@ -63,6 +62,47 @@ public class PieceSelectionPanel extends JPanel {
         }
 
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private JButton createPieceButton(String pieceName, PieceInfo info) {
+        JButton button = new JButton();
+        button.setLayout(new BorderLayout());
+        button.setPreferredSize(new Dimension(250, 50));
+        button.setBackground(new Color(50, 50, 50));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setOpaque(true);
+
+        JLabel nameLabel = new JLabel(pieceName);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        nameLabel.setBorder(new EmptyBorder(0, 10, 0, 0));
+        button.add(nameLabel, BorderLayout.WEST);
+
+        JLabel countLabel = new JLabel("Aantal: " + info.getTotal() + ", Geplaatst: " + info.getPlaced());
+        countLabel.setForeground(Color.LIGHT_GRAY);
+        countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        countLabel.setBorder(new EmptyBorder(0, 0, 0, 10));
+        button.add(countLabel, BorderLayout.EAST);
+
+        button.addActionListener(e -> selectPiece(pieceName));
+
+        return button;
+    }
+
+    private void selectPiece(String pieceName) {
+        PieceInfo info = pieceInfoMap.get(pieceName);
+        if (info.getPlaced() < info.getTotal()) {
+            selectedPieceName = pieceName;
+            selectedPieceLabel.setText("Geselecteerd stuk: " + pieceName);
+        } else {
+            JOptionPane.showMessageDialog(this, "Geen " + pieceName + " meer beschikbaar!", "Fout", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public String getSelectedPiece() {
+
+        return selectedPieceName != null ? selectedPieceName : "Geen stuk geselecteerd";
     }
 
     private Map<String, PieceInfo> initializePieceInfo(List<Piece> pieces) {
@@ -73,42 +113,6 @@ public class PieceSelectionPanel extends JPanel {
             infoMap.get(pieceName).incrementTotal();
         }
         return infoMap;
-    }
-
-    private JButton createPieceButton(String pieceName, PieceInfo info) {
-        JButton button = new JButton();
-        button.setLayout(new BorderLayout());
-        button.setPreferredSize(new Dimension(250, 50)); // Smalle breedte
-        button.setBackground(new Color(50, 50, 50)); // Donkere achtergrond
-        button.setBorderPainted(false); // Geen border
-        button.setFocusPainted(false);
-        button.setOpaque(true);
-
-        JLabel nameLabel = new JLabel(pieceName);
-        nameLabel.setForeground(Color.WHITE);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        nameLabel.setBorder(new EmptyBorder(0, 10, 0, 0)); // Ruimte links
-        button.add(nameLabel, BorderLayout.WEST);
-
-        JLabel countLabel = new JLabel("Aantal: " + info.getTotal() + ", Geplaatst: " + info.getPlaced());
-        countLabel.setForeground(Color.LIGHT_GRAY);
-        countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        countLabel.setBorder(new EmptyBorder(0, 0, 0, 10)); // Ruimte rechts
-        button.add(countLabel, BorderLayout.EAST);
-
-        //action listener selecteren van stukken
-        button.addActionListener(e -> selectPiece(pieceName));
-
-        return button;
-    }
-
-    private void selectPiece(String pieceName) {
-        PieceInfo info = pieceInfoMap.get(pieceName);
-        if (info.getPlaced() < info.getTotal()) {
-            selectedPieceLabel.setText("Geselecteerd stuk: " + pieceName);
-        } else {
-            JOptionPane.showMessageDialog(this, "Geen " + pieceName + " meer beschikbaar!", "Fout", JOptionPane.WARNING_MESSAGE);
-        }
     }
 
     private static class PieceInfo {

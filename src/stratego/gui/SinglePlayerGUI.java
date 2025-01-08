@@ -11,7 +11,7 @@ import java.awt.*;
 public class SinglePlayerGUI extends JFrame {
 
     private StrategoGUI gameBoard;
-    private PieceSelectionPanel pieceSelectionPanel;
+    public static PieceSelectionPanel pieceSelectionPanel;
 
     public SinglePlayerGUI() {
         //screen settings
@@ -64,6 +64,11 @@ public class SinglePlayerGUI extends JFrame {
 
         add(mainPanel);
     }
+
+    public static String getSelectedPiece() {
+        return pieceSelectionPanel.getSelectedPiece();
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
