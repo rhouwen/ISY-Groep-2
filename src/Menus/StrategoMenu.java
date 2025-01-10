@@ -76,11 +76,10 @@ public class StrategoMenu extends JPanel {
     private void startMultiplayer() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
-            frame.getContentPane().removeAll();
-            frame.setContentPane(new MultiplayerGUI()); // Placeholder voor de multiplayer GUI
-            frame.revalidate();
-            frame.repaint();
+            frame.dispose();
         }
+        MultiplayerGUI multiplayerGUI = new MultiplayerGUI();
+        multiplayerGUI.setVisible(true);
     }
 
     private void goToOptions() {

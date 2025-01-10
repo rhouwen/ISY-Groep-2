@@ -12,6 +12,7 @@ public class serverConnection implements Runnable {
     private String port;
     private String username;
     private boolean placed;
+    private boolean running = true;
 
 
     // Deze variabelen zijn nodig voor de server connectie
@@ -44,16 +45,16 @@ public class serverConnection implements Runnable {
             System.out.println("Connected to " + ip_address + ":" + port + " as " + username + ".....");
 
             String inputMessage;
-            while ((inputMessage = in.readLine()) != null) {
+            while ((inputMessage = in.readLine()) != null && running) {
                 // Er is een game match gevonden tegen tegenstander x
                 if (inputMessage.startsWith("SVR GAME MATCH")) {
                     System.out.println("Match gevonden");
+                    placed = false;
                     // Reset game state klasse
                 }
 
                 // Wij zijn aan de beurt om stukken te plaatsen of om te moven
                 if (inputMessage.startsWith("SVR GAME YOURTURN")) {
-                    placed = false;
                     if (!placed) {
                         // onze beurt om stukken te plaatsen
                         // AI plaatst stukken
@@ -68,18 +69,47 @@ public class serverConnection implements Runnable {
 
                 }
 
-                
+                if (inputMessage.startsWith("SVR GAME DEFENSE RESULT")) {
+                    // Resultaat van een defensie
+                    // Hier moeten we de resultaten verwerken WIP
+                }
+
+                if (inputMessage.startsWith("SVR GAME ATTACK RESULT")) {
+                    // Resultaat van een aanval
+                    // Hier moeten we de resultaten verwerken WIP
+                }
+
+                if (inputMessage.startsWith("SVR GAME MOVE")) {
+                    // Het verplaatsen van stukken ook van tegenstander
+                    // Wellicht nodig om GUI te updated?
+
+
+                }
 
 
             }
 
-            // HIER KOMEN DE INPUT MESSAGES --> DIE DAN DE NODIGE FUNCTIE VOOR DE AI AANROEPT.
 
         }
         catch (IOException e) {
-            e.printStackTrace();
+            if (running) {
+                System.err.println("Serverfout: " + e.getMessage());
+            }
         }
 
+        
+    }
+    // Stopt de serverconnectie
+    public void close() {
+        running = false;
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (client != null && !client.isClosed()) client.close();
+            System.out.println("Verbinding verbroken");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
