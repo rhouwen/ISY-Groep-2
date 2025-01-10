@@ -1,4 +1,4 @@
 Username: rickhouwen
-IP Address: 192.128.234.12
-Port: 4535
+IP Address: 127.0.0.1
+Port: 7789
 Speltype: 10x10
