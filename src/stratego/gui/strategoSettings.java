@@ -90,6 +90,11 @@ public class strategoSettings extends JPanel {
             String port = portVeld.getText();
             String boardgrootte = achtVeld.isSelected() ? "8x8" : "10x10";
 
+            if (!port.matches("\\d{4}")) {
+                JOptionPane.showMessageDialog(this, "Onjuiste port.", "Fout", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
 
 
             // Maak een string voor het tekstbestand
