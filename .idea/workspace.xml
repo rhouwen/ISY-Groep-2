@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,33 +28,40 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;thijsbadoux02&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/rhouwen/ISY-Groep-2.git&quot;,
-    &quot;accountId&quot;: &quot;9d3cb204-ad9d-4414-8ccc-0295440133c0&quot;
-  }
-}</component>
+  <component name="GitHubPullRequestSearchHistory">
+    <lastFilter>
+      <state>OPEN</state>
+      <assignee>thijsbadoux02</assignee>
+    </lastFilter>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <selectedUrlAndAccountId>
+      <url>https://github.com/rhouwen/ISY-Groep-2.git</url>
+      <accountId>9d3cb204-ad9d-4414-8ccc-0295440133c0</accountId>
+    </selectedUrlAndAccountId>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
+  <component name="ProjectColorInfo">
+    <associatedIndex>3</associatedIndex>
+  </component>
   <component name="ProjectId" id="2n9mRjtoC1RXqANdm9AaXqUEfEo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Hanze\ISY-Groep-2\src\Resources" />
@@ -65,7 +72,7 @@
       <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Battleships" />
@@ -73,74 +80,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MultiplayerGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="stratego.gui.MultiplayerGUI" />
-      <module name="Battleships" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="stratego.gui.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SinglePlayerGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="stratego.gui.SinglePlayerGUI" />
-      <module name="Battleships" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="stratego.gui.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StrategoGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="stratego.gui.StrategoGUI" />
-      <module name="Battleships" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="stratego.gui.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TicTacToeServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TicTacToe.TicTacToeServer" />
-      <module name="Battleships" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="TicTacToe.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.MultiplayerGUI" />
-      <item itemvalue="Application.SinglePlayerGUI" />
-      <item itemvalue="Application.StrategoGUI" />
-      <item itemvalue="Application.TicTacToeServer" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.MultiplayerGUI" />
-        <item itemvalue="Application.SinglePlayerGUI" />
-        <item itemvalue="Application.StrategoGUI" />
-        <item itemvalue="Application.TicTacToeServer" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -152,115 +91,17 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="Alles doet het weer">
-      <option name="closed" value="true" />
-      <created>1728393632471</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1728393632471</updated>
-    </task>
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="Alles doet het weer" />
-      <created>1728393661696</created>
+      <changelist id="eca6b207-ff4c-444b-b0d0-98a68b3397f0" name="Changes" comment="" />
+      <created>1736606075942</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1728393661696</updated>
-      <workItem from="1728393663734" duration="290000" />
-      <workItem from="1728394590932" duration="2634000" />
-      <workItem from="1728983605672" duration="5331000" />
-      <workItem from="1730029127286" duration="61000" />
-      <workItem from="1730029193505" duration="4000" />
-      <workItem from="1730029207376" duration="54000" />
-      <workItem from="1730029269427" duration="22000" />
-      <workItem from="1730029296392" duration="22000" />
-      <workItem from="1730029325631" duration="6000" />
-      <workItem from="1730029335134" duration="137000" />
-      <workItem from="1730029478395" duration="1264000" />
-      <workItem from="1730030762299" duration="5496000" />
-      <workItem from="1730036309579" duration="4207000" />
-      <workItem from="1730909092794" duration="3003000" />
-      <workItem from="1730999959293" duration="269000" />
-      <workItem from="1731000239505" duration="5082000" />
-      <workItem from="1732288224944" duration="637000" />
-      <workItem from="1732361912324" duration="7304000" />
-      <workItem from="1732535950571" duration="844000" />
-      <workItem from="1732537516334" duration="675000" />
-      <workItem from="1732618546024" duration="1987000" />
-      <workItem from="1732692568152" duration="2099000" />
-      <workItem from="1732707993226" duration="2061000" />
-      <workItem from="1735386604882" duration="1252000" />
-      <workItem from="1735391926519" duration="3493000" />
-      <workItem from="1735466759951" duration="1255000" />
-      <workItem from="1735468447911" duration="1478000" />
-      <workItem from="1735919147843" duration="74000" />
-      <workItem from="1735919232519" duration="904000" />
-      <workItem from="1735984130390" duration="604000" />
-      <workItem from="1735984807211" duration="23000" />
-      <workItem from="1735985357646" duration="463000" />
-      <workItem from="1736247784195" duration="240000" />
-      <workItem from="1736248127709" duration="1675000" />
-
+      <updated>1736606075942</updated>
+      <workItem from="1736606077192" duration="104000" />
     </task>
-    <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
-      <option name="closed" value="true" />
-      <created>1730997384067</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1730997384067</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Tic Tac Toe toegevoegd aan de knop op home&#10;Tic Tac Toe gekopieerd van de master branch&#10;Optie toegevoegd om een naam te kiezen voor TicTacToe zoals bij zeeslag">
-      <option name="closed" value="true" />
-      <created>1730999938872</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1730999938872</updated>
-    </task>
-    <task id="LOCAL-00004" summary="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)">
-      <option name="closed" value="true" />
-      <created>1731000216368</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1731000216368</updated>
-    </task>
-    <task id="LOCAL-00005" summary="StrategoGUI scores placeholders geresized">
-      <option name="closed" value="true" />
-      <created>1732620171111</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1732620171111</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Alles doet het weer" />
-    <MESSAGE value="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt" />
-    <MESSAGE value="Tic Tac Toe toegevoegd aan de knop op home&#10;Tic Tac Toe gekopieerd van de master branch&#10;Optie toegevoegd om een naam te kiezen voor TicTacToe zoals bij zeeslag" />
-    <MESSAGE value="AIvsAI knop toegevoegd aan Battleship menu (was perongeluk verwijderd in de vorige commit)" />
-    <MESSAGE value="StrategoGUI scores placeholders geresized" />
-    <option name="LAST_COMMIT_MESSAGE" value="StrategoGUI scores placeholders geresized" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
