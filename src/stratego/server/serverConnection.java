@@ -1,5 +1,6 @@
 package stratego.server;
 
+import javax.xml.transform.Source;
 import java.io.*;
 import java.net.Socket;
 import java.sql.SQLOutput;
@@ -56,12 +57,14 @@ public class serverConnection implements Runnable {
                 // Wij zijn aan de beurt om stukken te plaatsen of om te moven
                 if (inputMessage.startsWith("SVR GAME YOURTURN")) {
                     if (!placed) {
+                        System.out.println("Wij moeten stukken plaatsen");
                         // onze beurt om stukken te plaatsen
                         // AI plaatst stukken
                         // place <index (int)> <rank (string)>
                         placed = true;
                     }
                     if (placed) {
+                        System.out.println("Wij moeten een zet doen");
                         // onze beurt voor een zet
                         // AI doet zet
                         // move from <index (int)> to <index (int)>
@@ -70,11 +73,13 @@ public class serverConnection implements Runnable {
                 }
 
                 if (inputMessage.startsWith("SVR GAME DEFENSE RESULT")) {
+                    System.out.println("Resultaat defensie");
                     // Resultaat van een defensie
                     // Hier moeten we de resultaten verwerken WIP
                 }
 
                 if (inputMessage.startsWith("SVR GAME ATTACK RESULT")) {
+                    System.out.println("Resultaat aanval");
                     // Resultaat van een aanval
                     // Hier moeten we de resultaten verwerken WIP
                 }
