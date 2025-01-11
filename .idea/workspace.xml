@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/server/serverConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/server/serverConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/utils/settings.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/settings.txt" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,39 +52,9 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BattleShipMenu.executor": "Run",
-    "Application.Board.executor": "Run",
-    "Application.BoardTest.executor": "Run",
-    "Application.Client.executor": "Run",
-    "Application.GameGui.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MainMenu.executor": "Run",
-    "Application.MultiplayerGUI.executor": "Run",
-    "Application.SinglePlayerGUI.executor": "Run",
-    "Application.StrategoGUI.executor": "Run",
-    "Application.TicTacToeClient.executor": "Run",
-    "Application.TicTacToeGame.executor": "Run",
-    "Application.TicTacToeServer.executor": "Run",
-    "Application.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Multiplayer",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Hanze/ISY-Groep-2/src/Resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
-    "vue.rearranger.settings.migration": "true"
+
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Hanze\ISY-Groep-2\src\Resources" />
@@ -233,7 +200,7 @@
       <workItem from="1735985357646" duration="463000" />
       <workItem from="1736247784195" duration="240000" />
       <workItem from="1736248127709" duration="1675000" />
-      <workItem from="1736604020686" duration="1749000" />
+
     </task>
     <task id="LOCAL-00002" summary="AIvsAI knop toegevoegd&#10;&#10;Naam selecteren als je AIvsAI klikt">
       <option name="closed" value="true" />
