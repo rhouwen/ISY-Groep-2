@@ -6,19 +6,23 @@ import stratego.gui.panels.PieceSelectionPanel;
 import stratego.utils.ResourceLoader;
 import stratego.server.*;
 import javax.swing.*;
-import java.awt.*;;
+import java.awt.*;
+import java.util.Map;
+import stratego.gui.strategoSettings.*;
 
 public class MultiplayerGUI extends JFrame {
 
     private StrategoGUI gameBoard;
     private PieceSelectionPanel pieceSelectionPanel;
     private serverConnection server;
+    Map<String, String> settingsload = strategoSettings.loadSettings("src/stratego/utils/settings.txt");
+    private String username = settingsload.getOrDefault("Username", "");
 
     public MultiplayerGUI() {
-        setTitle("Stratego Multiplayer");
+        setTitle("Stratego Multiplayer | " + username);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Opent serverconnection in een nieuwe Thread.
         server = new serverConnection();
