@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-      <change afterPath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/plaatsStuk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/plaatsStuk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

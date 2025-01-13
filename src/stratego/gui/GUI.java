@@ -1,6 +1,6 @@
 package stratego.gui;
 
-import stratego.gui.ClickHandler;
+import stratego.game.Board;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +11,12 @@ public class GUI extends JPanel {
     private final int cols = 10;
     private static JButton[][] cells;
 
-    public GUI() {
+    public GUI(Board board) {
         setLayout(new GridLayout(rows, cols));
         cells = new JButton[rows][cols];
+
+        // Initialiseer de ClickHandler met het Board-object
+        ClickHandler.getInstance(board);
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {

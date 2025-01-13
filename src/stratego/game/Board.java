@@ -165,24 +165,18 @@ public class Board {
     }
 
     public boolean placePiece(Piece piece, int row, int col) {
-        // Controleer of de positie binnen de grenzen ligt
-        if (!isWithinBounds(row, col)) {
+        // Controleer of de positie geldig is
+        if (!isWithinBounds(row, col) || isWaterTile(row, col) || board[row][col] != null) {
             return false;
         }
-
-        // Controleer of de positie geen waterveld is
-        if (isWaterTile(row, col)) {
-            return false;
-        }
-
-        // Controleer of de positie al bezet is
-        if (board[row][col] != null) {
-            return false;
-        }
-
-        // Plaats het stuk op de positie
+        // Plaats het stuk
         board[row][col] = piece;
         return true;
+    }
+
+
+    public Piece createPiece(String pieceName, String teamColor){
+        return Piecefactory.createPiece(pieceName, teamColor);
     }
 
     // print het board (voor debuggen)
