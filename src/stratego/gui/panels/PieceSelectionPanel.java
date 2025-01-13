@@ -6,6 +6,7 @@ import stratego.game.pieces.Piecefactory;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,8 @@ import java.util.Map;
 public class PieceSelectionPanel extends JPanel {
 
     private JLabel selectedPieceLabel;
-    private Map<String, PieceInfo> pieceInfoMap;
+    private Map<String, List<Piece>> pieceMap; // Map voor beschikbare stukken
+    private String selectedPieceName; // Huidig geselecteerd stuk
 
     public PieceSelectionPanel(String teamColor) {
         setLayout(new BorderLayout());
@@ -21,7 +23,7 @@ public class PieceSelectionPanel extends JPanel {
         setBackground(null);
 
         List<Piece> pieces = Piecefactory.createTeamPieces(teamColor);
-        pieceInfoMap = initializePieceInfo(pieces);
+        pieceMap = initializePieceMap(pieces);
 
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -41,7 +43,6 @@ public class PieceSelectionPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        //stukkenlist
         JPanel pieceListPanel = new JPanel();
         pieceListPanel.setLayout(new BoxLayout(pieceListPanel, BoxLayout.Y_AXIS));
         pieceListPanel.setOpaque(false);
@@ -51,87 +52,93 @@ public class PieceSelectionPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        for (String pieceName : pieceInfoMap.keySet()) {
-            PieceInfo info = pieceInfoMap.get(pieceName);
-            pieceListPanel.add(createPieceButton(pieceName, info));
+        for (String pieceName : pieceMap.keySet()) {
+            pieceListPanel.add(createPieceButton(pieceName));
 
-            //maakt de spacing tussen de stukken transparant
             Component spacer = Box.createVerticalStrut(10);
             spacer.setBackground(null);
-            spacer.isOpaque();
             pieceListPanel.add(spacer);
         }
 
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    private Map<String, PieceInfo> initializePieceInfo(List<Piece> pieces) {
-        Map<String, PieceInfo> infoMap = new HashMap<>();
+    private Map<String, List<Piece>> initializePieceMap(List<Piece> pieces) {
+        Map<String, List<Piece>> map = new HashMap<>();
         for (Piece piece : pieces) {
-            String pieceName = piece.getName();
-            infoMap.putIfAbsent(pieceName, new PieceInfo(pieceName, 0, 0));
-            infoMap.get(pieceName).incrementTotal();
+            map.computeIfAbsent(piece.getName(), k -> new ArrayList<>()).add(piece);
         }
-        return infoMap;
+        return map;
     }
 
-    private JButton createPieceButton(String pieceName, PieceInfo info) {
+    private JButton createPieceButton(String pieceName) {
         JButton button = new JButton();
         button.setLayout(new BorderLayout());
-        button.setPreferredSize(new Dimension(250, 50)); // Smalle breedte
-        button.setBackground(new Color(50, 50, 50)); // Donkere achtergrond
-        button.setBorderPainted(false); // Geen border
+        button.setPreferredSize(new Dimension(250, 50));
+        button.setBackground(new Color(50, 50, 50));
+        button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setOpaque(true);
 
         JLabel nameLabel = new JLabel(pieceName);
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        nameLabel.setBorder(new EmptyBorder(0, 10, 0, 0)); // Ruimte links
+        nameLabel.setBorder(new EmptyBorder(0, 10, 0, 0));
         button.add(nameLabel, BorderLayout.WEST);
 
-        JLabel countLabel = new JLabel("Aantal: " + info.getTotal() + ", Geplaatst: " + info.getPlaced());
+        JLabel countLabel = new JLabel("Aantal: " + pieceMap.get(pieceName).size());
         countLabel.setForeground(Color.LIGHT_GRAY);
         countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        countLabel.setBorder(new EmptyBorder(0, 0, 0, 10)); // Ruimte rechts
+        countLabel.setBorder(new EmptyBorder(0, 0, 0, 10));
         button.add(countLabel, BorderLayout.EAST);
 
-        //action listener selecteren van stukken
         button.addActionListener(e -> selectPiece(pieceName));
 
         return button;
     }
 
     private void selectPiece(String pieceName) {
-        PieceInfo info = pieceInfoMap.get(pieceName);
-        if (info.getPlaced() < info.getTotal()) {
+        List<Piece> pieces = pieceMap.get(pieceName);
+        if (pieces != null && !pieces.isEmpty()) {
+            selectedPieceName = pieceName;
             selectedPieceLabel.setText("Geselecteerd stuk: " + pieceName);
         } else {
             JOptionPane.showMessageDialog(this, "Geen " + pieceName + " meer beschikbaar!", "Fout", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    private static class PieceInfo {
-        private final String name;
-        private int total;
-        private int placed;
-
-        public PieceInfo(String name, int total, int placed) {
-            this.name = name;
-            this.total = total;
-            this.placed = placed;
+    public Piece getPieceToPlace(String pieceName) {
+        List<Piece> pieces = pieceMap.get(pieceName);
+        if (pieces != null && !pieces.isEmpty()) {
+            Piece piece = pieces.remove(0);
+            updatePieceCounts();
+            return piece;
         }
+        return null;
+    }
 
-        public void incrementTotal() {
-            total++;
-        }
+    public void addPieceBack(String pieceName, Piece piece) {
+        pieceMap.computeIfAbsent(pieceName, k -> new ArrayList<>()).add(piece);
+        updatePieceCounts();
+    }
 
-        public int getTotal() {
-            return total;
+    private void updatePieceCounts() {
+        for (Component comp : getComponents()) {
+            if (comp instanceof JScrollPane) {
+                JPanel pieceListPanel = (JPanel) ((JScrollPane) comp).getViewport().getView();
+                for (Component buttonComp : pieceListPanel.getComponents()) {
+                    if (buttonComp instanceof JButton) {
+                        JButton button = (JButton) buttonComp;
+                        String pieceName = ((JLabel) button.getComponent(0)).getText();
+                        button.getComponent(1).setVisible(true);
+                        ((JLabel) button.getComponent(1)).setText("Aantal: " + pieceMap.get(pieceName).size());
+                    }
+                }
+            }
         }
+    }
 
-        public int getPlaced() {
-            return placed;
-        }
+    public String getSelectedPiece() {
+        return selectedPieceName != null ? selectedPieceName : "Geen stuk geselecteerd";
     }
 }
