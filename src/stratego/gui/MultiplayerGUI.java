@@ -1,10 +1,9 @@
 package stratego.gui;
+
 import Menus.StrategoMenu;
-import stratego.game.Board;
-import stratego.game.pieces.Piecefactory;
-import stratego.gui.panels.PieceSelectionPanel;
 import stratego.utils.ResourceLoader;
-import stratego.server.*;
+import stratego.server.serverConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
@@ -12,8 +11,7 @@ import stratego.gui.strategoSettings.*;
 
 public class MultiplayerGUI extends JFrame {
 
-    private StrategoGUI gameBoard;
-    private PieceSelectionPanel pieceSelectionPanel;
+    private boardMP gameBoard;
     private serverConnection server;
     Map<String, String> settingsload = strategoSettings.loadSettings("src/stratego/utils/settings.txt");
     private String username = settingsload.getOrDefault("Username", "");
@@ -23,10 +21,6 @@ public class MultiplayerGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        // Opent serverconnection in een nieuwe Thread.
-        server = new serverConnection();
-        new Thread(server).start();
 
         // Achtergrond
         JPanel mainPanel = ResourceLoader.createBackgroundPanel("images/strategobackground.png");
@@ -56,23 +50,21 @@ public class MultiplayerGUI extends JFrame {
             this.repaint();
         });
 
-
         mainPanel.add(buttonPanel, BorderLayout.WEST);
 
         // Middenstuk
-        gameBoard = new StrategoGUI();
+        gameBoard = new boardMP();
         JPanel boardPanel = new JPanel(new BorderLayout());
         boardPanel.setOpaque(false);
         boardPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Internal margins
         boardPanel.add(gameBoard, BorderLayout.CENTER);
         mainPanel.add(boardPanel, BorderLayout.CENTER);
 
-        // Board aanmaken | ALLEEN 10x10 VOOR NU
-        Board board = new Board(10, 10);
-
         // Main panel toevoegen
         setContentPane(mainPanel);
 
+        // Opent serverconnection in een nieuwe Thread.
+        server = new serverConnection(gameBoard);
+        new Thread(server).start();
     }
-
 }
