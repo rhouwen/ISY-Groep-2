@@ -1,4 +1,4 @@
-Username: rivk
+Username: sdf
 IP Address: 127.0.0.1
 Port: 7789
 Speltype: 10x10

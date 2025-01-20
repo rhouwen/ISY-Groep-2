@@ -8,7 +8,7 @@ public class boardMP extends JPanel {
     private final int rows = 8;
     private final int cols = 8;
     private static JButton[][] cells;
-    Color customGreen = new Color(34, 87, 25);
+    public Color customGreen = new Color(34, 87, 25);
 
     public boardMP() {
         setLayout(new GridLayout(rows, cols));
@@ -47,6 +47,10 @@ public class boardMP extends JPanel {
 
     public String getCellText(int row, int col) {
         return cells[row][col].getText();
+    }
+
+    public Color getCellColor(int row, int col) {
+        return cells[row][col].getBackground();
     }
 
     public void resetBoard() {

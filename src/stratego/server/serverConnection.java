@@ -14,7 +14,9 @@ public class serverConnection implements Runnable {
     private String username;
     private boolean placed;
     private boolean running = true;
+    private boolean myTurn = false;
     private boardMP board;
+    private Set<String> previousMoves = new HashSet<>();
 
     private Socket client;
     private BufferedReader in;
@@ -54,20 +56,21 @@ public class serverConnection implements Runnable {
                         placed = true;
                     } else {
                         System.out.println("Wij moeten een zet doen");
-                        // Call a method to make a move
+                        myTurn = true;
                         makeMove();
                     }
                 }
 
                 if (inputMessage.startsWith("SVR GAME DEFENSE RESULT")) {
-                    System.out.println("Resultaat defensie");
+                    handleDefenseResult(inputMessage);
                 }
 
                 if (inputMessage.startsWith("SVR GAME ATTACK RESULT")) {
-                    System.out.println("Resultaat aanval");
+                    handleAttackResult(inputMessage);
                 }
 
                 if (inputMessage.startsWith("SVR GAME MOVE")) {
+                    handleOpponentMove(inputMessage);
                 }
 
                 if (inputMessage.startsWith("SVR GAME Opponent Placed")) {
@@ -97,33 +100,80 @@ public class serverConnection implements Runnable {
     }
 
     private void makeMove() {
-        // Example move from (6, 0) to (5, 0)
-        int startRow = 6;
-        int startCol = 0;
-        int endRow = 5;
-        int endCol = 0;
+        if (!myTurn) {
+            return;
+        }
 
-        if (multiplayerMove.makeMove(board, startRow, startCol, endRow, endCol)) {
-            int startIndex = startRow * 8 + startCol;
-            int endIndex = endRow * 8 + endCol;
-            out.println("move " + startIndex + " " + endIndex);
-        } else {
-            System.out.println("Invalid move");
+        boolean moveMade = false;
+        for (int startRow = 6; startRow <= 7 && !moveMade; startRow++) {
+            for (int startCol = 0; startCol <= 7 && !moveMade; startCol++) {
+                for (int endRow = 0; endRow <= 7 && !moveMade; endRow++) {
+                    for (int endCol = 0; endCol <= 7 && !moveMade; endCol++) {
+                        String move = startRow + "," + startCol + "->" + endRow + "," + endCol;
+                        if (!previousMoves.contains(move) && multiplayerMove.makeMove(board, startRow, startCol, endRow, endCol, out)) {
+                            previousMoves.add(move);
+                            moveMade = true;
+                            myTurn = false; // Set myTurn to false after making a move
+                            System.out.println("Move made from " + (startRow * 8 + startCol) + " to " + (endRow * 8 + endCol));
+                        }
+                    }
+                }
+            }
+        }
+        if (!moveMade) {
+            System.out.println("No valid move found");
         }
     }
 
+    private void handleDefenseResult(String message) {
+        String result = message.substring(message.indexOf("Result: \"") + 9, message.indexOf("\"}"));
+        if (result.equals("LOSS")) {
+            // Remove the losing piece from the board
+            int index = Integer.parseInt(message.substring(message.indexOf("At: \"") + 5, message.indexOf("\", Rank:")));
+            int row = index / 8;
+            int col = index % 8;
+            boardMP.updateCell(row, col, "", board.customGreen);
+        }
+        System.out.println("Defense result: " + result);
+    }
+
+    private void handleAttackResult(String message) {
+        String result = message.substring(message.indexOf("Result: \"") + 9, message.indexOf("\"}"));
+        if (result.equals("LOSS")) {
+            // Remove the losing piece from the board
+            int index = Integer.parseInt(message.substring(message.indexOf("At: \"") + 5, message.indexOf("\", Rank:")));
+            int row = index / 8;
+            int col = index % 8;
+            boardMP.updateCell(row, col, "", board.customGreen);
+        }
+        System.out.println("Attack result: " + result);
+    }
+
+    private void handleOpponentMove(String message) {
+        int fromIndex = Integer.parseInt(message.substring(message.indexOf("From: \"") + 7, message.indexOf("\", To:")));
+        int toIndex = Integer.parseInt(message.substring(message.indexOf("To: \"") + 5, message.indexOf("\"}")));
+
+        int fromRow = fromIndex / 8;
+        int fromCol = fromIndex % 8;
+        int toRow = toIndex / 8;
+        int toCol = toIndex % 8;
+
+        String piece = board.getCellText(fromRow, fromCol);
+        boardMP.updateCell(toRow, toCol, piece, Color.GRAY); // Ensure opponent's pieces are grey
+        boardMP.updateCell(fromRow, fromCol, "", board.customGreen);
+
+        System.out.println("Opponent moved from " + fromIndex + " to " + toIndex);
+    }
+
     private void placeOpponentPiece(String message) {
-        // Extract the index from the message
         int startIndex = message.indexOf("{At: \"") + 6;
         int endIndex = message.indexOf("\"}", startIndex);
         int index = Integer.parseInt(message.substring(startIndex, endIndex));
 
-        // Calculate the row and column from the index
         int row = index / 8;
         int col = index % 8;
 
-        // Update the cell on the board
-        boardMP.updateCell(row, col, "", Color.RED);
+        boardMP.updateCell(row, col, "", Color.GRAY); // Ensure opponent's pieces are grey
     }
 
     public void close() {
