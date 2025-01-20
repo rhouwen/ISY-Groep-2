@@ -16,8 +16,11 @@ public class PieceSelectionPanel extends JPanel {
     private JLabel selectedPieceLabel;
     private Map<String, List<Piece>> pieceMap; // Map voor beschikbare stukken
     private String selectedPieceName; // Huidig geselecteerd stuk
+    private String team; // ✅ Teamkleur opslaan
 
     public PieceSelectionPanel(String teamColor) {
+        this.team = teamColor; // ✅ Team opslaan
+
         setLayout(new BorderLayout());
         setOpaque(false);
         setBackground(null);
@@ -37,6 +40,7 @@ public class PieceSelectionPanel extends JPanel {
 
         selectedPieceLabel = new JLabel("Geselecteerd stuk: Geen");
         selectedPieceLabel.setFont(new Font("Arial", Font.ITALIC, 18));
+        selectedPieceLabel.setPreferredSize(new Dimension(200, 25));
         selectedPieceLabel.setForeground(new Color(200, 200, 200));
         selectedPieceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerPanel.add(selectedPieceLabel, BorderLayout.SOUTH);
@@ -107,15 +111,27 @@ public class PieceSelectionPanel extends JPanel {
         }
     }
 
+    public boolean isEmpty() {
+        return pieceMap.values().stream().allMatch(List::isEmpty);
+    }
+
     public Piece getPieceToPlace(String pieceName) {
         List<Piece> pieces = pieceMap.get(pieceName);
         if (pieces != null && !pieces.isEmpty()) {
             Piece piece = pieces.remove(0);
-            updatePieceCounts();
+            System.out.println("🔹 VOOR aanpassen: " + piece.getName() + " (Team: " + piece.getTeam() + ")");
+
+            // ✅ **Forceer de juiste teamkleur**
+            piece.setTeam(this.team);
+
+            System.out.println("✅ NA aanpassen: " + piece.getName() + " (Team: " + piece.getTeam() + ")");
             return piece;
         }
         return null;
     }
+
+
+
 
     public void addPieceBack(String pieceName, Piece piece) {
         pieceMap.computeIfAbsent(pieceName, k -> new ArrayList<>()).add(piece);

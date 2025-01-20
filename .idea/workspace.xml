@@ -4,96 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders geresized">
-
+    <list default="true" id="fadab09f-8245-4be7-a6a5-d06e8cec1e9f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/ai/BoardAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/ai/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/ai/MoveAI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/plaatsStuk.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="package.json" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">
-    <lastFilter>
-      <state>OPEN</state>
-      <assignee>thijsbadoux02</assignee>
-    </lastFilter>
-  </component>
-  <component name="GithubPullRequestsUISettings">
-    <selectedUrlAndAccountId>
-      <url>https://github.com/rhouwen/ISY-Groep-2.git</url>
-      <accountId>9d3cb204-ad9d-4414-8ccc-0295440133c0</accountId>
-    </selectedUrlAndAccountId>
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">
-    <associatedIndex>3</associatedIndex>
-  </component>
-  <component name="ProjectId" id="2n9mRjtoC1RXqANdm9AaXqUEfEo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.SinglePlayerGUI.executor": "Run",
+    "Application.StrategoGUI.executor": "Run",
+    "git-widget-placeholder": "plaatsStuk",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Hanze\ISY-Groep-2\src\Resources" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Hanze\ISY-Groep-2\src\Resources\images" />
-      <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\images" />
-      <recent name="C:\Users\thijs\Documents\GitHub\ISY-Groep-2\src\Resources\fonts" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="Battleships" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.24807.4" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.24807.4" />
-      </set>
-    </attachedChunks>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="eca6b207-ff4c-444b-b0d0-98a68b3397f0" name="Changes" comment="" />
-      <created>1736606075942</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-
-    </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>

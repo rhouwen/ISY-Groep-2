@@ -13,6 +13,7 @@ public class StrategoGUI extends JPanel {
     // Abstracte class voor gedeelde GUI functies
 
     private GUI gui;
+    private Board board;
 
     public StrategoGUI(Board board) {
         setLayout(new BorderLayout());
@@ -30,22 +31,44 @@ public class StrategoGUI extends JPanel {
     }
 
     public void updateBoard(Board board) {
+        this.board = board;
+
+        JButton[][] cells = GUI.getCells(); // ✅ Ophalen van de cell-array via de getter
+
         for (int row = 0; row < board.getRows(); row++) {
             for (int col = 0; col < board.getCols(); col++) {
                 if (board.isWaterTile(row, col)) {
-                    GUI.updateCell(row, col, "", Color.black); // Water
+                    GUI.updateCell(row, col, "", Color.BLACK);
+                    cells[row][col].setEnabled(false); // ✅ Watercellen blijven disabled
                 } else {
                     Piece piece = board.getPieceAt(row, col);
                     if (piece == null) {
-                        GUI.updateCell(row, col, "", Color.GREEN); // Leeg = groen
+                        GUI.updateCell(row, col, "", Color.GREEN);
+                        cells[row][col].setEnabled(true); // ✅ Lege cellen blijven klikbaar
                     } else {
-                        Color color = piece.getTeam().equalsIgnoreCase("Red") ? Color.RED : Color.BLUE;
+                        // 🔥 **AI is altijd blauw, speler is rood**
+                        boolean isAI = piece.getTeam().equalsIgnoreCase("Blue");
+                        Color color = isAI ? Color.BLUE : Color.RED;  // ✅ Forceer correcte kleur
+
                         GUI.updateCell(row, col, piece.getName(), color);
+
+                        // 🔵 **Speler bestuurt Rood, AI bestuurt Blauw**
+                        if (isAI) {
+                            cells[row][col].setEnabled(false); // 🔵 AI-stukken niet aanklikbaar
+                        } else {
+                            cells[row][col].setEnabled(true);  // 🔴 Rode stukken moeten aanklikbaar zijn
+                        }
                     }
                 }
             }
         }
+
+        revalidate();  // ✅ Zorgt dat de layout opnieuw wordt berekend
+        repaint();     // ✅ Hertekent de GUI
     }
+
+
+
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Stratego");

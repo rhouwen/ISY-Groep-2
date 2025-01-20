@@ -26,39 +26,15 @@ public class Piecefactory {
 
     private static void addMultiplePieces(List<Piece> pieces, String name, int rank, int count, String team) {
         for (int i = 0; i < count; i++) {
-            pieces.add(new Generic(name, rank, team));
-        }
-    }
-
-    // Nieuwe methode om een stuk aan te maken op basis van naam en team
-    public static Piece createPiece(String name, String team) {
-        switch (name) {
-            case "Maarschalk":
-                return new Generic("Maarschalk", 10, team);
-            case "Generaal":
-                return new Generic("Generaal", 9, team);
-            case "Kolonel":
-                return new Generic("Kolonel", 8, team);
-            case "Majoor":
-                return new Generic("Majoor", 7, team);
-            case "Kapitein":
-                return new Generic("Kapitein", 6, team);
-            case "Luitenant":
-                return new Generic("Luitenant", 5, team);
-            case "Sergeant":
-                return new Generic("Sergeant", 4, team);
-            case "Spion":
-                return new Spion(team);
-            case "Flag":
-                return new Flag(team);
-            case "Bom":
-                return new Generic("Bom", 0, team);
-            case "Verkenner":
-                return new Generic("Verkenner", 2, team);
-            case "Mineur":
-                return new Generic("Mineur", 3, team);
-            default:
-                throw new IllegalArgumentException("Onbekend stuk: " + name);
+            if (name.equals("Bom")) {
+                pieces.add(new Bom(team));
+            } else if (name.equals("Verkenner")) {
+                pieces.add(new Verkenner(team));
+            } else if (name.equals("Mineur")) {
+                pieces.add(new Mineur(team));
+            } else {
+                pieces.add(new Generic(name, rank, team));
+            }
         }
     }
 }

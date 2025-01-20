@@ -1,9 +1,10 @@
 package stratego.game;
 
-import stratego.ai.BoardAI;
+import stratego.ai.AI;
 import stratego.game.pieces.Piece;
 import stratego.game.pieces.Piecefactory;
-import java.util.Collections;
+import stratego.gui.SinglePlayerGUI;
+
 import java.util.List;
 
 public class Board {
@@ -36,7 +37,7 @@ public class Board {
         List<Piece> bluePieces = Piecefactory.createTeamPieces("Blue");
 
         //gebruikt board ai om de pieces te plaatsen voor het rode team.
-        BoardAI.setupBoard(this, redPieces, "Red");
+        AI.setupBoard(this, redPieces);
     }
 
 
@@ -57,38 +58,53 @@ public class Board {
         }
     }
 
+    public void removePiece(int row, int col) {
+        if (isWithinBounds(row, col)) {
+            board[row][col] = null;
+            System.out.println("🗑️ Stuk verwijderd op (" + row + ", " + col + ")");
+        }
+    }
+
+
+
+
     public boolean isWaterTile(int row, int col) {
         return isWithinBounds(row,col) && waterTiles[row][col];
     }
 
     public boolean movePiece(int sourceRow, int sourceCol, int targetRow, int targetCol) {
+        System.out.println("Probeer stuk te verplaatsen van (" + sourceRow + ", " + sourceCol + ") naar (" + targetRow + ", " + targetCol + ")");
+
         if (!isWithinBounds(sourceRow, sourceCol) || !isWithinBounds(targetRow, targetCol)) {
+            System.out.println("❌ Ongeldige zet: Positie buiten het bord.");
             return false;
         }
 
         Piece sourcePiece = board[sourceRow][sourceCol];
         Piece targetPiece = board[targetRow][targetCol];
 
-        // Is positie valid en kan hij bewegen
         if (sourcePiece == null || !sourcePiece.canMove()) {
+            System.out.println("❌ Ongeldige zet: Geen beweegbaar stuk op de bronpositie.");
             return false;
         }
 
-        // als de target leeg is gelijk verplaatsen
         if (targetPiece == null) {
+            System.out.println("✅ Lege plek, stuk verplaatst!");
             board[targetRow][targetCol] = sourcePiece;
             board[sourceRow][sourceCol] = null;
             return true;
         }
 
-        // start combat als target bezet is
-        if (!sourcePiece.getTeam().equals(targetPiece.getTeam())) {
+        // Controleer of de stukken vijanden zijn
+        if (!sourcePiece.getTeam().equalsIgnoreCase(targetPiece.getTeam())) {
+            System.out.println("⚔️ Stuk valt een vijand aan!");
             return handleCombat(sourceRow, sourceCol, targetRow, targetCol);
         }
 
-        // als target ally is
+        System.out.println("❌ Ongeldige zet: Doelpositie bevat een eigen stuk.");
         return false;
     }
+
 
     private boolean handleCombat(int sourceRow, int sourceCol, int targetRow, int targetCol) {
         Piece attacker = board[sourceRow][sourceCol];
@@ -145,7 +161,7 @@ public class Board {
     }
 
     // helper om te checken of de positie legaal binnen het board is
-    private boolean isWithinBounds(int row, int col) {
+    public boolean isWithinBounds(int row, int col) {
         return row >= 0 && col >= 0 && row < rows && col < cols;
     }
 
@@ -165,19 +181,20 @@ public class Board {
     }
 
     public boolean placePiece(Piece piece, int row, int col) {
-        // Controleer of de positie geldig is
         if (!isWithinBounds(row, col) || isWaterTile(row, col) || board[row][col] != null) {
+            System.out.println("❌ Kan stuk niet plaatsen: " + piece.getName() + " (Team: " + piece.getTeam() + ") op (" + row + ", " + col + ")");
             return false;
         }
-        // Plaats het stuk
+
+        // ✅ **Forceer dat het team correct is voordat het stuk op het bord wordt gezet**
+        piece.setTeam(piece.getTeam().equalsIgnoreCase("Blue") ? "Blue" : "Red");
+
         board[row][col] = piece;
+
+        System.out.println("✅ Stuk correct geplaatst: " + piece.getName() + " (Team: " + piece.getTeam() + ") op (" + row + ", " + col + ")");
         return true;
     }
 
-
-    public Piece createPiece(String pieceName, String teamColor){
-        return Piecefactory.createPiece(pieceName, teamColor);
-    }
 
     // print het board (voor debuggen)
     public void printBoard() {
@@ -192,4 +209,19 @@ public class Board {
             System.out.println();
         }
     }
+
+    public boolean allRedPiecesPlaced() {
+        return SinglePlayerGUI.pieceSelectionPanel.isEmpty();
+    }
+
+
+
+    public void executeAITurn() {
+        System.out.println("AI is aan zet...");
+        AI.makeMove(this); // ✅ AI doet een zet
+        SinglePlayerGUI.getGameBoard().updateBoard(this);
+    }
+
+
+
 }

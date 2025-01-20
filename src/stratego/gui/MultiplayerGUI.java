@@ -60,15 +60,15 @@ public class MultiplayerGUI extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.WEST);
 
         // Middenstuk
-        gameBoard = new StrategoGUI();
+        Board board = new Board(10, 10); // Create a board instance with size 10x10
+        gameBoard = new StrategoGUI(board); // Pass the board to StrategoGUI
         JPanel boardPanel = new JPanel(new BorderLayout());
         boardPanel.setOpaque(false);
         boardPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Internal margins
         boardPanel.add(gameBoard, BorderLayout.CENTER);
         mainPanel.add(boardPanel, BorderLayout.CENTER);
 
-        // Board aanmaken | ALLEEN 10x10 VOOR NU
-        Board board = new Board(10, 10);
+
 
         // Main panel toevoegen
         setContentPane(mainPanel);

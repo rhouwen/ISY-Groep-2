@@ -31,6 +31,14 @@ public class SinglePlayerGUI extends JFrame {
         buttonPanel.add(backButton);
 
         JButton startButton = new JButton("Start game");
+        startButton.addActionListener(e -> {
+            ClickHandler handler = ClickHandler.getInstance();
+            if (handler != null) {
+                handler.startGameFromButton();
+            } else {
+                System.out.println("⚠️ ClickHandler is niet geïnitialiseerd!");
+            }
+        });
         buttonPanel.add(startButton);
 
         mainPanel.add(buttonPanel, BorderLayout.WEST);
@@ -45,7 +53,7 @@ public class SinglePlayerGUI extends JFrame {
         gameBoard.updateBoard(board);
         mainPanel.add(gameBoard, BorderLayout.CENTER);
 
-        pieceSelectionPanel = new PieceSelectionPanel("Rood");
+        pieceSelectionPanel = new PieceSelectionPanel("Blauw");
         mainPanel.add(pieceSelectionPanel, BorderLayout.EAST);
 
         add(mainPanel);
