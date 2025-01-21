@@ -18,7 +18,7 @@ public class AI {
         List<int[]> allPositions = new ArrayList<>();
         for (int row = startRow; row < endRow; row++) {
             for (int col = 0; col < board.getCols(); col++) {
-                if (!board.isWaterTile(row, col)) {
+                if (!board.isWaterTile(row, col)) { // ✅ Zorgt dat AI geen stukken op water zet
                     allPositions.add(new int[]{row, col});
                 }
             }
@@ -30,7 +30,7 @@ public class AI {
         for (Piece piece : pieces) {
             if (piece.getName().equalsIgnoreCase("Flag")) {
                 int[] pos = allPositions.remove(0);
-                piece.setTeam(team); // ✅ Zorg ervoor dat alle AI-stukken blauw zijn
+                piece.setTeam(team);
                 board.placePiece(piece, pos[0], pos[1]);
                 break;
             }
@@ -101,31 +101,48 @@ public class AI {
         if (!possibleMoves.isEmpty()) {
             Collections.shuffle(possibleMoves);
             int[] move = possibleMoves.get(0);
-            board.movePiece(move[0], move[1], move[2], move[3]);
-            System.out.println("AI verplaatst stuk naar (" + move[2] + ", " + move[3] + ")");
+
+            Piece attacker = board.getPieceAt(move[0], move[1]);
+            Piece defender = board.getPieceAt(move[2], move[3]);
+
+            if (defender != null && !defender.getTeam().equalsIgnoreCase("Blue")) {
+                // **⚔️ AI valt vijandelijk stuk aan**
+                if (attacker.canDefeat(defender)) {
+                    System.out.println("🤖 AI verslaat " + defender.getName() + " met " + attacker.getName());
+                    board.removePiece(move[2], move[3]);
+                    board.movePiece(move[0], move[1], move[2], move[3]);
+                } else {
+                    System.out.println("❌ AI-aanval mislukt, " + attacker.getName() + " wordt verslagen!");
+                    board.removePiece(move[0], move[1]);
+                }
+            } else {
+                // **🚀 AI beweegt een stuk**
+                board.movePiece(move[0], move[1], move[2], move[3]);
+                System.out.println("🤖 AI beweegt " + attacker.getName() + " naar (" + move[2] + ", " + move[3] + ")");
+            }
         } else {
-            System.out.println("AI kon geen zet doen.");
+            System.out.println("❌ AI kon geen zet doen.");
         }
     }
 
     private static void addValidMoves(Board board, Piece piece, int row, int col, List<int[]> moves) {
-        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        for (int[] dir : directions) {
-            int newRow = row + dir[0];
-            int newCol = col + dir[1];
-            if (board.isWithinBounds(newRow, newCol) && board.getPieceAt(newRow, newCol) == null) {
-                moves.add(new int[]{row, col, newRow, newCol});
-            }
+        if (piece instanceof Verkenner) {
+            addVerkennerMoves(board, row, col, moves);
+        } else {
+            addStandardMoves(board, row, col, moves);
         }
     }
 
     private static void addStandardMoves(Board board, int row, int col, List<int[]> moves) {
-        int[][] possibleDirections = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        for (int[] dir : possibleDirections) {
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int[] dir : directions) {
             int newRow = row + dir[0];
             int newCol = col + dir[1];
-            if (board.isWithinBounds(newRow, newCol) && board.getPieceAt(newRow, newCol) == null) {
-                moves.add(new int[]{row, col, newRow, newCol});
+            if (board.isWithinBounds(newRow, newCol) && !board.isWaterTile(newRow, newCol)) {
+                Piece target = board.getPieceAt(newRow, newCol);
+                if (target == null || !target.getTeam().equalsIgnoreCase("Blue")) {
+                    moves.add(new int[]{row, col, newRow, newCol});
+                }
             }
         }
     }
@@ -135,8 +152,16 @@ public class AI {
         for (int[] dir : directions) {
             int newRow = row + dir[0];
             int newCol = col + dir[1];
-            while (board.isWithinBounds(newRow, newCol) && board.getPieceAt(newRow, newCol) == null) {
-                moves.add(new int[]{row, col, newRow, newCol});
+            while (board.isWithinBounds(newRow, newCol) && !board.isWaterTile(newRow, newCol)) {
+                Piece target = board.getPieceAt(newRow, newCol);
+                if (target == null) {
+                    moves.add(new int[]{row, col, newRow, newCol});
+                } else {
+                    if (!target.getTeam().equalsIgnoreCase("Blue")) {
+                        moves.add(new int[]{row, col, newRow, newCol}); // ✅ Verkenner kan vijandelijk stuk aanvallen
+                    }
+                    break; // ✅ Verkenner stopt als hij een stuk tegenkomt
+                }
                 newRow += dir[0];
                 newCol += dir[1];
             }

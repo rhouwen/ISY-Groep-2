@@ -7,14 +7,6 @@
     <list default="true" id="fadab09f-8245-4be7-a6a5-d06e8cec1e9f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/ai/AI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Flag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Flag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +16,28 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "thijsbadoux02"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/rhouwen/ISY-Groep-2.git",
+    "accountId": "9d3cb204-ad9d-4414-8ccc-0295440133c0"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2rwxkF2e8jq33g37BdzOGyCQMN4" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
@@ -37,7 +50,19 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
 }</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
