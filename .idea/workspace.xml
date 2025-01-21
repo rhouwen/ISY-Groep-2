@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fadab09f-8245-4be7-a6a5-d06e8cec1e9f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/ai/BoardAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/ai/AI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/ai/MoveAI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piecefactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/ai/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Bom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Flag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Flag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Generic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Mineur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/game/pieces/Spion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/ClickHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/MultiplayerGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/SinglePlayerGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/StrategoGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/panels/PieceSelectionPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/plaatsStuk.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,18 +25,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.SinglePlayerGUI.executor": "Run",
-    "Application.StrategoGUI.executor": "Run",
-    "git-widget-placeholder": "plaatsStuk",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SinglePlayerGUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StrategoGUI.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;plaatsStuk&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <servers />
   </component>

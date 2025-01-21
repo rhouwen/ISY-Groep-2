@@ -7,6 +7,6 @@ public class Flag extends Piece {
 
     @Override
     public boolean canDefeat(Piece other) {
-        return false;
+        return false; // Vlag kan niet aanvallen
     }
 }

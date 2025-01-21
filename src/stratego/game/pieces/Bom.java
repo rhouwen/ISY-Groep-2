@@ -7,6 +7,6 @@ public class Bom extends Piece {
 
     @Override
     public boolean canDefeat(Piece other) {
-        return false;
+        return false; // Bommen kunnen niet aanvallen
     }
 }

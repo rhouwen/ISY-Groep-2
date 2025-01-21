@@ -29,11 +29,16 @@ public class ClickHandler {
         return instance;
     }
 
+    public boolean hasSelectedPiece() {
+        return selectedRow != -1 && selectedCol != -1;
+    }
+
+
     public void handleCellClick(int row, int col) {
-        System.out.println("Cell clicked at row: " + row + ", col: " + col);
+        System.out.println("🖱️ Cell clicked at (" + row + ", " + col + ")");
 
         if (setupPhase) {
-            System.out.println("🔧 Setupfase: probeer stuk te plaatsen.");
+            System.out.println("🔧 Setupfase: stuk proberen te plaatsen.");
             placeNewPiece(row, col);
             return;
         }
@@ -51,6 +56,7 @@ public class ClickHandler {
                 selectedRow = row;
                 selectedCol = col;
                 System.out.println("🔴 Rood stuk geselecteerd: " + clickedPiece.getName() + " op (" + row + ", " + col + ")");
+                SinglePlayerGUI.getGameBoard().updateBoard(board);
             } else {
                 System.out.println("⛔ Je kunt alleen je eigen stukken selecteren.");
             }
@@ -58,38 +64,23 @@ public class ClickHandler {
         }
 
         // ✅ Tweede klik: Beweeg of val aan
-        System.out.println("🔴 Speler probeert stuk te verplaatsen van (" + selectedRow + ", " + selectedCol + ") naar (" + row + ", " + col + ")");
-
-        if (clickedPiece == null) {
-            // 🔹 Bewegen als het veld leeg is
-            if (board.movePiece(selectedRow, selectedCol, row, col)) {
-                System.out.println("✅ Zet geslaagd!");
-                SinglePlayerGUI.getGameBoard().updateBoard(board);
-                endPlayerTurn();
-            } else {
-                System.out.println("❌ Ongeldige zet, probeer opnieuw.");
-            }
-        } else if (!clickedPiece.getTeam().equalsIgnoreCase("Red")) {
-            // 🛡️ **Aanvallen als het een vijandig stuk is**
-            Piece attacker = board.getPieceAt(selectedRow, selectedCol);
-            if (attacker != null && attacker.canDefeat(clickedPiece)) {
-                System.out.println("⚔️ Gevecht! " + attacker.getName() + " (" + attacker.getTeam() + ") valt " + clickedPiece.getName() + " (" + clickedPiece.getTeam() + ") aan!");
-
-                // 🔥 Stuk verslagen -> Verwijderen en verplaatsen
-                board.removePiece(row, col);
+        if (isValidMove(selectedRow, selectedCol, row, col)) {
+            if (clickedPiece == null) {
                 board.movePiece(selectedRow, selectedCol, row, col);
-                System.out.println("💥 " + clickedPiece.getName() + " is verslagen!");
-
-                SinglePlayerGUI.getGameBoard().updateBoard(board);
-                endPlayerTurn();
+                System.out.println("✅ Stuk bewogen naar (" + row + ", " + col + ")");
+            } else if (!clickedPiece.getTeam().equalsIgnoreCase("Red")) {
+                System.out.println("⚔️ Gevecht tegen " + clickedPiece.getName() + "!");
+                resolveCombat(selectedRow, selectedCol, row, col);
             } else {
-                System.out.println("❌ Aanval mislukt! Stuk kan niet winnen.");
+                System.out.println("⛔ Je kunt niet op je eigen stukken klikken.");
             }
+
+            SinglePlayerGUI.getGameBoard().updateBoard(board);
+            endPlayerTurn();
         } else {
-            System.out.println("⛔ Je kunt niet op je eigen stukken klikken.");
+            System.out.println("❌ Ongeldige zet.");
         }
 
-        // Reset selectie
         selectedRow = -1;
         selectedCol = -1;
     }
@@ -97,23 +88,57 @@ public class ClickHandler {
     private boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
         Piece piece = board.getPieceAt(fromRow, fromCol);
         if (piece == null) return false;
+        if (!piece.canMove()) return false;
 
-        // 📌 Verkenner mag in een rechte lijn zover als hij wil
         if (piece.getName().equalsIgnoreCase("Verkenner")) {
             return (fromRow == toRow || fromCol == toCol);
         }
+        return Math.abs(fromRow - toRow) + Math.abs(fromCol - toCol) == 1;
+    }
 
-        // 📌 Stukken kunnen normaal maar 1 vakje bewegen
-        if (Math.abs(fromRow - toRow) + Math.abs(fromCol - toCol) == 1) {
-            return piece.canMove();
+    private void resolveCombat(int attackerRow, int attackerCol, int defenderRow, int defenderCol) {
+        Piece attacker = board.getPieceAt(attackerRow, attackerCol);
+        Piece defender = board.getPieceAt(defenderRow, defenderCol);
+        if (attacker == null || defender == null) return;
+
+        if (attacker.canDefeat(defender)) {
+            board.removePiece(defenderRow, defenderCol);
+            board.movePiece(attackerRow, attackerCol, defenderRow, defenderCol);
+        } else if (attacker.getRank() < defender.getRank()) {
+            board.removePiece(attackerRow, attackerCol);
+        } else {
+            board.removePiece(attackerRow, attackerCol);
+            board.removePiece(defenderRow, defenderCol);
         }
 
-        // 📌 Flag en Bom mogen niet bewegen
-        if (piece.getName().equalsIgnoreCase("Flag") || piece.getName().equalsIgnoreCase("Bom")) {
-            return false;
+        SinglePlayerGUI.getGameBoard().updateBoard(board);
+    }
+
+    private void endPlayerTurn() {
+        playerTurn = false;
+        System.out.println("🤖 AI doet een zet...");
+        board.executeAITurn();
+        SinglePlayerGUI.getGameBoard().updateBoard(board);
+        playerTurn = true;
+    }
+
+    public void startGameFromButton() {
+        if (!setupPhase) {
+            System.out.println("⚠️ Het spel is al gestart!");
+            return;
         }
 
-        return false;
+        if (!board.allRedPiecesPlaced()) {
+            System.out.println("⚠️ Je moet eerst alle rode stukken plaatsen!");
+            return;
+        }
+
+        setupPhase = false;
+        playerTurn = true; // 🔴 Rode speler begint
+        selectedRow = -1;
+        selectedCol = -1;
+
+        System.out.println("🎉 Spel gestart! Rode speler mag beginnen.");
     }
 
     private void placeNewPiece(int row, int col) {
@@ -137,96 +162,4 @@ public class ClickHandler {
             SinglePlayerGUI.pieceSelectionPanel.addPieceBack(selectedPieceName, piece);
         }
     }
-
-    public void startGameFromButton() {
-        if (!setupPhase) {
-            System.out.println("⚠️ Het spel is al gestart!");
-            return;
-        }
-
-        if (!board.allRedPiecesPlaced()) {
-            System.out.println("⚠️ Je moet eerst alle rode stukken plaatsen!");
-            return;
-        }
-
-        setupPhase = false;
-        playerTurn = true; // 🔴 Rode speler begint
-        selectedRow = -1;
-        selectedCol = -1;
-
-        System.out.println("🎉 Spel gestart! Rode speler mag beginnen.");
-    }
-
-    private void endPlayerTurn() {
-        playerTurn = false;
-        System.out.println("🤖 AI (Blauw) doet een zet...");
-
-        board.executeAITurn(); // 🟦 AI voert een zet uit
-        SinglePlayerGUI.getGameBoard().updateBoard(board);
-
-        playerTurn = true; // 🔴 Speler krijgt weer de beurt
-        System.out.println("🔴 Rode speler is weer aan zet.");
-    }
-
-    private void resolveCombat(int attackerRow, int attackerCol, int defenderRow, int defenderCol) {
-        Piece attacker = board.getPieceAt(attackerRow, attackerCol);
-        Piece defender = board.getPieceAt(defenderRow, defenderCol);
-
-        if (attacker == null || defender == null) return;
-
-        System.out.println("⚔️ Gevecht! " + attacker.getName() + " (Rood) vs " + defender.getName() + " (Blauw)");
-
-        if (defender.getName().equalsIgnoreCase("Flag")) {
-            System.out.println("🏁 De Rode speler heeft de Blauwe vlag veroverd! 🎉");
-            board.removePiece(defenderRow, defenderCol);
-            board.movePiece(attackerRow, attackerCol, defenderRow, defenderCol);
-            SinglePlayerGUI.getGameBoard().updateBoard(board);
-            System.out.println("🎉 Spel afgelopen! Rode speler wint!");
-            return;
-        }
-
-        if (defender.getName().equalsIgnoreCase("Bom")) {
-            if (attacker.getName().equalsIgnoreCase("Mineur")) {
-                System.out.println("💣 Mineur vernietigt Bom!");
-                board.removePiece(defenderRow, defenderCol);
-                board.movePiece(attackerRow, attackerCol, defenderRow, defenderCol);
-            } else {
-                System.out.println("💥 Bom ontploft! Beide stukken vernietigd!");
-                board.removePiece(attackerRow, attackerCol);
-                board.removePiece(defenderRow, defenderCol);
-            }
-            SinglePlayerGUI.getGameBoard().updateBoard(board);
-            endPlayerTurn();
-            return;
-        }
-
-        if (attacker.getName().equalsIgnoreCase("Spion") && defender.getName().equalsIgnoreCase("Maarschalk")) {
-            System.out.println("🕵️‍♂️ Spion verslaat Maarschalk!");
-            board.removePiece(defenderRow, defenderCol);
-            board.movePiece(attackerRow, attackerCol, defenderRow, defenderCol);
-            SinglePlayerGUI.getGameBoard().updateBoard(board);
-            endPlayerTurn();
-            return;
-        }
-
-        if (attacker.getRank() > defender.getRank()) {
-            System.out.println("⚔️ " + attacker.getName() + " verslaat " + defender.getName());
-            board.removePiece(defenderRow, defenderCol);
-            board.movePiece(attackerRow, attackerCol, defenderRow, defenderCol);
-        } else if (attacker.getRank() < defender.getRank()) {
-            System.out.println("💀 " + attacker.getName() + " wordt verslagen door " + defender.getName());
-            board.removePiece(attackerRow, attackerCol);
-        } else {
-            System.out.println("☠️ Beide stukken worden vernietigd!");
-            board.removePiece(attackerRow, attackerCol);
-            board.removePiece(defenderRow, defenderCol);
-        }
-
-        SinglePlayerGUI.getGameBoard().updateBoard(board);
-        endPlayerTurn();
-    }
-
-
 }
-
-

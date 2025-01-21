@@ -109,10 +109,13 @@ public class AI {
     }
 
     private static void addValidMoves(Board board, Piece piece, int row, int col, List<int[]> moves) {
-        if (piece instanceof Verkenner) {
-            addVerkennerMoves(board, row, col, moves);
-        } else {
-            addStandardMoves(board, row, col, moves);
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int[] dir : directions) {
+            int newRow = row + dir[0];
+            int newCol = col + dir[1];
+            if (board.isWithinBounds(newRow, newCol) && board.getPieceAt(newRow, newCol) == null) {
+                moves.add(new int[]{row, col, newRow, newCol});
+            }
         }
     }
 
