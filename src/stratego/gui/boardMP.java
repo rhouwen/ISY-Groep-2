@@ -17,6 +17,7 @@ public class boardMP extends JPanel {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 JButton cell = new JButton();
+                cell.setLayout(new BorderLayout());
 
                 if (isWaterTile(row, col)) {
                     cell.setBackground(Color.BLUE);
@@ -26,6 +27,7 @@ public class boardMP extends JPanel {
                 }
 
                 cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                addNumberToCell(cell, row, col);
                 cells[row][col] = cell;
                 add(cell);
             }
@@ -34,6 +36,13 @@ public class boardMP extends JPanel {
 
     private boolean isWaterTile(int row, int col) {
         return (row == 3 || row == 4) && (col == 2 || col == 5);
+    }
+
+    private void addNumberToCell(JButton cell, int row, int col) {
+        JLabel numberLabel = new JLabel(String.valueOf(row * cols + col));
+        numberLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+        numberLabel.setForeground(Color.BLACK);
+        cell.add(numberLabel, BorderLayout.SOUTH);
     }
 
     public static void updateCell(int row, int col, String text, Color color) {

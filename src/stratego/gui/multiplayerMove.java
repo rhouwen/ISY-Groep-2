@@ -60,6 +60,9 @@ public class multiplayerMove {
                     return false; // Path blocked or water cell
                 }
             }
+            if (!board.isCellEmpty(endRow, endCol) && !isAttackValid(board.getCellText(startRow, startCol), board.getCellText(endRow, endCol))) {
+                return false; // Invalid attack
+            }
             boardMP.updateCell(endRow, endCol, board.getCellText(startRow, startCol), Color.RED);
             boardMP.updateCell(startRow, startCol, "", board.customGreen);
             return true;
@@ -69,6 +72,9 @@ public class multiplayerMove {
                 if (!board.isCellEmpty(row, startCol) || isWaterCell(board, row, startCol)) {
                     return false; // Path blocked or water cell
                 }
+            }
+            if (!board.isCellEmpty(endRow, endCol) && !isAttackValid(board.getCellText(startRow, startCol), board.getCellText(endRow, endCol))) {
+                return false; // Invalid attack
             }
             boardMP.updateCell(endRow, endCol, board.getCellText(startRow, startCol), Color.RED);
             boardMP.updateCell(startRow, startCol, "", board.customGreen);
