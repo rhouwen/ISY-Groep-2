@@ -6,29 +6,31 @@ import java.awt.Font;
 import java.io.InputStream;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StrategoMenuRules extends JPanel {
 
     private Font customFont;
 
     public StrategoMenuRules() {
-        // Probeer het lettertype te laden
+        // Probeer de custom font te laden
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream("fonts/battleshipmenu.ttf");
-            customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(30f);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(18f);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
-            customFont = new Font("Arial", Font.PLAIN, 30); // Vervang met standaardlettertype als iets misgaat
+            customFont = new Font("Arial", Font.PLAIN, 18); // Vervang door standaard font indien iets misgaat
         }
 
         // Layout instellen
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 0, 10, 0); // Geef ruimte tussen de componenten
+        gbc.insets = new Insets(10, 0, 10, 0); // Ruimte tussen componenten
 
         // Titel toevoegen
         JLabel titleLabel = new JLabel("STRATEGO SPELREGELS");
-        titleLabel.setFont(customFont);
+        titleLabel.setFont(customFont.deriveFont(30f)); // Gebruik grotere custom font voor de titel
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
@@ -36,15 +38,48 @@ public class StrategoMenuRules extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add(titleLabel, gbc);
 
-        // Spelregelcontent toevoegen
+        // Scrollpaneel toevoegen voor de regels
         JPanel rulesPanel = new JPanel();
-        rulesPanel.setLayout(new BoxLayout(rulesPanel, BoxLayout.Y_AXIS)); // Verticaal layout
+        rulesPanel.setLayout(new BoxLayout(rulesPanel, BoxLayout.Y_AXIS));
         rulesPanel.setOpaque(false); // Transparante achtergrond
 
-        // Veelgestelde vragen sectie toevoegen
+        // Eerste sectie: Verplaatsen
+        addSection(rulesPanel, "Verplaatsen",
+                """
+                Bij Stratego verplaats je door een stuk een vakje naar links, naar rechts, naar voren of naar achteren te zetten. Je mag maar een speelstuk op een veld zetten. Je kunt stukken niet over andere stukken heen laten springen. Diagonaal plaatsen is ook niet toegestaan. Daarnaast mogen ze niet in de twee meren op het midden van het bord komen.<br><br>
+                Met een speelstuk mag je niet ononderbroken tussen twee velden heen en weer blijven schuiven: 5 keer is de max. Het kan tot het verlies van een speelstuk leiden. Je mag een bom en een vlag ook nooit verplaatsen, dus deze twee stukken blijven het hele spel op hun plaats staan.<br><br>
+                Verkenners krijgen uitzonderingen. Ze mogen onbeperkt over lege velden heen springen, maar ze kunnen niet over eigen of vijandelijke stukken heen. Ook over de meertjes kunnen ze niet springen. Met een verkenner kun je over grote afstand aanvallen, als de tussenliggende velden vrij zijn.
+                """
+        );
+
+        // Tweede sectie: Aanvallen
+        addSection(rulesPanel, "Aanvallen",
+                """
+                Je mag aanvallen als je direct voor, naast of achter een stuk van de tegenstander staat. Je neemt dan je stuk, tikt het vijandelijke stuk aan en noemt de rang van jouw stuk. De tegenstander moet dan ook zijn rang noemen. Het stuk met de laagste rang sneuvelt en moet van het bord af. Het winnende stuk neemt de plaats over van het gesneuvelde stuk. Val je iemand aan van een gelijke rang, dan moeten jullie beiden het veld ruimen.<br><br>
+                Weet dat aanvallen nooit verplicht is, en alleen een verkenner over grotere afstand mag aanvallen.
+                """
+        );
+
+        // Derde sectie: De rangen
+        addSection(rulesPanel, "De rangen",
+                """
+                Bij Stratego heb je verschillende rangen. De maarschalk verslaat bijvoorbeeld een generaal en alle lagere rangen, terwijl de generaal alle kolonels en lagere rangen verslaat. Dat gaat zo door tot aan de laagste rang: de spion. Wat de juiste volgorde is, zie je aan de rand van het bord.<br><br>
+                Bommen zorgen ervoor dat stukken sneuvelen. Kom je tegen een mineur? Dan wordt de bom onschadelijk gemaakt. De mineur neemt dan de plaats in van de bom.<br><br>
+                Je kunt ook een spion hebben: de laagste in rang. Elk stuk dat hem aanvalt, wint. Maar de spion is niet nutteloos: als de spion de maarschalk aanvalt, wint deze. Andersom verliest de spion altijd.
+                """
+        );
+
+        // Vierde sectie: Veelgemaakte fouten
+        addSection(rulesPanel, "Veelgemaakte fouten",
+                """
+                De meeste fouten bij Stratego hebben te maken met de opstelling. Al je verkenners vooraan zetten of al je mineurs verspreiden, is geen goed idee. Bij het eindspel kom je erachter dat je opstelling eigenlijk al de helft van het spel was. Goed nadenken over een strategie, is dus heel belangrijk om te kunnen winnen.
+                """
+        );
+
+        // Vijfde sectie: Veelgestelde vragen
         addFAQSection(rulesPanel);
 
-        // Voeg scrollpaneel toe
+        // Voeg regels toe aan layout
         gbc.gridy = 1;
         JScrollPane scrollPane = new JScrollPane(rulesPanel);
         scrollPane.setOpaque(false);
@@ -63,12 +98,43 @@ public class StrategoMenuRules extends JPanel {
         buttonGbc.gridy = 0;
         buttonPanel.add(new StrategoButtons("Back to Menu", "images/strategobutton.png", e -> goToMenu()), buttonGbc);
 
+        // Voeg knoppenpaneel toe
         gbc.gridy = 2;
         add(buttonPanel, gbc);
     }
 
     /**
-     * Voeg een sectie met veelgestelde vragen toe.
+     * Hulpmethode: Maak een sectie met een titel en bijbehorende tekst.
+     */
+    private void addSection(JPanel parent, String title, String content) {
+        // Titel
+        JLabel sectionTitle = new JLabel(title.toUpperCase());
+        sectionTitle.setFont(customFont.deriveFont(22f)); // Gebruik custom font voor de sectietitel
+        sectionTitle.setForeground(Color.WHITE);
+        sectionTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        parent.add(sectionTitle);
+
+        // Tekst
+        JTextPane sectionText = new JTextPane();
+        sectionText.setContentType("text/html"); // HTML opmaak inschakelen
+        sectionText.setText("""
+                <html>
+                    <body style="font-family: '%s'; font-size: 14px; color: black;">
+                    %s
+                    </body>
+                </html>
+                """.formatted(customFont.getFontName(), content)); // Gebruik custom fontnaam voor de tekst
+        sectionText.setEditable(false);
+        sectionText.setOpaque(false);
+        sectionText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        parent.add(sectionText);
+
+        // Ruimte tussen secties
+        parent.add(Box.createVerticalStrut(20));
+    }
+
+    /**
+     * Hulpmethode: Voeg een sectie met veelgestelde vragen toe.
      */
     private void addFAQSection(JPanel parent) {
         JLabel faqTitle = new JLabel("Veelgestelde vragen bij Stratego".toUpperCase());
@@ -78,67 +144,55 @@ public class StrategoMenuRules extends JPanel {
         parent.add(faqTitle);
         parent.add(Box.createVerticalStrut(10));
 
-        // Voeg FAQ items toe
+        // FAQ items
         addFAQItem(parent, "Wie kan een maarschalk verslaan?",
                 """
-                <ul>
-                    <li>Een maarschalk heeft de <b>hoogste rang</b>, maar is kwetsbaar.</li>
-                    <li>Een <b>spion</b> kan de maarschalk verslaan als deze aanvalt.</li>
-                    <li>Als een maarschalk op een <b>bom</b> stoot, wordt deze uitgeschakeld. Alleen een mineur kan de bom neutraliseren.</li>
-                </ul>
+                Een maarschalk heeft de hoogste rang, maar is ook kwetsbaar. Als deze op een bom springt die alleen ontmanteld kan worden door een mineur, of als deze aangevallen wordt door een spion, kan de maarschalk heel zwak blijken. De spion wint het namelijk altijd van de maarschalk.
                 """
         );
         addFAQItem(parent, "Wat kan een spion in Stratego?",
                 """
-                <ul>
-                    <li>Een spion is het enige <b>stuk</b> dat een maarschalk kan verslaan in een aanval.</li>
-                    <li>De spion sneuvelt tegen alle andere stukken wanneer deze wordt aangevallen.</li>
-                    <li>Gebruik de spion tactisch om de maarschalk van de tegenstander te slim af te zijn.</li>
-                </ul>
+                Een spion heeft als eigenschap dat dit het enige stuk is dat een maarschalk kan verslaan. Pas dus op dat je tegenspeler geen spion op je maarschalk afstuurt, want dan zou de vlag snel veroverd kunnen worden.
                 """
         );
         addFAQItem(parent, "Wie kan de bom uitschakelen in Stratego?",
                 """
-                <ul>
-                    <li>Een <b>mineur</b> is het enige stuk dat een bom kan uitschakelen door deze aan te vallen.</li>
-                    <li>Bommen kunnen niet worden verplaatst en vormen een verdedigingslinie.</li>
-                    <li>Als een ander stuk dan een mineur een bom aanvalt, zal dit stuk sneuvelen.</li>
-                </ul>
+                Een bom kan worden uitgeschakeld door een mineur. Je kunt een bom niet verplaatsen, maar als een mineur een bom aanvalt, is deze onschadelijk. Is er geen mineur in de buurt? Dan verliest elk stuk dat de bom aanvalt.
                 """
         );
     }
 
     /**
-     * Hulpmethode: Voeg een enkele veelgestelde vraag toe in de interface
+     * Hulpmethode om een enkele FAQ toe te voegen
      */
     private void addFAQItem(JPanel parent, String question, String answer) {
-        JPanel faqItemPanel = new JPanel();
-        faqItemPanel.setLayout(new BoxLayout(faqItemPanel, BoxLayout.Y_AXIS));
-        faqItemPanel.setOpaque(false);
+        JPanel itemPanel = new JPanel();
+        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
+        itemPanel.setOpaque(false);
 
         JButton questionButton = new JButton(question);
         questionButton.setFont(customFont.deriveFont(18f));
         questionButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JTextPane answerTextPane = new JTextPane();
-        answerTextPane.setContentType("text/html");
-        answerTextPane.setText("""
+        JTextPane answerText = new JTextPane();
+        answerText.setContentType("text/html");
+        answerText.setText("""
                 <html>
-                    <body style="font-family: Arial, sans-serif; font-size: 14px; color: black;">
+                    <body style="font-family: '%s'; font-size: 14px; color: black;">
                     %s
                     </body>
                 </html>
-                """.formatted(answer));
-        answerTextPane.setEditable(false);
-        answerTextPane.setOpaque(false);
-        answerTextPane.setVisible(false); // Verborgen bij start
+                """.formatted(customFont.getFontName(), answer));
+        answerText.setEditable(false);
+        answerText.setOpaque(false);
+        answerText.setVisible(false);
 
-        questionButton.addActionListener(e -> answerTextPane.setVisible(!answerTextPane.isVisible()));
+        questionButton.addActionListener(e -> answerText.setVisible(!answerText.isVisible()));
 
-        faqItemPanel.add(questionButton);
-        faqItemPanel.add(answerTextPane);
-        parent.add(faqItemPanel);
-        parent.add(Box.createVerticalStrut(10)); // Ruimte tussen FAQ-items
+        itemPanel.add(questionButton);
+        itemPanel.add(answerText);
+        parent.add(itemPanel);
+        parent.add(Box.createVerticalStrut(10));
     }
 
     private void goToMenu() {
