@@ -4,11 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class boardMP extends JPanel {
-
     private final int rows = 8;
     private final int cols = 8;
     private static JButton[][] cells;
-    public Color customGreen = new Color(34, 87, 25);
+
+    // Centralized color constants
+    public static final Color PLAYER_COLOR = Color.RED;      // Our pieces
+    public static final Color OPPONENT_COLOR = Color.GRAY;   // Enemy pieces
+    public static final Color EMPTY_COLOR = new Color(34, 87, 25); // Empty cells (custom green)
+    public static final Color WATER_COLOR = Color.BLUE;      // Water cells
 
     public boardMP() {
         setLayout(new GridLayout(rows, cols));
@@ -20,10 +24,10 @@ public class boardMP extends JPanel {
                 cell.setLayout(new BorderLayout());
 
                 if (isWaterTile(row, col)) {
-                    cell.setBackground(Color.BLUE);
+                    cell.setBackground(WATER_COLOR);
                     cell.setEnabled(false);
                 } else {
-                    cell.setBackground(customGreen);
+                    cell.setBackground(EMPTY_COLOR);
                 }
 
                 cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -65,9 +69,28 @@ public class boardMP extends JPanel {
     public void resetBoard() {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                cells[row][col].setText("");
-                cells[row][col].setBackground(Color.GREEN);
+                if (!isWaterTile(row, col)) {
+                    cells[row][col].setText("");
+                    cells[row][col].setBackground(EMPTY_COLOR);
+                }
             }
         }
+    }
+    public static void removePiece(int row, int col) {
+        if (isValidPosition(row, col)) {
+            cells[row][col].setText("");
+            cells[row][col].setBackground(EMPTY_COLOR);
+        }
+    }
+
+    // Add helper method to check position validity
+    private static boolean isValidPosition(int row, int col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+
+    // Add method to check if a cell has a valid piece
+    public boolean hasPiece(int row, int col) {
+        return !cells[row][col].getText().isEmpty() &&
+                cells[row][col].getBackground() != WATER_COLOR;
     }
 }

@@ -8,6 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/boardMP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/boardMP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/multiplayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/multiplayerMove.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/gui/multiplayerPlace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/multiplayerPlace.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratego/server/serverConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/server/serverConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/utils/settings.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/settings.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,6 +120,7 @@
       <workItem from="1737373493158" duration="6226000" />
       <workItem from="1737399854896" duration="976000" />
       <workItem from="1737453699490" duration="490000" />
+      <workItem from="1737631241810" duration="5705000" />
     </task>
     <servers />
   </component>
