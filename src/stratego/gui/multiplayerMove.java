@@ -9,7 +9,16 @@ import java.util.Set;
 
 public class multiplayerMove {
     public static boolean makeMove(boardMP board, int startRow, int startCol, int endRow, int endCol, PrintWriter out) {
-        // First check if there's actually a piece to move
+        // Add check for opponent pieces at destination
+        if (!board.isCellEmpty(endRow, endCol) &&
+                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
+                board.getCellText(endRow, endCol).equals("X")) {
+            System.out.println("Cannot move to position occupied by opponent: " +
+                    endRow + "," + endCol);
+            return false;
+        }
+
+        // Rest of the existing checks...
         if (!board.hasPiece(startRow, startCol)) {
             System.out.println("No piece at start position");
             return false;
@@ -26,7 +35,6 @@ public class multiplayerMove {
         }
 
         String piece = board.getCellText(startRow, startCol);
-        String targetPiece = board.getCellText(endRow, endCol);
 
         // Basic validation checks
         if (piece.isEmpty() ||
@@ -34,13 +42,6 @@ public class multiplayerMove {
                 piece.equals("BOMB") ||
                 piece.equals("FLAG")) {
             System.out.println("Invalid piece or destination");
-            return false;
-        }
-
-        // Check if target cell has our piece
-        if (!board.isCellEmpty(endRow, endCol) &&
-                board.getCellColor(endRow, endCol).equals(boardMP.PLAYER_COLOR)) {
-            System.out.println("Cannot capture own piece");
             return false;
         }
 
@@ -61,6 +62,7 @@ public class multiplayerMove {
         return false;
     }
 
+
     private static class Move {
         int startRow, startCol, endRow, endCol;
         int priority;
@@ -77,20 +79,94 @@ public class multiplayerMove {
     public static boolean makeStrategicMove(boardMP board, PrintWriter out, Set<String> previousMoves) {
         List<Move> possibleMoves = new ArrayList<>();
 
-        // Verzamel alle mogelijke zetten met hun prioriteiten
+        // First, collect all our pieces and their valid moves
         for (int startRow = 0; startRow < 8; startRow++) {
             for (int startCol = 0; startCol < 8; startCol++) {
-                if (board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
+                // Check if this is our piece
+                if (board.hasPiece(startRow, startCol) &&
+                        board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
+
                     String piece = board.getCellText(startRow, startCol);
 
-                    // Controleer alle mogelijke bestemmingen
-                    for (int endRow = 0; endRow < 8; endRow++) {
+                    // Skip immovable pieces
+                    if (piece.equals("BOMB") || piece.equals("FLAG")) {
+                        continue;
+                    }
+
+                    // For SCOUT
+                    if (piece.equals("SCOUT")) {
+                        // Try all possible straight line moves
+                        // Horizontal moves
                         for (int endCol = 0; endCol < 8; endCol++) {
-                            String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
-                            if (!previousMoves.contains(moveString)) {
-                                int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, endCol);
-                                if (priority > 0) {
-                                    possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
+                            if (endCol != startCol) {
+                                boolean pathClear = true;
+                                int minCol = Math.min(startCol, endCol);
+                                int maxCol = Math.max(startCol, endCol);
+
+                                // Check path
+                                for (int col = minCol + 1; col < maxCol; col++) {
+                                    if (!board.isCellEmpty(startRow, col) ||
+                                            isWaterCell(board, startRow, col)) {
+                                        pathClear = false;
+                                        break;
+                                    }
+                                }
+
+                                if (pathClear) {
+                                    String moveString = startRow + "," + startCol + "->" + startRow + "," + endCol;
+                                    if (!previousMoves.contains(moveString)) {
+                                        int priority = calculateMovePriority(board, piece, startRow, startCol, startRow, endCol);
+                                        if (priority > 0) {
+                                            possibleMoves.add(new Move(startRow, startCol, startRow, endCol, priority));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Vertical moves
+                        for (int endRow = 0; endRow < 8; endRow++) {
+                            if (endRow != startRow) {
+                                boolean pathClear = true;
+                                int minRow = Math.min(startRow, endRow);
+                                int maxRow = Math.max(startRow, endRow);
+
+                                // Check path
+                                for (int row = minRow + 1; row < maxRow; row++) {
+                                    if (!board.isCellEmpty(row, startCol) ||
+                                            isWaterCell(board, row, startCol)) {
+                                        pathClear = false;
+                                        break;
+                                    }
+                                }
+
+                                if (pathClear) {
+                                    String moveString = startRow + "," + startCol + "->" + endRow + "," + startCol;
+                                    if (!previousMoves.contains(moveString)) {
+                                        int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, startCol);
+                                        if (priority > 0) {
+                                            possibleMoves.add(new Move(startRow, startCol, endRow, startCol, priority));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // For regular pieces
+                    else {
+                        // Check all adjacent squares
+                        int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+                        for (int[] dir : directions) {
+                            int endRow = startRow + dir[0];
+                            int endCol = startCol + dir[1];
+
+                            if (isValidPosition(endRow, endCol)) {
+                                String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
+                                if (!previousMoves.contains(moveString)) {
+                                    int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, endCol);
+                                    if (priority > 0) {
+                                        possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
+                                    }
                                 }
                             }
                         }
@@ -99,14 +175,15 @@ public class multiplayerMove {
             }
         }
 
-        // Sorteer zetten op prioriteit (hoogste eerst)
+        // Sort moves by priority
         possibleMoves.sort((m1, m2) -> m2.priority - m1.priority);
 
-        // Probeer de zetten uit te voeren, beginnend met de hoogste prioriteit
+        // Try moves in order of priority
         for (Move move : possibleMoves) {
             if (makeMove(board, move.startRow, move.startCol, move.endRow, move.endCol, out)) {
                 String moveString = move.startRow + "," + move.startCol + "->" + move.endRow + "," + move.endCol;
                 previousMoves.add(moveString);
+                System.out.println("Making strategic move: " + moveString);
                 return true;
             }
         }
@@ -289,19 +366,24 @@ public class multiplayerMove {
             return false;
         }
 
-        // Check destination
+        // First check if there's an opponent's piece at the destination
         if (!board.isCellEmpty(endRow, endCol)) {
-            // Can only attack opponent pieces
+            // If it's our own piece, we can't move there
             if (board.getCellColor(endRow, endCol).equals(boardMP.PLAYER_COLOR)) {
-                System.out.println("Cannot attack own piece");
+                System.out.println("Cannot move onto our own piece");
                 return false;
             }
-            // Validate attack
-            String targetPiece = board.getCellText(endRow, endCol);
-            String attackerPiece = board.getCellText(startRow, startCol);
-            if (!isAttackValid(attackerPiece, targetPiece)) {
-                System.out.println("Invalid attack target for " + attackerPiece);
-                return false;
+
+            // If it's an opponent's piece, check if we can attack
+            if (board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR)) {
+                String attackerPiece = board.getCellText(startRow, startCol);
+                String targetPiece = board.getCellText(endRow, endCol);
+
+                // Don't allow moving onto opponent pieces marked with X
+                if (targetPiece.equals("X")) {
+                    System.out.println("Cannot move onto opponent's unknown piece");
+                    return false;
+                }
             }
         }
 

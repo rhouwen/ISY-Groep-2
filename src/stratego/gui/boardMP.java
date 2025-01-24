@@ -93,4 +93,9 @@ public class boardMP extends JPanel {
         return !cells[row][col].getText().isEmpty() &&
                 cells[row][col].getBackground() != WATER_COLOR;
     }
+
+    public static void clearCell(int row, int col) {
+        cells[row][col].setText("");
+        cells[row][col].setBackground(EMPTY_COLOR);
+    }
 }

@@ -105,34 +105,63 @@ public class serverConnection implements Runnable {
 
     private void handleDefenseResult(String message) {
         try {
-            if (message.contains("Result: \"")) {
+            if (message.contains("Result: \"") && message.contains("Rank: \"")) {
                 String result = message.substring(
                         message.indexOf("Result: \"") + 8,
                         message.indexOf("\"}")
                 );
+                String rank = message.substring(
+                        message.indexOf("Rank: \"") + 7,
+                        message.indexOf("\", Result")
+                );
 
-                // Get the position from the last known move
-                int row = lastAttackedPosition / 8;
-                int col = lastAttackedPosition % 8;
+                // Get the position that was attacked (defender's position)
+                int defenderRow = lastAttackedPosition / 8;
+                int defenderCol = lastAttackedPosition % 8;
 
-                if (result.equals("TIE") || result.equals("LOSS")) {
-                    // Remove our piece
-                    boardMP.removePiece(row, col);
-                    System.out.println("Our piece removed at position " + lastAttackedPosition + " (Result: " + result + ")");
+                if (result.equals("LOSS") || result.equals("TIE")) {
+                    // Remove our defending piece
+                    boardMP.removePiece(defenderRow, defenderCol);
+                    System.out.println("Our " + rank + " was removed at position (" +
+                            defenderRow + "," + defenderCol + ") (Result: " + result + ")");
 
-                    // If it's a TIE, also remove the opponent's piece
                     if (result.equals("TIE")) {
-                        // The opponent's piece was at the attacking position
+                        // Remove opponent's attacking piece and clear the cell completely
                         int attackerRow = lastMoveFrom / 8;
                         int attackerCol = lastMoveFrom % 8;
+
+                        // First remove the piece
                         boardMP.removePiece(attackerRow, attackerCol);
-                        System.out.println("Opponent piece removed at position " + lastMoveFrom + " (TIE)");
+
+                        // Then ensure the cell is completely empty
+                        boardMP.updateCell(attackerRow, attackerCol, "", boardMP.EMPTY_COLOR);
+                        boardMP.updateCell(defenderRow, defenderCol, "", boardMP.EMPTY_COLOR);
+
+                        System.out.println("Opponent piece removed and cell cleared at (" +
+                                attackerRow + "," + attackerCol + ") (TIE)");
                     }
                 }
+
+                // Print board state for verification
+                System.out.println("Board state after defense result:");
+                printBoardState();
             }
         } catch (Exception e) {
             System.err.println("Error parsing defense result: " + message);
             e.printStackTrace();
+        }
+    }
+
+    // Add this helper method to debug board state
+    private void printBoardState() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (!board.isCellEmpty(row, col)) {
+                    System.out.println("Piece at (" + row + "," + col + "): " +
+                            board.getCellText(row, col) + " - Color: " +
+                            (board.getCellColor(row, col).equals(boardMP.PLAYER_COLOR) ? "RED" : "GRAY"));
+                }
+            }
         }
     }
 
@@ -144,19 +173,28 @@ public class serverConnection implements Runnable {
                         message.indexOf("\"}")
                 );
 
-                if (result.equals("TIE") || result.equals("LOSS")) {
-                    // Remove our attacking piece
-                    int row = lastMoveTo / 8;
-                    int col = lastMoveTo % 8;
-                    boardMP.removePiece(row, col);
-                    System.out.println("Our piece removed at position " + lastMoveTo + " (Result: " + result + ")");
+                // Get positions for both pieces
+                int attackerRow = lastMoveFrom / 8;
+                int attackerCol = lastMoveFrom % 8;
+                int defenderRow = lastMoveTo / 8;
+                int defenderCol = lastMoveTo % 8;
 
-                    // If it's a TIE, also remove the opponent's piece
-                    if (result.equals("TIE")) {
-                        // The opponent's piece was at the target position
-                        boardMP.removePiece(row, col);
-                        System.out.println("Opponent piece removed at position " + lastMoveTo + " (TIE)");
-                    }
+                if (result.equals("TIE")) {
+                    // Remove both pieces involved in the tie
+                    boardMP.removePiece(defenderRow, defenderCol);  // Remove opponent's piece
+                    boardMP.removePiece(attackerRow, attackerCol);  // Remove our piece
+                    System.out.println("Both pieces removed due to TIE at positions (" +
+                            attackerRow + "," + attackerCol + ") and (" +
+                            defenderRow + "," + defenderCol + ")");
+
+                    // Print board state to verify removal
+                    System.out.println("Board state after TIE:");
+                    printBoardState();
+                } else if (result.equals("LOSS")) {
+                    // Remove our attacking piece
+                    boardMP.removePiece(attackerRow, attackerCol);
+                    System.out.println("Our piece removed due to LOSS at position (" +
+                            attackerRow + "," + attackerCol + ")");
                 }
             }
         } catch (Exception e) {
@@ -192,10 +230,38 @@ public class serverConnection implements Runnable {
     }
 
     // Update makeMove to track our moves
+    // In de makeMove methode van serverConnection, voeg toe:
     private void makeMove() {
         if (!myTurn) {
             return;
         }
+
+        // First verify that we still have pieces to move
+        boolean havePieces = false;
+        Map<String, Integer> pieceCount = new HashMap<>();
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (board.getCellColor(row, col).equals(boardMP.PLAYER_COLOR)) {
+                    havePieces = true;
+                    String piece = board.getCellText(row, col);
+                    pieceCount.put(piece, pieceCount.getOrDefault(piece, 0) + 1);
+                    System.out.println("Found piece: " + piece + " at (" + row + "," + col + ")");
+                }
+            }
+        }
+
+
+
+        if (!havePieces) {
+            System.out.println("No pieces left to move!");
+            return;
+        }
+
+        // Print current piece count for debugging
+        System.out.println("Current piece count:");
+        pieceCount.forEach((piece, count) ->
+                System.out.println(piece + ": " + count));
 
         if (multiplayerMove.makeStrategicMove(board, out, previousMoves)) {
             myTurn = false;
