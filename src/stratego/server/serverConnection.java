@@ -1,6 +1,6 @@
 package stratego.server;
 
-import java.awt.*;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
@@ -239,19 +239,21 @@ public class serverConnection implements Runnable {
         // First verify that we still have pieces to move
         boolean havePieces = false;
         Map<String, Integer> pieceCount = new HashMap<>();
+        List<int[]> movablePieces = new ArrayList<>();
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if (board.getCellColor(row, col).equals(boardMP.PLAYER_COLOR)) {
-                    havePieces = true;
                     String piece = board.getCellText(row, col);
-                    pieceCount.put(piece, pieceCount.getOrDefault(piece, 0) + 1);
-                    System.out.println("Found piece: " + piece + " at (" + row + "," + col + ")");
+                    if (!piece.equals("BOMB") && !piece.equals("FLAG")) {  // Only count movable pieces
+                        havePieces = true;
+                        pieceCount.put(piece, pieceCount.getOrDefault(piece, 0) + 1);
+                        movablePieces.add(new int[]{row, col});
+                        System.out.println("Found piece: " + piece + " at (" + row + "," + col + ")");
+                    }
                 }
             }
         }
-
-
 
         if (!havePieces) {
             System.out.println("No pieces left to move!");
@@ -263,11 +265,55 @@ public class serverConnection implements Runnable {
         pieceCount.forEach((piece, count) ->
                 System.out.println(piece + ": " + count));
 
+        // Try strategic move first
         if (multiplayerMove.makeStrategicMove(board, out, previousMoves)) {
             myTurn = false;
-        } else {
-            System.out.println("No valid strategic move found");
+            return;
         }
+
+        // If no strategic move was possible, try a random move
+        System.out.println("Attempting random move as fallback...");
+        Collections.shuffle(movablePieces);
+
+        for (int[] piecePos : movablePieces) {
+            int startRow = piecePos[0];
+            int startCol = piecePos[1];
+            String piece = board.getCellText(startRow, startCol);
+
+            // Define possible moves based on piece type
+            List<int[]> possibleMoves = new ArrayList<>();
+
+            if (piece.equals("SCOUT")) {
+                // Scout can move multiple squares in straight lines
+                for (int i = 1; i < 8; i++) {
+                    // Only add moves that are within bounds
+                    if (startCol + i < 8) possibleMoves.add(new int[]{startRow, startCol + i});
+                    if (startCol - i >= 0) possibleMoves.add(new int[]{startRow, startCol - i});
+                    if (startRow + i < 8) possibleMoves.add(new int[]{startRow + i, startCol});
+                    if (startRow - i >= 0) possibleMoves.add(new int[]{startRow - i, startCol});
+                }
+            } else {
+                // Regular pieces move one square
+                if (startRow > 0) possibleMoves.add(new int[]{startRow - 1, startCol});
+                if (startRow < 7) possibleMoves.add(new int[]{startRow + 1, startCol});
+                if (startCol > 0) possibleMoves.add(new int[]{startRow, startCol - 1});
+                if (startCol < 7) possibleMoves.add(new int[]{startRow, startCol + 1});
+            }
+
+            Collections.shuffle(possibleMoves);
+
+            for (int[] move : possibleMoves) {
+                if (multiplayerMove.makeMove(board, startRow, startCol, move[0], move[1], out)) {
+                    String moveString = startRow + "," + startCol + "->" + move[0] + "," + move[1];
+                    previousMoves.add(moveString);
+                    System.out.println("Made random move: " + moveString);
+                    myTurn = false;
+                    return;
+                }
+            }
+        }
+
+        System.out.println("No valid moves found at all!");
     }
 
 

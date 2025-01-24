@@ -9,7 +9,22 @@ import java.util.Set;
 
 public class multiplayerMove {
     public static boolean makeMove(boardMP board, int startRow, int startCol, int endRow, int endCol, PrintWriter out) {
-        // Add check for opponent pieces at destination
+        if (startRow < 0 || startRow >= 8 || startCol < 0 || startCol >= 8 ||
+                endRow < 0 || endRow >= 8 || endCol < 0 || endCol >= 8) {
+            System.out.println("Invalid coordinates: move is out of bounds");
+            return false;
+        }
+
+        // Rest of your existing checks...
+        if (!board.isCellEmpty(endRow, endCol) &&
+                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
+                board.getCellText(endRow, endCol).equals("X")) {
+            System.out.println("Cannot move to position occupied by opponent: " +
+                    endRow + "," + endCol);
+            return false;
+        }
+
+
         if (!board.isCellEmpty(endRow, endCol) &&
                 board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
                 board.getCellText(endRow, endCol).equals("X")) {
@@ -79,93 +94,63 @@ public class multiplayerMove {
     public static boolean makeStrategicMove(boardMP board, PrintWriter out, Set<String> previousMoves) {
         List<Move> possibleMoves = new ArrayList<>();
 
-        // First, collect all our pieces and their valid moves
+        // First try strategic moves
         for (int startRow = 0; startRow < 8; startRow++) {
             for (int startCol = 0; startCol < 8; startCol++) {
-                // Check if this is our piece
                 if (board.hasPiece(startRow, startCol) &&
                         board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
 
                     String piece = board.getCellText(startRow, startCol);
-
-                    // Skip immovable pieces
                     if (piece.equals("BOMB") || piece.equals("FLAG")) {
                         continue;
                     }
 
-                    // For SCOUT
-                    if (piece.equals("SCOUT")) {
-                        // Try all possible straight line moves
-                        // Horizontal moves
-                        for (int endCol = 0; endCol < 8; endCol++) {
-                            if (endCol != startCol) {
-                                boolean pathClear = true;
-                                int minCol = Math.min(startCol, endCol);
-                                int maxCol = Math.max(startCol, endCol);
+                    addPossibleMoves(board, startRow, startCol, piece, possibleMoves, previousMoves);
+                }
+            }
+        }
 
-                                // Check path
-                                for (int col = minCol + 1; col < maxCol; col++) {
-                                    if (!board.isCellEmpty(startRow, col) ||
-                                            isWaterCell(board, startRow, col)) {
-                                        pathClear = false;
-                                        break;
-                                    }
-                                }
+        // If no strategic moves found, collect ALL possible valid moves
+        if (possibleMoves.isEmpty()) {
+            System.out.println("No strategic moves found, trying random valid moves...");
 
-                                if (pathClear) {
-                                    String moveString = startRow + "," + startCol + "->" + startRow + "," + endCol;
-                                    if (!previousMoves.contains(moveString)) {
-                                        int priority = calculateMovePriority(board, piece, startRow, startCol, startRow, endCol);
-                                        if (priority > 0) {
-                                            possibleMoves.add(new Move(startRow, startCol, startRow, endCol, priority));
+            for (int startRow = 0; startRow < 8; startRow++) {
+                for (int startCol = 0; startCol < 8; startCol++) {
+                    if (board.hasPiece(startRow, startCol) &&
+                            board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
+
+                        String piece = board.getCellText(startRow, startCol);
+                        if (piece.equals("BOMB") || piece.equals("FLAG")) {
+                            continue;
+                        }
+
+                        // For each piece, try all possible directions
+                        if (piece.equals("SCOUT")) {
+                            // Scout can move multiple squares
+                            for (int endRow = 0; endRow < 8; endRow++) {
+                                for (int endCol = 0; endCol < 8; endCol++) {
+                                    if ((endRow == startRow || endCol == startCol) && // Must be in straight line
+                                            (endRow != startRow || endCol != startCol)) { // Can't stay in place
+                                        String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
+                                        if (!previousMoves.contains(moveString) &&
+                                                !isWaterCell(board, endRow, endCol)) {
+                                            possibleMoves.add(new Move(startRow, startCol, endRow, endCol, 1));
                                         }
                                     }
                                 }
                             }
-                        }
+                        } else {
+                            // Regular pieces move one square
+                            int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+                            for (int[] dir : directions) {
+                                int endRow = startRow + dir[0];
+                                int endCol = startCol + dir[1];
 
-                        // Vertical moves
-                        for (int endRow = 0; endRow < 8; endRow++) {
-                            if (endRow != startRow) {
-                                boolean pathClear = true;
-                                int minRow = Math.min(startRow, endRow);
-                                int maxRow = Math.max(startRow, endRow);
-
-                                // Check path
-                                for (int row = minRow + 1; row < maxRow; row++) {
-                                    if (!board.isCellEmpty(row, startCol) ||
-                                            isWaterCell(board, row, startCol)) {
-                                        pathClear = false;
-                                        break;
-                                    }
-                                }
-
-                                if (pathClear) {
-                                    String moveString = startRow + "," + startCol + "->" + endRow + "," + startCol;
+                                if (isValidPosition(endRow, endCol) &&
+                                        !isWaterCell(board, endRow, endCol)) {
+                                    String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
                                     if (!previousMoves.contains(moveString)) {
-                                        int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, startCol);
-                                        if (priority > 0) {
-                                            possibleMoves.add(new Move(startRow, startCol, endRow, startCol, priority));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // For regular pieces
-                    else {
-                        // Check all adjacent squares
-                        int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
-                        for (int[] dir : directions) {
-                            int endRow = startRow + dir[0];
-                            int endCol = startCol + dir[1];
-
-                            if (isValidPosition(endRow, endCol)) {
-                                String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
-                                if (!previousMoves.contains(moveString)) {
-                                    int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, endCol);
-                                    if (priority > 0) {
-                                        possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
+                                        possibleMoves.add(new Move(startRow, startCol, endRow, endCol, 1));
                                     }
                                 }
                             }
@@ -175,20 +160,131 @@ public class multiplayerMove {
             }
         }
 
-        // Sort moves by priority
-        possibleMoves.sort((m1, m2) -> m2.priority - m1.priority);
+        if (possibleMoves.isEmpty()) {
+            System.out.println("No valid moves found at all!");
+            return false;
+        }
 
-        // Try moves in order of priority
+        // Shuffle the moves if we're using random moves (when all moves have priority 1)
+        if (possibleMoves.get(0).priority == 1) {
+            java.util.Collections.shuffle(possibleMoves);
+            System.out.println("Using random move selection...");
+        } else {
+            // Sort by priority if we have strategic moves
+            possibleMoves.sort((m1, m2) -> m2.priority - m1.priority);
+        }
+
+        // Try moves until one succeeds
         for (Move move : possibleMoves) {
             if (makeMove(board, move.startRow, move.startCol, move.endRow, move.endCol, out)) {
                 String moveString = move.startRow + "," + move.startCol + "->" + move.endRow + "," + move.endCol;
                 previousMoves.add(moveString);
-                System.out.println("Making strategic move: " + moveString);
+                System.out.println("Making move: " + moveString +
+                        (move.priority == 1 ? " (random move)" : " with priority " + move.priority));
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static void addPossibleMoves(boardMP board, int startRow, int startCol, String piece,
+                                         List<Move> possibleMoves, Set<String> previousMoves) {
+        if (piece.equals("SCOUT")) {
+            // Scout can move multiple squares in straight lines
+            addScoutMoves(board, startRow, startCol, possibleMoves, previousMoves);
+        } else {
+            // Regular pieces move one square
+            int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+            for (int[] dir : directions) {
+                int endRow = startRow + dir[0];
+                int endCol = startCol + dir[1];
+
+                if (isValidPosition(endRow, endCol) &&
+                        !isWaterCell(board, endRow, endCol)) {
+
+                    String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
+                    if (!previousMoves.contains(moveString)) {
+                        int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, endCol);
+                        if (priority > 0) {
+                            possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private static void addScoutMove(boardMP board, int startRow, int startCol, int endRow, int endCol,
+                                     List<Move> possibleMoves, Set<String> previousMoves) {
+        // Validate the move first
+        String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
+        if (previousMoves.contains(moveString)) {
+            return;
+        }
+
+        // Check if path is clear
+        boolean pathClear = true;
+        if (startRow == endRow) { // Horizontal movement
+            int minCol = Math.min(startCol, endCol);
+            int maxCol = Math.max(startCol, endCol);
+            for (int col = minCol + 1; col < maxCol; col++) {
+                if (!board.isCellEmpty(startRow, col) || isWaterCell(board, startRow, col)) {
+                    pathClear = false;
+                    break;
+                }
+            }
+        } else if (startCol == endCol) { // Vertical movement
+            int minRow = Math.min(startRow, endRow);
+            int maxRow = Math.max(startRow, endRow);
+            for (int row = minRow + 1; row < maxRow; row++) {
+                if (!board.isCellEmpty(row, startCol) || isWaterCell(board, row, startCol)) {
+                    pathClear = false;
+                    break;
+                }
+            }
+        } else {
+            pathClear = false; // Not a straight line
+        }
+
+        if (pathClear && isValidPosition(endRow, endCol) && !isWaterCell(board, endRow, endCol)) {
+            // Check if destination is empty or contains opponent's piece
+            if (board.isCellEmpty(endRow, endCol) ||
+                    board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR)) {
+
+                int priority = calculateMovePriority(board, "SCOUT", startRow, startCol, endRow, endCol);
+                if (priority > 0) {
+                    possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
+                }
+            }
+        }
+    }
+
+    private static void addScoutMoves(boardMP board, int startRow, int startCol,
+                                      List<Move> possibleMoves, Set<String> previousMoves) {
+        // Add horizontal moves
+        for (int col = 0; col < 8; col++) {
+            if (col != startCol) {
+                addScoutMove(board, startRow, startCol, startRow, col, possibleMoves, previousMoves);
+            }
+        }
+        // Add vertical moves
+        for (int row = 0; row < 8; row++) {
+            if (row != startRow) {
+                addScoutMove(board, startRow, startCol, row, startCol, possibleMoves, previousMoves);
+            }
+        }
+    }
+
+    private static void printBoardState(boardMP board) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (!board.isCellEmpty(row, col)) {
+                    System.out.println("(" + row + "," + col + "): " +
+                            board.getCellText(row, col) + " - " +
+                            (board.getCellColor(row, col).equals(boardMP.PLAYER_COLOR) ? "RED" : "GRAY"));
+                }
+            }
+        }
     }
 
     private static int calculateMovePriority(boardMP board, String piece, int startRow, int startCol, int endRow, int endCol) {

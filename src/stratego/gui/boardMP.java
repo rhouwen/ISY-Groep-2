@@ -55,6 +55,10 @@ public class boardMP extends JPanel {
     }
 
     public boolean isCellEmpty(int row, int col) {
+        // Add bounds checking
+        if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+            return false;  // Consider out-of-bounds cells as non-empty
+        }
         return cells[row][col].getText().isEmpty();
     }
 
