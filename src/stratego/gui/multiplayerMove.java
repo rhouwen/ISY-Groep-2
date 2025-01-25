@@ -1,49 +1,31 @@
 package stratego.gui;
 
 import java.io.PrintWriter;
-
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class multiplayerMove {
+    // Constants for piece ranks and priorities
+    private static final int FLAG_CAPTURE_PRIORITY = 1000;
+    private static final int MINER_ATTACK_PRIORITY = 90;
+    private static final int SPY_MARSHAL_ATTACK_PRIORITY = 100;
+    private static final int BASE_ATTACK_PRIORITY = 40;
+
     public static boolean makeMove(boardMP board, int startRow, int startCol, int endRow, int endCol, PrintWriter out) {
-        if (startRow < 0 || startRow >= 8 || startCol < 0 || startCol >= 8 ||
-                endRow < 0 || endRow >= 8 || endCol < 0 || endCol >= 8) {
+        // Validate coordinates
+        if (!isValidPosition(startRow, startCol) || !isValidPosition(endRow, endCol)) {
             System.out.println("Invalid coordinates: move is out of bounds");
             return false;
         }
 
-        // Rest of your existing checks...
-        if (!board.isCellEmpty(endRow, endCol) &&
-                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
-                board.getCellText(endRow, endCol).equals("X")) {
-            System.out.println("Cannot move to position occupied by opponent: " +
-                    endRow + "," + endCol);
-            return false;
-        }
-
-
-        if (!board.isCellEmpty(endRow, endCol) &&
-                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
-                board.getCellText(endRow, endCol).equals("X")) {
-            System.out.println("Cannot move to position occupied by opponent: " +
-                    endRow + "," + endCol);
-            return false;
-        }
-
-        // Rest of the existing checks...
+        // Check if there's a piece at start position
         if (!board.hasPiece(startRow, startCol)) {
             System.out.println("No piece at start position");
             return false;
         }
-        if (!isValidPosition(startRow, startCol) || !isValidPosition(endRow, endCol)) {
-            System.out.println("Move is outside board boundaries");
-            return false;
-        }
 
-        // Verify we're moving our piece (must be red)
+        // Verify we're moving our piece
         if (!board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
             System.out.println("Cannot move opponent's piece");
             return false;
@@ -51,36 +33,37 @@ public class multiplayerMove {
 
         String piece = board.getCellText(startRow, startCol);
 
-        // Basic validation checks
-        if (piece.isEmpty() ||
-                isWaterCell(board, endRow, endCol) ||
-                piece.equals("BOMB") ||
-                piece.equals("FLAG")) {
+        // Validate piece and destination
+        if (piece.isEmpty() || isWaterCell(board, endRow, endCol) ||
+                piece.equals("BOMB") || piece.equals("FLAG")) {
             System.out.println("Invalid piece or destination");
             return false;
         }
 
-        boolean validMove = false;
-        if (piece.equals("SCOUT")) {
-            validMove = moveScout(board, startRow, startCol, endRow, endCol);
-        } else {
-            validMove = moveRegularPiece(board, startRow, startCol, endRow, endCol);
+        // Check opponent piece at destination
+        if (!board.isCellEmpty(endRow, endCol) &&
+                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
+                board.getCellText(endRow, endCol).equals("X")) {
+            System.out.println("Cannot move to position occupied by opponent: " + endRow + "," + endCol);
+            return false;
         }
 
+        // Execute move based on piece type
+        boolean validMove = piece.equals("SCOUT") ?
+                moveScout(board, startRow, startCol, endRow, endCol) :
+                moveRegularPiece(board, startRow, startCol, endRow, endCol);
+
         if (validMove) {
-            int startIndex = startRow * 8 + startCol;
-            int endIndex = endRow * 8 + endCol;
-            out.println("move " + startIndex + " " + endIndex);
+            out.println("move " + (startRow * 8 + startCol) + " " + (endRow * 8 + endCol));
             return true;
         }
 
         return false;
     }
 
-
     private static class Move {
-        int startRow, startCol, endRow, endCol;
-        int priority;
+        final int startRow, startCol, endRow, endCol;
+        final int priority;
 
         Move(int startRow, int startCol, int endRow, int endCol, int priority) {
             this.startRow = startRow;
@@ -90,294 +73,410 @@ public class multiplayerMove {
             this.priority = priority;
         }
     }
-
     public static boolean makeStrategicMove(boardMP board, PrintWriter out, Set<String> previousMoves) {
-        List<Move> possibleMoves = new ArrayList<>();
+        List<Move> strategicMoves = new ArrayList<>();
+        List<Move> allPossibleMoves = new ArrayList<>();
 
-        // First try strategic moves
+        // First collect all pieces and their possible moves
         for (int startRow = 0; startRow < 8; startRow++) {
             for (int startCol = 0; startCol < 8; startCol++) {
-                if (board.hasPiece(startRow, startCol) &&
-                        board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
+                if (!board.hasPiece(startRow, startCol) ||
+                        !board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
+                    continue;
+                }
 
-                    String piece = board.getCellText(startRow, startCol);
-                    if (piece.equals("BOMB") || piece.equals("FLAG")) {
-                        continue;
-                    }
+                String piece = board.getCellText(startRow, startCol);
+                if (piece.equals("BOMB") || piece.equals("FLAG")) {
+                    continue;
+                }
 
-                    addPossibleMoves(board, startRow, startCol, piece, possibleMoves, previousMoves);
+                // Add strategic moves with priorities
+                addPossibleMoves(board, startRow, startCol, piece, strategicMoves, previousMoves);
+
+                // Also collect basic valid moves for fallback
+                addBasicMoves(board, startRow, startCol, piece, allPossibleMoves, previousMoves);
+            }
+        }
+
+        // Try strategic moves first
+        if (!strategicMoves.isEmpty()) {
+            strategicMoves.sort((m1, m2) -> m2.priority - m1.priority);
+            for (Move move : strategicMoves) {
+                if (makeMove(board, move.startRow, move.startCol, move.endRow, move.endCol, out)) {
+                    String moveString = move.startRow + "," + move.startCol + "->" + move.endRow + "," + move.endCol;
+                    previousMoves.add(moveString);
+                    System.out.println("Making strategic move: " + moveString + " with priority " + move.priority);
+                    return true;
                 }
             }
         }
 
-        // If no strategic moves found, collect ALL possible valid moves
-        if (possibleMoves.isEmpty()) {
-            System.out.println("No strategic moves found, trying random valid moves...");
-
-            for (int startRow = 0; startRow < 8; startRow++) {
-                for (int startCol = 0; startCol < 8; startCol++) {
-                    if (board.hasPiece(startRow, startCol) &&
-                            board.getCellColor(startRow, startCol).equals(boardMP.PLAYER_COLOR)) {
-
-                        String piece = board.getCellText(startRow, startCol);
-                        if (piece.equals("BOMB") || piece.equals("FLAG")) {
-                            continue;
-                        }
-
-                        // For each piece, try all possible directions
-                        if (piece.equals("SCOUT")) {
-                            // Scout can move multiple squares
-                            for (int endRow = 0; endRow < 8; endRow++) {
-                                for (int endCol = 0; endCol < 8; endCol++) {
-                                    if ((endRow == startRow || endCol == startCol) && // Must be in straight line
-                                            (endRow != startRow || endCol != startCol)) { // Can't stay in place
-                                        String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
-                                        if (!previousMoves.contains(moveString) &&
-                                                !isWaterCell(board, endRow, endCol)) {
-                                            possibleMoves.add(new Move(startRow, startCol, endRow, endCol, 1));
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            // Regular pieces move one square
-                            int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
-                            for (int[] dir : directions) {
-                                int endRow = startRow + dir[0];
-                                int endCol = startCol + dir[1];
-
-                                if (isValidPosition(endRow, endCol) &&
-                                        !isWaterCell(board, endRow, endCol)) {
-                                    String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
-                                    if (!previousMoves.contains(moveString)) {
-                                        possibleMoves.add(new Move(startRow, startCol, endRow, endCol, 1));
-                                    }
-                                }
-                            }
-                        }
-                    }
+        // Fall back to any valid move if no strategic moves are available
+        if (!allPossibleMoves.isEmpty()) {
+            System.out.println("Attempting random valid move as fallback...");
+            java.util.Collections.shuffle(allPossibleMoves);
+            for (Move move : allPossibleMoves) {
+                if (makeMove(board, move.startRow, move.startCol, move.endRow, move.endCol, out)) {
+                    String moveString = move.startRow + "," + move.startCol + "->" + move.endRow + "," + move.endCol;
+                    previousMoves.add(moveString);
+                    System.out.println("Made random move: " + moveString);
+                    return true;
                 }
             }
         }
 
-        if (possibleMoves.isEmpty()) {
-            System.out.println("No valid moves found at all!");
-            return false;
-        }
-
-        // Shuffle the moves if we're using random moves (when all moves have priority 1)
-        if (possibleMoves.get(0).priority == 1) {
-            java.util.Collections.shuffle(possibleMoves);
-            System.out.println("Using random move selection...");
-        } else {
-            // Sort by priority if we have strategic moves
-            possibleMoves.sort((m1, m2) -> m2.priority - m1.priority);
-        }
-
-        // Try moves until one succeeds
-        for (Move move : possibleMoves) {
-            if (makeMove(board, move.startRow, move.startCol, move.endRow, move.endCol, out)) {
-                String moveString = move.startRow + "," + move.startCol + "->" + move.endRow + "," + move.endCol;
-                previousMoves.add(moveString);
-                System.out.println("Making move: " + moveString +
-                        (move.priority == 1 ? " (random move)" : " with priority " + move.priority));
-                return true;
-            }
-        }
-
+        System.out.println("No valid moves found!");
         return false;
     }
 
-    private static void addPossibleMoves(boardMP board, int startRow, int startCol, String piece,
-                                         List<Move> possibleMoves, Set<String> previousMoves) {
+    private static void addBasicMoves(boardMP board, int startRow, int startCol, String piece,
+                                      List<Move> moves, Set<String> previousMoves) {
         if (piece.equals("SCOUT")) {
-            // Scout can move multiple squares in straight lines
-            addScoutMoves(board, startRow, startCol, possibleMoves, previousMoves);
+            // Scout's long-range moves
+            for (int i = 0; i < 8; i++) {
+                if (i != startRow && isValidScoutMove(board, startRow, startCol, i, startCol)) {
+                    addMoveIfNew(startRow, startCol, i, startCol, 1, moves, previousMoves);
+                }
+                if (i != startCol && isValidScoutMove(board, startRow, startCol, startRow, i)) {
+                    addMoveIfNew(startRow, startCol, startRow, i, 1, moves, previousMoves);
+                }
+            }
         } else {
-            // Regular pieces move one square
+            // Regular one-square moves
             int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
             for (int[] dir : directions) {
-                int endRow = startRow + dir[0];
-                int endCol = startCol + dir[1];
-
-                if (isValidPosition(endRow, endCol) &&
-                        !isWaterCell(board, endRow, endCol)) {
-
-                    String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
-                    if (!previousMoves.contains(moveString)) {
-                        int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, endCol);
-                        if (priority > 0) {
-                            possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
-                        }
-                    }
+                int newRow = startRow + dir[0];
+                int newCol = startCol + dir[1];
+                if (isValidPosition(newRow, newCol) && !isWaterCell(board, newRow, newCol)) {
+                    addMoveIfNew(startRow, startCol, newRow, newCol, 1, moves, previousMoves);
                 }
             }
         }
     }
-    private static void addScoutMove(boardMP board, int startRow, int startCol, int endRow, int endCol,
-                                     List<Move> possibleMoves, Set<String> previousMoves) {
-        // Validate the move first
-        String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
-        if (previousMoves.contains(moveString)) {
+    private static void addPossibleMoves(boardMP board, int startRow, int startCol, String piece,
+                                         List<Move> possibleMoves, Set<String> previousMoves) {
+        if (piece.equals("SCOUT")) {
+            addScoutMoves(board, startRow, startCol, possibleMoves, previousMoves);
             return;
         }
 
-        // Check if path is clear
-        boolean pathClear = true;
-        if (startRow == endRow) { // Horizontal movement
-            int minCol = Math.min(startCol, endCol);
-            int maxCol = Math.max(startCol, endCol);
-            for (int col = minCol + 1; col < maxCol; col++) {
-                if (!board.isCellEmpty(startRow, col) || isWaterCell(board, startRow, col)) {
-                    pathClear = false;
-                    break;
-                }
+        // Regular pieces: check all adjacent squares
+        int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+        for (int[] dir : directions) {
+            int endRow = startRow + dir[0];
+            int endCol = startCol + dir[1];
+
+            if (!isValidPosition(endRow, endCol) || isWaterCell(board, endRow, endCol)) {
+                continue;
             }
-        } else if (startCol == endCol) { // Vertical movement
-            int minRow = Math.min(startRow, endRow);
-            int maxRow = Math.max(startRow, endRow);
-            for (int row = minRow + 1; row < maxRow; row++) {
-                if (!board.isCellEmpty(row, startCol) || isWaterCell(board, row, startCol)) {
-                    pathClear = false;
-                    break;
-                }
+
+            // Calculate priority and add move if valid
+            int priority = calculateMovePriority(board, piece, startRow, startCol, endRow, endCol);
+            if (priority > 0) {
+                addMoveIfNew(startRow, startCol, endRow, endCol, priority, possibleMoves, previousMoves);
             }
-        } else {
-            pathClear = false; // Not a straight line
         }
+    }
 
-        if (pathClear && isValidPosition(endRow, endCol) && !isWaterCell(board, endRow, endCol)) {
-            // Check if destination is empty or contains opponent's piece
-            if (board.isCellEmpty(endRow, endCol) ||
-                    board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR)) {
-
-                int priority = calculateMovePriority(board, "SCOUT", startRow, startCol, endRow, endCol);
-                if (priority > 0) {
-                    possibleMoves.add(new Move(startRow, startCol, endRow, endCol, priority));
-                }
-            }
+    private static void addMoveIfNew(int startRow, int startCol, int endRow, int endCol,
+                                     int priority, List<Move> moves, Set<String> previousMoves) {
+        String moveString = startRow + "," + startCol + "->" + endRow + "," + endCol;
+        if (!previousMoves.contains(moveString)) {
+            moves.add(new Move(startRow, startCol, endRow, endCol, priority));
         }
     }
 
     private static void addScoutMoves(boardMP board, int startRow, int startCol,
                                       List<Move> possibleMoves, Set<String> previousMoves) {
-        // Add horizontal moves
+        // Horizontal moves
         for (int col = 0; col < 8; col++) {
-            if (col != startCol) {
-                addScoutMove(board, startRow, startCol, startRow, col, possibleMoves, previousMoves);
+            if (col != startCol && isValidScoutMove(board, startRow, startCol, startRow, col)) {
+                int priority = calculateMovePriority(board, "SCOUT", startRow, startCol, startRow, col);
+                if (priority > 0) {
+                    addMoveIfNew(startRow, startCol, startRow, col, priority, possibleMoves, previousMoves);
+                }
             }
         }
-        // Add vertical moves
-        for (int row = 0; row < 8; row++) {
-            if (row != startRow) {
-                addScoutMove(board, startRow, startCol, row, startCol, possibleMoves, previousMoves);
-            }
-        }
-    }
 
-    private static void printBoardState(boardMP board) {
+        // Vertical moves
         for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                if (!board.isCellEmpty(row, col)) {
-                    System.out.println("(" + row + "," + col + "): " +
-                            board.getCellText(row, col) + " - " +
-                            (board.getCellColor(row, col).equals(boardMP.PLAYER_COLOR) ? "RED" : "GRAY"));
+            if (row != startRow && isValidScoutMove(board, startRow, startCol, row, startCol)) {
+                int priority = calculateMovePriority(board, "SCOUT", startRow, startCol, row, startCol);
+                if (priority > 0) {
+                    addMoveIfNew(startRow, startCol, row, startCol, priority, possibleMoves, previousMoves);
                 }
             }
         }
     }
 
-    private static int calculateMovePriority(boardMP board, String piece, int startRow, int startCol, int endRow, int endCol) {
-        // Basis prioriteit berekening
-        int priority = 0;
-        String targetPiece = board.getCellText(endRow, endCol);
+    private static boolean isValidScoutMove(boardMP board, int startRow, int startCol, int endRow, int endCol) {
+        // Must be in straight line
+        if (startRow != endRow && startCol != endCol) {
+            return false;
+        }
 
-        // Controleer eerst of de zet überhaupt mogelijk is
+        // Check path
+        if (startRow == endRow) {
+            int step = Integer.compare(endCol, startCol);
+            for (int col = startCol + step; col != endCol; col += step) {
+                if (!board.isCellEmpty(startRow, col) || isWaterCell(board, startRow, col)) {
+                    return false;
+                }
+            }
+        } else {
+            int step = Integer.compare(endRow, startRow);
+            for (int row = startRow + step; row != endRow; row += step) {
+                if (!board.isCellEmpty(row, startCol) || isWaterCell(board, row, startCol)) {
+                    return false;
+                }
+            }
+        }
+
+        // Check destination
+        return board.isCellEmpty(endRow, endCol) ||
+                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR);
+    }
+    private static int calculateMovePriority(boardMP board, String piece, int startRow, int startCol, int endRow, int endCol) {
+        // Early validation
         if (!isValidPosition(startRow, startCol) || !isValidPosition(endRow, endCol) ||
-                isWaterCell(board, endRow, endCol) || piece.equals("BOMB") || piece.equals("FLAG")) {
+                isWaterCell(board, endRow, endCol)) {
             return 0;
         }
 
-        // Prioriteiten voor verschillende situaties
+        int priority = 0;
+        boolean isForwardMove = endRow < startRow;
+        boolean isAttackMove = !board.isCellEmpty(endRow, endCol) &&
+                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR);
 
-        // 1. Vlag capture heeft hoogste prioriteit
-        if (targetPiece.equals("FLAG")) {
-            return 1000;
+        // Miner strategy
+        if (piece.equals("MINER")) {
+            priority += calculateMinerPriority(board, startRow, endRow, endCol, isForwardMove, isAttackMove);
+        }
+        // Scout strategy
+        // In calculateMovePriority method, update these lines:
+        else if (piece.equals("SCOUT")) {
+            priority += calculateScoutPriority(startRow, startCol, endRow, endCol, isForwardMove);
+        }
+// Strong pieces strategy
+        else if (piece.equals("MARSHAL") || piece.equals("GENERAL")) {
+            priority += calculateStrongPiecePriority(board, startRow, startCol, endRow, endCol, isForwardMove);
+        }
+        // Spy strategy
+        else if (piece.equals("SPY")) {
+            priority += calculateSpyPriority(board, endRow, endCol);
         }
 
-        // 2. Voorkom dat stukken worden geslagen (defensief)
-        if (isUnderThreat(board, startRow, startCol)) {
+        // Global position evaluation
+        priority += evaluatePosition(board, startRow, endRow, endCol, isForwardMove, isAttackMove);
+
+        return priority;
+    }
+
+    private static int calculateMinerPriority(boardMP board, int startRow, int endRow, int endCol,
+                                              boolean isForwardMove, boolean isAttackMove) {
+        int priority = 0;
+
+        // Aggressive miner movement towards likely bomb locations
+        if (isForwardMove) {
             priority += 50;
-        }
-
-        // 3. Sla vijandelijke stukken als we zeker weten dat we winnen
-        if (!board.isCellEmpty(endRow, endCol) &&
-                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR)) {
-            if (isAttackValid(piece, targetPiece)) {
-                switch (piece) {
-                    case "MARSHAL":
-                        priority += 40;
-                        break;
-                    case "GENERAL":
-                        priority += 35;
-                        break;
-                    case "COLONEL":
-                        priority += 30;
-                        break;
-                    case "MAJOR":
-                        priority += 25;
-                        break;
-                    case "MINER":
-                        if (targetPiece.equals("BOMB")) priority += 45;
-                        else priority += 20;
-                        break;
-                    case "SPY":
-                        if (targetPiece.equals("MARSHAL")) priority += 45;
-                        break;
-                    default:
-                        priority += 15;
-                }
+            if (endRow < 3) {  // First three rows priority
+                priority += 30;
+            }
+            if (isPotentialBombLocation(board, endRow, endCol)) {
+                priority += 40;
             }
         }
 
-        // 4. Scout speciale bewegingen
-        if (piece.equals("SCOUT")) {
-            // Verkenning prioriteit
-            if (board.isCellEmpty(endRow, endCol)) {
-                priority += 10 + Math.abs(startRow - endRow) + Math.abs(startCol - endCol);
-            }
-        }
-
-        // 5. Voorwaartse beweging voor aanval
-        if (startRow > endRow && board.isCellEmpty(endRow, endCol)) {
-            priority += 5;
-        }
-
-        // 6. Bescherm belangrijke stukken
-        if (isNearAlly(board, endRow, endCol)) {
-            priority += 3;
+        // High priority for any attack (might be a bomb)
+        if (isAttackMove) {
+            priority += MINER_ATTACK_PRIORITY;
         }
 
         return priority;
     }
 
+    private static int calculateScoutPriority(int startRow, int startCol, int endRow, int endCol, boolean isForwardMove) {
+        int priority = 0;
+        int distance = Math.abs(startRow - endRow) + Math.abs(startCol - endCol);
+
+        if (isForwardMove) {
+            priority += 40 + distance * 5;  // Reward longer forward moves
+            if (endRow < 2) {  // Deep penetration bonus
+                priority += 30;
+            }
+        }
+
+        // Prefer central columns for scouts
+        if (endCol >= 2 && endCol <= 5) {
+            priority += 15;
+        }
+
+        return priority;
+    }
+
+    private static int calculateStrongPiecePriority(boardMP board, int startRow, int startCol, int endRow, int endCol, boolean isForwardMove) {
+        int priority = 0;
+
+        if (isForwardMove) {
+            if (hasMinerAhead(board, endRow)) {
+                priority += 40;  // Move forward if miners are ahead
+            } else {
+                priority += 10;  // Careful advance without miner support
+            }
+        }
+
+        // Strong pieces should protect weaker ones
+        if (isNearAlly(board, endRow, endCol)) {
+            priority += 20;
+        }
+
+        return priority;
+    }
+
+    private static int calculateSpyPriority(boardMP board, int endRow, int endCol) {
+        int priority = 0;
+
+        // High priority for potential Marshal attacks
+        if (!board.isCellEmpty(endRow, endCol) &&
+                board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR)) {
+            priority += SPY_MARSHAL_ATTACK_PRIORITY;
+        }
+
+        // Keep spy safe until needed
+        if (isUnderThreat(board, endRow, endCol)) {
+            priority -= 30;
+        }
+
+        return priority;
+    }
+
+    private static int evaluatePosition(boardMP board, int startRow, int endRow, int endCol,
+                                        boolean isForwardMove, boolean isAttackMove) {
+        int priority = 0;
+
+        // Forward movement bonus
+        if (isForwardMove) {
+            priority += 20 + (startRow - endRow) * 5;
+        }
+
+        // Attack evaluation
+        if (isAttackMove) {
+            priority += BASE_ATTACK_PRIORITY;
+            if (endRow < 2) {  // Attacking pieces near opponent's back row
+                priority += 25;
+            }
+        }
+
+        // Position control
+        if (endCol >= 2 && endCol <= 5) {  // Central control
+            priority += 10;
+        }
+
+        // Avoid threats
+        if (isUnderThreat(board, endRow, endCol)) {
+            priority -= 20;
+        }
+
+        return priority;
+    }
+    /*
+     * Last modified: 2025-01-25 12:14:37 UTC
+     * Modified by: rhouwen
+     */
+
+    private static boolean moveScout(boardMP board, int startRow, int startCol, int endRow, int endCol) {
+        // Must be in straight line
+        if (startRow != endRow && startCol != endCol) {
+            System.out.println("Scout must move in straight line");
+            return false;
+        }
+
+        // Check path
+        if (startRow == endRow) {
+            int step = Integer.compare(endCol, startCol);
+            for (int col = startCol + step; col != endCol; col += step) {
+                if (!board.isCellEmpty(startRow, col) || isWaterCell(board, startRow, col)) {
+                    System.out.println("Path blocked at " + startRow + "," + col);
+                    return false;
+                }
+            }
+        } else {
+            int step = Integer.compare(endRow, startRow);
+            for (int row = startRow + step; row != endRow; row += step) {
+                if (!board.isCellEmpty(row, startCol) || isWaterCell(board, row, startCol)) {
+                    System.out.println("Path blocked at " + row + "," + startCol);
+                    return false;
+                }
+            }
+        }
+
+        return executeMove(board, startRow, startCol, endRow, endCol);
+    }
+
+    private static boolean moveRegularPiece(boardMP board, int startRow, int startCol, int endRow, int endCol) {
+        // Validate one-square movement
+        if (Math.abs(startRow - endRow) + Math.abs(startCol - endCol) != 1) {
+            System.out.println("Regular pieces can only move one square");
+            return false;
+        }
+
+        return executeMove(board, startRow, startCol, endRow, endCol);
+    }
+
+    private static boolean executeMove(boardMP board, int startRow, int startCol, int endRow, int endCol) {
+        if (!board.isCellEmpty(endRow, endCol)) {
+            if (board.getCellColor(endRow, endCol).equals(boardMP.PLAYER_COLOR)) {
+                System.out.println("Cannot move onto own piece");
+                return false;
+            }
+            if (board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR) &&
+                    board.getCellText(endRow, endCol).equals("X")) {
+                System.out.println("Cannot move onto opponent's unknown piece");
+                return false;
+            }
+        }
+
+        String movingPiece = board.getCellText(startRow, startCol);
+        updateCellsAfterMove(board, startRow, startCol, endRow, endCol, movingPiece);
+        return true;
+    }
+
+    private static void updateCellsAfterMove(boardMP board, int startRow, int startCol, int endRow, int endCol, String piece) {
+        boardMP.updateCell(endRow, endCol, piece, boardMP.PLAYER_COLOR);
+        boardMP.removePiece(startRow, startCol);
+        System.out.println("Moved piece " + piece + " from (" + startRow + "," + startCol + ") to (" + endRow + "," + endCol + ")");
+    }
+
+    private static boolean isValidPosition(int row, int col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+
+    private static boolean isWaterCell(boardMP board, int row, int col) {
+        return board.getCellColor(row, col).equals(boardMP.WATER_COLOR);
+    }
+
+    private static boolean isPotentialBombLocation(boardMP board, int row, int col) {
+        return row < 2 || (row < 3 && (col == 3 || col == 4));
+    }
+
     private static boolean isUnderThreat(boardMP board, int row, int col) {
-        // Check of er vijandelijke stukken naast staan
         int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+        int threatCount = 0;
+
         for (int[] dir : directions) {
             int newRow = row + dir[0];
             int newCol = col + dir[1];
             if (isValidPosition(newRow, newCol) &&
                     !isWaterCell(board, newRow, newCol) &&
                     board.getCellColor(newRow, newCol).equals(boardMP.OPPONENT_COLOR)) {
-                return true;
+                threatCount++;
             }
         }
-        return false;
+
+        return threatCount > 1;
     }
 
     private static boolean isNearAlly(boardMP board, int row, int col) {
-        // Check of er bevriende stukken naast staan
         int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
         for (int[] dir : directions) {
             int newRow = row + dir[0];
@@ -391,148 +490,15 @@ public class multiplayerMove {
         return false;
     }
 
-    private static void updateCellsAfterMove(boardMP board, int startRow, int startCol, int endRow, int endCol, String piece) {
-        // Set the destination cell
-        boardMP.updateCell(endRow, endCol, piece, boardMP.PLAYER_COLOR);
-        // Use removePiece for the starting position
-        boardMP.removePiece(startRow, startCol);
-        System.out.println("Moved piece " + piece + " from (" + startRow + "," + startCol + ") to (" + endRow + "," + endCol + ")");
-    }
-
-    private static boolean moveScout(boardMP board, int startRow, int startCol, int endRow, int endCol) {
-        // Must move in straight line
-        if (startRow != endRow && startCol != endCol) {
-            System.out.println("Scout must move in straight line");
-            return false;
-        }
-
-        // Check path for ANY pieces (including opponent pieces)
-        if (startRow == endRow) { // Horizontal movement
-            int minCol = Math.min(startCol, endCol);
-            int maxCol = Math.max(startCol, endCol);
-            for (int col = minCol + 1; col < maxCol; col++) {
-                if (!board.isCellEmpty(startRow, col)) {
-                    System.out.println("Path blocked by piece at column " + col);
-                    return false;
-                }
-                if (isWaterCell(board, startRow, col)) {
-                    System.out.println("Cannot move through water at column " + col);
-                    return false;
-                }
-            }
-        } else { // Vertical movement
-            int minRow = Math.min(startRow, endRow);
-            int maxRow = Math.max(startRow, endRow);
-            for (int row = minRow + 1; row < maxRow; row++) {
-                if (!board.isCellEmpty(row, startCol)) {
-                    System.out.println("Path blocked by piece at row " + row);
-                    return false;
-                }
-                if (isWaterCell(board, row, startCol)) {
-                    System.out.println("Cannot move through water at row " + row);
-                    return false;
+    private static boolean hasMinerAhead(boardMP board, int row) {
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < 8; c++) {
+                if (board.getCellColor(r, c).equals(boardMP.PLAYER_COLOR) &&
+                        board.getCellText(r, c).equals("MINER")) {
+                    return true;
                 }
             }
         }
-
-        // Check destination
-        if (!board.isCellEmpty(endRow, endCol)) {
-            // Can only attack opponent pieces
-            if (board.getCellColor(endRow, endCol).equals(boardMP.PLAYER_COLOR)) {
-                System.out.println("Cannot attack own piece");
-                return false;
-            }
-            // Validate attack
-            String targetPiece = board.getCellText(endRow, endCol);
-            if (!isAttackValid("SCOUT", targetPiece)) {
-                System.out.println("Invalid attack target for Scout");
-                return false;
-            }
-        }
-
-        String movingPiece = board.getCellText(startRow, startCol);
-        updateCellsAfterMove(board, startRow, startCol, endRow, endCol, movingPiece);
-        return true;
-    }
-
-    private static boolean moveRegularPiece(boardMP board, int startRow, int startCol, int endRow, int endCol) {
-        // Check if moving only one square
-        if (Math.abs(startRow - endRow) + Math.abs(startCol - endCol) != 1) {
-            System.out.println("Regular pieces can only move one square");
-            return false;
-        }
-
-        // First check if there's an opponent's piece at the destination
-        if (!board.isCellEmpty(endRow, endCol)) {
-            // If it's our own piece, we can't move there
-            if (board.getCellColor(endRow, endCol).equals(boardMP.PLAYER_COLOR)) {
-                System.out.println("Cannot move onto our own piece");
-                return false;
-            }
-
-            // If it's an opponent's piece, check if we can attack
-            if (board.getCellColor(endRow, endCol).equals(boardMP.OPPONENT_COLOR)) {
-                String attackerPiece = board.getCellText(startRow, startCol);
-                String targetPiece = board.getCellText(endRow, endCol);
-
-                // Don't allow moving onto opponent pieces marked with X
-                if (targetPiece.equals("X")) {
-                    System.out.println("Cannot move onto opponent's unknown piece");
-                    return false;
-                }
-            }
-        }
-
-        String movingPiece = board.getCellText(startRow, startCol);
-        updateCellsAfterMove(board, startRow, startCol, endRow, endCol, movingPiece);
-        return true;
-    }
-
-    private static boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < 8 && col >= 0 && col < 8;
-    }
-
-    private static boolean isWaterCell(boardMP board, int row, int col) {
-        return board.getCellColor(row, col).equals(boardMP.WATER_COLOR);
-    }
-
-    private static boolean isAttackValid(String attacker, String defender) {
-        if (defender.equals("FLAG")) {
-            return true;
-        }
-
-        switch (attacker) {
-            case "MARSHAL": // Rank 10
-                return !defender.equals("BOMB");
-            case "GENERAL": // Rank 9
-                return !defender.equals("MARSHAL") && !defender.equals("BOMB");
-            case "COLONEL": // Rank 8
-                return !defender.equals("MARSHAL") && !defender.equals("GENERAL") && !defender.equals("BOMB");
-            case "MAJOR": // Rank 7
-                return !defender.equals("MARSHAL") && !defender.equals("GENERAL") &&
-                        !defender.equals("COLONEL") && !defender.equals("BOMB");
-            case "CAPTAIN": // Rank 6
-                return !defender.equals("MARSHAL") && !defender.equals("GENERAL") &&
-                        !defender.equals("COLONEL") && !defender.equals("MAJOR") && !defender.equals("BOMB");
-            case "LIEUTENANT": // Rank 5
-                return !defender.equals("MARSHAL") && !defender.equals("GENERAL") &&
-                        !defender.equals("COLONEL") && !defender.equals("MAJOR") &&
-                        !defender.equals("CAPTAIN") && !defender.equals("BOMB");
-            case "SERGEANT": // Rank 4
-                return !defender.equals("MARSHAL") && !defender.equals("GENERAL") &&
-                        !defender.equals("COLONEL") && !defender.equals("MAJOR") &&
-                        !defender.equals("CAPTAIN") && !defender.equals("LIEUTENANT") && !defender.equals("BOMB");
-            case "MINER": // Rank 3
-                return true; // Miner can defuse bombs
-            case "SCOUT": // Rank 2
-                return !defender.equals("MARSHAL") && !defender.equals("GENERAL") &&
-                        !defender.equals("COLONEL") && !defender.equals("MAJOR") &&
-                        !defender.equals("CAPTAIN") && !defender.equals("LIEUTENANT") &&
-                        !defender.equals("SERGEANT") && !defender.equals("MINER") && !defender.equals("BOMB");
-            case "SPY": // Rank 1
-                return defender.equals("MARSHAL"); // Spy can only defeat Marshal
-            default:
-                return false;
-        }
+        return false;
     }
 }

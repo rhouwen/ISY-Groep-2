@@ -8,6 +8,7 @@ import stratego.gui.boardMP;
 import stratego.gui.multiplayerMove;
 import stratego.gui.multiplayerPlace;
 
+
 public class serverConnection implements Runnable {
     private String ip_address;
     private String port;
@@ -16,7 +17,8 @@ public class serverConnection implements Runnable {
     private boolean running = true;
     private boolean myTurn = false;
     private boardMP board;
-    private Set<String> previousMoves = new HashSet<>();
+    private Set<String> previousMoves;
+    private boolean gameInProgress;
 
     private Socket client;
     private BufferedReader in;
@@ -28,6 +30,15 @@ public class serverConnection implements Runnable {
         this.ip_address = settings.getOrDefault("IP Address", "");
         this.port = settings.getOrDefault("Port", "");
         this.username = settings.getOrDefault("Username", "");
+        resetGame();
+    }
+
+    private void resetGame() {
+        placed = false;
+        myTurn = false;
+        previousMoves = new HashSet<>();
+        gameInProgress = false;
+        board.resetBoard();
     }
 
     public void run() {
@@ -45,45 +56,57 @@ public class serverConnection implements Runnable {
             String inputMessage;
             while ((inputMessage = in.readLine()) != null && running) {
                 System.out.println(inputMessage);
+
                 if (inputMessage.startsWith("SVR GAME MATCH")) {
-                    System.out.println("Match found");
-                    placed = false;
-                    board.resetBoard();
+                    System.out.println("Match found - Starting new game");
+                    resetGame();
+                    gameInProgress = true;
                 }
 
-                if (inputMessage.startsWith("SVR GAME YOURTURN")) {
-                    if (!placed) {
-                        System.out.println("Placing pieces");
-                        placePieces();
-                        placed = true;
-                    } else {
-                        System.out.println("Your turn to move");
-                        myTurn = true;
-                        makeMove();
-                    }
+                if (gameInProgress) {
+                    handleGameMessage(inputMessage);
                 }
 
-                if (inputMessage.startsWith("SVR GAME DEFENSE RESULT")) {
-                    handleDefenseResult(inputMessage);
-                }
+                // Handle game end conditions
+                if (inputMessage.startsWith("SVR GAME WIN") ||
+                        inputMessage.startsWith("SVR GAME LOSS") ||
+                        inputMessage.startsWith("SVR GAME DRAW")) {
 
-                if (inputMessage.startsWith("SVR GAME ATTACK RESULT")) {
-                    handleAttackResult(inputMessage);
-                }
-
-                if (inputMessage.startsWith("SVR GAME MOVE")) {
-                    handleOpponentMove(inputMessage);
-                }
-
-                if (inputMessage.startsWith("SVR GAME Opponent Placed")) {
-                    System.out.println("Opponent placed their pieces");
-                    placeOpponentPiece(inputMessage);
+                    System.out.println("Game ended - Waiting for new match");
+                    resetGame();
                 }
             }
         } catch (IOException e) {
             if (running) {
                 System.err.println("Server error: " + e.getMessage());
             }
+        }
+    }
+
+    private void handleGameMessage(String inputMessage) {
+        if (inputMessage.startsWith("SVR GAME YOURTURN")) {
+            if (!placed) {
+                System.out.println("Placing pieces");
+                placePieces();
+                placed = true;
+            } else {
+                System.out.println("Your turn to move");
+                myTurn = true;
+                makeMove();
+            }
+        }
+        else if (inputMessage.startsWith("SVR GAME MOVE")) {
+            handleOpponentMove(inputMessage);
+        }
+        else if (inputMessage.startsWith("SVR GAME ATTACK RESULT")) {
+            handleAttackResult(inputMessage);
+        }
+        else if (inputMessage.startsWith("SVR GAME DEFENSE RESULT")) {
+            handleDefenseResult(inputMessage);
+        }
+        else if (inputMessage.startsWith("SVR GAME Opponent Placed")) {
+            System.out.println("Opponent placed their pieces");
+            placeOpponentPiece(inputMessage);
         }
     }
 

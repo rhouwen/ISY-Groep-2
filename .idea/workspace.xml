@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4736bf86-9e92-44ec-ac0c-daa325404efe" name="Changes" comment="StrategoGUI scores placeholders resized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratego/gui/boardMP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/boardMP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/gui/multiplayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/gui/multiplayerMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/server/serverConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/server/serverConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratego/utils/settings.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratego/utils/settings.txt" afterDir="false" />
@@ -120,7 +119,8 @@
       <workItem from="1737399854896" duration="976000" />
       <workItem from="1737453699490" duration="490000" />
       <workItem from="1737631241810" duration="5705000" />
-      <workItem from="1737748439298" duration="2955000" />
+      <workItem from="1737748439298" duration="3253000" />
+      <workItem from="1737806184349" duration="1633000" />
     </task>
     <servers />
   </component>
