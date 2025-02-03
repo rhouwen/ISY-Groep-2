@@ -10,7 +10,16 @@ public class StrategoMenuRules extends JPanel {
     private JLabel titleLabel;
     private JPanel rulesPanel;
 
+    private Image backgroundImage;
+
     public StrategoMenuRules() {
+        // Laad de achtergrondafbeelding "strategobackground.png"
+        try {
+            backgroundImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/strategobackground.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Laad font of gebruik een standaard font als fallback
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream("fonts/battleshipmenu.ttf");
@@ -174,7 +183,14 @@ public class StrategoMenuRules extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(0, 128, 0)); // Achtergrondkleur
-        g.fillRect(0, 0, getWidth(), getHeight());
+
+        // Teken de achtergrondafbeelding
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        } else {
+            // Als de afbeelding niet kan worden geladen, gebruik een fallback-achtergrondkleur
+            g.setColor(new Color(0, 128, 0)); // Fallback kleur
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
     }
 }
